@@ -2,5 +2,12 @@ package com.mobilsec.analysis.web.dto;
 
 import java.time.Instant;
 
-public record UploadResponse(String fileName, String status, Instant receivedAt) {
+import com.mobilsec.analysis.service.ApkMetadata;
+
+public record UploadResponse(
+        Long id,
+        String fileName,
+        Instant receivedAt,
+        String riskLevel,
+        ApkMetadata metadata) {
 }
