@@ -20,13 +20,16 @@ public class ApkAnalysisService {
     private final ApkMetadataExtractor extractor;
     private final AnalysisResultRepository repository;
     private final ObjectMapper objectMapper;
+    private final RiskScorer riskScorer;
 
     public ApkAnalysisService(ApkMetadataExtractor extractor,
             AnalysisResultRepository repository,
-            ObjectMapper objectMapper) {
+            ObjectMapper objectMapper,
+            RiskScorer riskScorer) {
         this.extractor = extractor;
         this.repository = repository;
         this.objectMapper = objectMapper;
+        this.riskScorer = riskScorer;
     }
 
     public UploadResponse analyze(MultipartFile file) throws IOException {
@@ -34,6 +37,7 @@ public class ApkAnalysisService {
         try {
             file.transferTo(tempFile);
             ApkMetadata metadata = extractor.extract(tempFile);
+            RiskLevel riskLevel = riskScorer.score(metadata);
 
             Instant now = Instant.now();
             AnalysisResult entity = new AnalysisResult(
@@ -42,7 +46,7 @@ public class ApkAnalysisService {
                     writeValue(metadata.permissions()),
                     writeValue(metadata.manifestFlags()),
                     writeValue(metadata.exportedComponents()),
-                    "PENDING",
+                    riskLevel.name(),
                     now);
 
             entity = repository.save(entity);
@@ -51,7 +55,7 @@ public class ApkAnalysisService {
                     entity.getId(),
                     file.getOriginalFilename(),
                     now,
-                    entity.getRiskLevel(),
+                    riskLevel.name(),
                     metadata);
         } finally {
             Files.deleteIfExists(tempFile);
