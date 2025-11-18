@@ -12,7 +12,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mobilsec.analysis.persistence.AnalysisResult;
 import com.mobilsec.analysis.persistence.AnalysisResultRepository;
-import com.mobilsec.analysis.web.dto.UploadResponse;
+import com.mobilsec.analysis.web.dto.AnalysisResultDto;
 
 @Service
 public class ApkAnalysisService {
@@ -21,23 +21,26 @@ public class ApkAnalysisService {
     private final AnalysisResultRepository repository;
     private final ObjectMapper objectMapper;
     private final RiskScorer riskScorer;
+    private final AnalysisResultMapper mapper;
 
     public ApkAnalysisService(ApkMetadataExtractor extractor,
             AnalysisResultRepository repository,
             ObjectMapper objectMapper,
-            RiskScorer riskScorer) {
+            RiskScorer riskScorer,
+            AnalysisResultMapper mapper) {
         this.extractor = extractor;
         this.repository = repository;
         this.objectMapper = objectMapper;
         this.riskScorer = riskScorer;
+        this.mapper = mapper;
     }
 
-    public UploadResponse analyze(MultipartFile file) throws IOException {
+    public AnalysisResultDto analyze(MultipartFile file) throws IOException {
         Path tempFile = Files.createTempFile("apk-upload-", ".apk");
         try {
             file.transferTo(tempFile);
             ApkMetadata metadata = extractor.extract(tempFile);
-            RiskLevel riskLevel = riskScorer.score(metadata);
+            RiskAssessment riskAssessment = riskScorer.score(metadata);
 
             Instant now = Instant.now();
             AnalysisResult entity = new AnalysisResult(
@@ -46,17 +49,13 @@ public class ApkAnalysisService {
                     writeValue(metadata.permissions()),
                     writeValue(metadata.manifestFlags()),
                     writeValue(metadata.exportedComponents()),
-                    riskLevel.name(),
+                    writeValue(riskAssessment.reasons()),
+                    riskAssessment.level().name(),
                     now);
 
             entity = repository.save(entity);
 
-            return new UploadResponse(
-                    entity.getId(),
-                    file.getOriginalFilename(),
-                    now,
-                    riskLevel.name(),
-                    metadata);
+            return mapper.fromEntity(entity);
         } finally {
             Files.deleteIfExists(tempFile);
         }

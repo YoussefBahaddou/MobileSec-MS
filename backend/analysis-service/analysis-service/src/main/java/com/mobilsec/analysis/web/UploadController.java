@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.mobilsec.analysis.service.ApkAnalysisService;
-import com.mobilsec.analysis.web.dto.UploadResponse;
+import com.mobilsec.analysis.web.dto.AnalysisResultDto;
 
 @RestController
 @RequestMapping("/analysis")
@@ -20,7 +20,7 @@ public class UploadController {
     }
 
     @PostMapping("/upload")
-    public UploadResponse uploadApk(@RequestParam("file") MultipartFile file) throws Exception {
+    public AnalysisResultDto uploadApk(@RequestParam("file") MultipartFile file) throws Exception {
         return apkAnalysisService.analyze(file);
     }
 }

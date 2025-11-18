@@ -36,6 +36,10 @@ public class AnalysisResult {
     @Column(name = "exported_components")
     private String exportedComponentsJson;
 
+    @Lob
+    @Column(name = "risk_reasons")
+    private String riskReasonsJson;
+
     @Column(name = "risk_level", nullable = false)
     private String riskLevel;
 
@@ -50,6 +54,7 @@ public class AnalysisResult {
             String permissionsJson,
             String manifestFlagsJson,
             String exportedComponentsJson,
+            String riskReasonsJson,
             String riskLevel,
             Instant createdAt) {
         this.packageName = packageName;
@@ -57,6 +62,7 @@ public class AnalysisResult {
         this.permissionsJson = permissionsJson;
         this.manifestFlagsJson = manifestFlagsJson;
         this.exportedComponentsJson = exportedComponentsJson;
+        this.riskReasonsJson = riskReasonsJson;
         this.riskLevel = riskLevel;
         this.createdAt = createdAt;
     }
@@ -103,6 +109,14 @@ public class AnalysisResult {
 
     public void setExportedComponentsJson(String exportedComponentsJson) {
         this.exportedComponentsJson = exportedComponentsJson;
+    }
+
+    public String getRiskReasonsJson() {
+        return riskReasonsJson;
+    }
+
+    public void setRiskReasonsJson(String riskReasonsJson) {
+        this.riskReasonsJson = riskReasonsJson;
     }
 
     public String getRiskLevel() {
