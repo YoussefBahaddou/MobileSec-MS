@@ -24,7 +24,25 @@ public class RiskScorer {
 
     public RiskAssessment score(ApkMetadata metadata) {
         List<String> reasons = new ArrayList<>();
+        RiskLevel level = RiskLevel.LOW;
 
+        // Check Secrets
+        if (!metadata.secrets().isEmpty()) {
+            level = RiskLevel.CRITICAL;
+            reasons.add("CRITICAL: Hardcoded secrets found in Manifest/Metadata");
+            reasons.addAll(metadata.secrets());
+        }
+
+        // Check Crypto
+        if (!metadata.cryptoIssues().isEmpty()) {
+            if (level.ordinal() < RiskLevel.HIGH.ordinal()) {
+                level = RiskLevel.HIGH;
+            }
+            reasons.add("HIGH: Weak cryptography or insecure configuration detected");
+            reasons.addAll(metadata.cryptoIssues());
+        }
+
+        // Check Permissions
         if (metadata.manifestFlags().debuggable()) {
             reasons.add("debuggable=true");
         }

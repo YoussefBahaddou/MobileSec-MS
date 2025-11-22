@@ -27,6 +27,14 @@ public class ApkMetadataExtractor {
 
     private static final String ANDROID_NS = "http://schemas.android.com/apk/res/android";
 
+    private final SecretScannerService secretScanner;
+    private final CryptoScannerService cryptoScanner;
+
+    public ApkMetadataExtractor(SecretScannerService secretScanner, CryptoScannerService cryptoScanner) {
+        this.secretScanner = secretScanner;
+        this.cryptoScanner = cryptoScanner;
+    }
+
     public ApkMetadata extract(Path apkPath) throws IOException {
         try (ApkFile apkFile = new ApkFile(apkPath.toFile())) {
             ApkMeta apkMeta = apkFile.getApkMeta();
@@ -35,17 +43,24 @@ public class ApkMetadataExtractor {
                     ? List.of()
                     : List.copyOf(apkMeta.getUsesPermissions());
 
-            Document manifestDoc = parseManifest(apkFile.getManifestXml());
+            String manifestXml = apkFile.getManifestXml();
+            Document manifestDoc = parseManifest(manifestXml);
 
             ManifestFlags manifestFlags = extractManifestFlags(manifestDoc);
             List<ExportedComponent> components = extractExportedComponents(manifestDoc);
+
+            // Scan Manifest for secrets and crypto issues
+            List<String> secrets = secretScanner.scan(manifestXml);
+            List<String> cryptoIssues = cryptoScanner.scan(manifestXml);
 
             return new ApkMetadata(
                     apkMeta.getPackageName(),
                     apkMeta.getVersionName(),
                     permissions,
                     manifestFlags,
-                    components);
+                    components,
+                    secrets,
+                    cryptoIssues);
         } catch (ParserConfigurationException | SAXException ex) {
             throw new IOException("Failed to parse AndroidManifest.xml", ex);
         }

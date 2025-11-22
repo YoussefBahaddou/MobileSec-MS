@@ -25,10 +25,20 @@ spring:
                 - Method=GET
               filters:
                 - StripPrefix=1
+            - id: report-by-id
+              uri: http://localhost:8084
+              predicates:
+                - Path=/reports/by-id/**
+                - Method=POST
           globalcors:
             cors-configurations:
               '[/**]':
-                allowed-origins: "*"
-                allowed-methods: "*"
-                allowed-headers: "*"
+                allowed-origin-patterns:
+                  - "*"
+                allowed-methods:
+                  - GET
+                  - POST
+                  - OPTIONS
+                allowed-headers:
+                  - "*"
                 allow-credentials: false

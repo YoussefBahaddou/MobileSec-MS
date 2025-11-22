@@ -46,6 +46,14 @@ public class AnalysisResult {
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
 
+    @Lob
+    @Column(name = "secrets")
+    private String secretsJson;
+
+    @Lob
+    @Column(name = "crypto_issues")
+    private String cryptoIssuesJson;
+
     protected AnalysisResult() {
     }
 
@@ -56,7 +64,9 @@ public class AnalysisResult {
             String exportedComponentsJson,
             String riskReasonsJson,
             String riskLevel,
-            Instant createdAt) {
+            Instant createdAt,
+            String secretsJson,
+            String cryptoIssuesJson) {
         this.packageName = packageName;
         this.versionName = versionName;
         this.permissionsJson = permissionsJson;
@@ -65,6 +75,24 @@ public class AnalysisResult {
         this.riskReasonsJson = riskReasonsJson;
         this.riskLevel = riskLevel;
         this.createdAt = createdAt;
+        this.secretsJson = secretsJson;
+        this.cryptoIssuesJson = cryptoIssuesJson;
+    }
+
+    public String getSecretsJson() {
+        return secretsJson;
+    }
+
+    public void setSecretsJson(String secretsJson) {
+        this.secretsJson = secretsJson;
+    }
+
+    public String getCryptoIssuesJson() {
+        return cryptoIssuesJson;
+    }
+
+    public void setCryptoIssuesJson(String cryptoIssuesJson) {
+        this.cryptoIssuesJson = cryptoIssuesJson;
     }
 
     public Long getId() {

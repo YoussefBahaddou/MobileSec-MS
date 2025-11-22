@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: report-service
+server:
+  port: 8084
+mobilesec:
+  analysis:
+    base-url: http://localhost:8082

@@ -1,38 +1,126 @@
-# Getting Started
+# Phase 11 – report-service quick start
 
-### Reference Documentation
+This document explains how to run and validate the **report-service** introduced in MobileSec‑MS Phase 11.
 
-For further reference, please consider the following sections:
+## Prerequisites
 
-* [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
-* [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/3.5.7/maven-plugin)
-* [Create an OCI image](https://docs.spring.io/spring-boot/3.5.7/maven-plugin/build-image.html)
-* [Spring Boot Actuator](https://docs.spring.io/spring-boot/3.5.7/reference/actuator/index.html)
-* [Spring Configuration Processor](https://docs.spring.io/spring-boot/3.5.7/specification/configuration-metadata/annotation-processor.html)
-* [PDF Document Reader](https://docs.spring.io/spring-ai/reference/api/etl-pipeline.html#_pdf_page)
-* [Tika Document Reader](https://docs.spring.io/spring-ai/reference/api/etl-pipeline.html#_tika_docx_pptx_html)
-* [Thymeleaf](https://docs.spring.io/spring-boot/3.5.7/reference/web/servlet.html#web.servlet.spring-mvc.template-engines)
-* [Validation](https://docs.spring.io/spring-boot/3.5.7/reference/io/validation.html)
-* [Spring Web](https://docs.spring.io/spring-boot/3.5.7/reference/web/servlet.html)
-* [Spring Reactive Web](https://docs.spring.io/spring-boot/3.5.7/reference/web/reactive.html)
+1. **Java 17** and **Maven 3.9+** installed.
+2. Services running locally:
+   * `analysis-service` on port **8082**.
+   * `gateway-service` on port **8083** (optional for now, direct calls go to report-service).
 
-### Guides
+## Configuration
 
-The following guides illustrate how to use some features concretely:
+`src/main/resources/application.yml` sets:
 
-* [Building a RESTful Web Service with Spring Boot Actuator](https://spring.io/guides/gs/actuator-service/)
-* [Handling Form Submission](https://spring.io/guides/gs/handling-form-submission/)
-* [Validation](https://spring.io/guides/gs/validating-form-input/)
-* [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)
-* [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
-* [Building REST services with Spring](https://spring.io/guides/tutorials/rest/)
-* [Building a Reactive RESTful Web Service](https://spring.io/guides/gs/reactive-rest-service/)
+```yaml
+spring:
+  application:
+    name: report-service
+server:
+  port: 8084
+mobilesec:
+  analysis:
+    base-url: http://localhost:8082
+```
 
-### Maven Parent overrides
+Change the base URL if analysis-service is hosted elsewhere.
 
-Due to Maven's design, elements are inherited from the parent POM to the project POM.
-While most of the inheritance is fine, it also inherits unwanted elements like `<license>` and `<developers>` from the
-parent.
-To prevent this, the project POM contains empty overrides for these elements.
-If you manually switch to a different parent and actually want the inheritance, you need to remove those overrides.
+## Build & run
+
+```bash
+./mvnw spring-boot:run
+```
+
+The application exposes `/reports/**` endpoints.
+
+## API overview
+
+| Endpoint | Description |
+| --- | --- |
+| `POST /reports/by-id/{id}?format=JSON|SARIF|PDF` | Generate report using analysis ID. |
+| `POST /reports/by-package/{packageName}?format=...` | Generate report using package name. |
+
+Formats:
+
+* `JSON` – original analysis JSON.
+* `SARIF` – SARIF 2.1.0 for CI/security tooling.
+* `PDF` – Printable summary with metadata and highlights.
+
+## Example responses
+
+### JSON
+
+```json
+{
+  "id": 13,
+  "packageName": "com.example.app",
+  "versionName": "1.0.0",
+  "riskLevel": "MEDIUM",
+  "riskReasons": [
+    "allowBackup=true",
+    "permission=ACCESS_FINE_LOCATION"
+  ],
+  "permissions": ["android.permission.ACCESS_FINE_LOCATION"],
+  "manifestFlags": {
+    "debuggable": false,
+    "allowBackup": true,
+    "cleartextTrafficPermitted": false
+  },
+  "exportedComponents": [
+    {
+      "name": "com.example.app.MainActivity",
+      "type": "activity",
+      "exported": true,
+      "permission": null,
+      "intentFilters": ["android.intent.action.MAIN"]
+    }
+  ],
+  "createdAt": "2025-11-18T12:30:27Z"
+}
+```
+
+### SARIF (excerpt)
+
+```json
+{
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": { "driver": { "name": "MobileSec-MS Analysis" } },
+      "results": [
+        {
+          "ruleId": "MOB-RISK-MEDIUM",
+          "level": "warning",
+          "message": { "text": "allowBackup=true" }
+        }
+      ]
+    }
+  ]
+}
+```
+
+### PDF
+
+The PDF response is binary. Expect a downloadable file named `analysis-report-13.pdf` with summary, manifest flags, permissions, and exported components laid out for auditors.
+
+## Postman verification
+
+1. Create a collection called **MobileSec Phase 11 – report-service**.
+2. Add requests:
+   * `POST http://localhost:8084/reports/by-id/13?format=JSON`
+   * `POST http://localhost:8084/reports/by-id/13?format=SARIF`
+   * `POST http://localhost:8084/reports/by-id/13?format=PDF`
+3. Set **Accept** header to match the format (`application/json` or `application/pdf`).
+4. For PDF request, in Postman switch to “Send and Download” to save the file.
+
+## Next steps (Phase 12+ preview)
+
+* Add Spring Cloud Gateway route to forward `/api/reports/**` to port 8084.
+* Introduce persistence for generated reports if caching is required.
+* Enrich PDF styling and add localization if needed.
+
+## Phase 11 recap
+
+Report-service now consumes analysis-service outputs and exposes JSON, SARIF, and PDF reports. This enables developers to triage issues quickly, auditors to obtain printable summaries, and CI/CD pipelines to ingest SARIF for automated policy checks.
 

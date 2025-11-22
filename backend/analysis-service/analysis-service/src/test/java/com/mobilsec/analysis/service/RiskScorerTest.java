@@ -23,6 +23,8 @@ class RiskScorerTest {
                 "1.0",
                 List.of("android.permission.READ_SMS"),
                 new ManifestFlags(false, false, false),
+                List.of(),
+                List.of(),
                 List.of());
 
         RiskAssessment assessment = riskScorer.score(metadata);
@@ -38,6 +40,8 @@ class RiskScorerTest {
                 "1.0",
                 List.of("android.permission.ACCESS_FINE_LOCATION"),
                 new ManifestFlags(false, true, false),
+                List.of(),
+                List.of(),
                 List.of());
 
         RiskAssessment assessment = riskScorer.score(metadata);
@@ -54,6 +58,8 @@ class RiskScorerTest {
                 "1.0",
                 List.of("android.permission.INTERNET"),
                 new ManifestFlags(false, false, false),
+                List.of(),
+                List.of(),
                 List.of());
 
         RiskAssessment assessment = riskScorer.score(metadata);
