@@ -20,7 +20,7 @@ public class RiskScorer {
             level = RiskLevel.CRITICAL;
             reasons.add("Hardcoded secrets found: " + metadata.secrets().size());
             remediation.put("Hardcoded Secrets",
-                    "Remove hardcoded secrets immediately. Use a secure vault or environment variables.");
+                    "Remove hardcoded secrets immediately. Use a secure vault or environment variables .");
         }
 
         // 2. Check Crypto Issues (HIGH)
