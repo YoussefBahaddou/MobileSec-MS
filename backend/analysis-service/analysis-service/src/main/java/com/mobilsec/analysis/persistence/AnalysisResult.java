@@ -54,6 +54,14 @@ public class AnalysisResult {
     @Column(name = "crypto_issues")
     private String cryptoIssuesJson;
 
+    @Lob
+    @Column(name = "network_issues")
+    private String networkIssuesJson;
+
+    @Lob
+    @Column(name = "remediation")
+    private String remediationJson;
+
     protected AnalysisResult() {
     }
 
@@ -66,7 +74,9 @@ public class AnalysisResult {
             String riskLevel,
             Instant createdAt,
             String secretsJson,
-            String cryptoIssuesJson) {
+            String cryptoIssuesJson,
+            String networkIssuesJson,
+            String remediationJson) {
         this.packageName = packageName;
         this.versionName = versionName;
         this.permissionsJson = permissionsJson;
@@ -77,6 +87,8 @@ public class AnalysisResult {
         this.createdAt = createdAt;
         this.secretsJson = secretsJson;
         this.cryptoIssuesJson = cryptoIssuesJson;
+        this.networkIssuesJson = networkIssuesJson;
+        this.remediationJson = remediationJson;
     }
 
     public String getSecretsJson() {
@@ -89,6 +101,14 @@ public class AnalysisResult {
 
     public String getCryptoIssuesJson() {
         return cryptoIssuesJson;
+    }
+
+    public String getNetworkIssuesJson() {
+        return networkIssuesJson;
+    }
+
+    public String getRemediationJson() {
+        return remediationJson;
     }
 
     public void setCryptoIssuesJson(String cryptoIssuesJson) {

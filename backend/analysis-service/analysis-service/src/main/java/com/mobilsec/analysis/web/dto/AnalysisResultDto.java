@@ -2,6 +2,7 @@ package com.mobilsec.analysis.web.dto;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 
 import com.mobilsec.analysis.service.ExportedComponent;
 import com.mobilsec.analysis.service.ManifestFlags;
@@ -15,5 +16,9 @@ public record AnalysisResultDto(
         List<String> permissions,
         ManifestFlags manifestFlags,
         List<ExportedComponent> exportedComponents,
-        Instant createdAt) {
+        Instant createdAt,
+        List<String> secrets,
+        List<String> cryptoIssues,
+        List<String> networkIssues,
+        Map<String, String> remediation) {
 }

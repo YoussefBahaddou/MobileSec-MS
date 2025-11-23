@@ -33,6 +33,16 @@ public class AnalysisResultMapper {
                     });
             List<String> riskReasons = readList(entity.getRiskReasonsJson(), new TypeReference<List<String>>() {
             });
+            List<String> secrets = readList(entity.getSecretsJson(), new TypeReference<List<String>>() {
+            });
+            List<String> cryptoIssues = readList(entity.getCryptoIssuesJson(), new TypeReference<List<String>>() {
+            });
+
+            List<String> networkIssues = readList(entity.getNetworkIssuesJson(), new TypeReference<List<String>>() {
+            });
+            java.util.Map<String, String> remediation = readValue(entity.getRemediationJson(),
+                    new TypeReference<java.util.Map<String, String>>() {
+                    });
 
             return new AnalysisResultDto(
                     entity.getId(),
@@ -43,13 +53,24 @@ public class AnalysisResultMapper {
                     permissions,
                     manifestFlags != null ? manifestFlags : DEFAULT_FLAGS,
                     exportedComponents,
-                    entity.getCreatedAt());
+                    entity.getCreatedAt(),
+                    secrets,
+                    cryptoIssues,
+                    networkIssues,
+                    remediation);
         } catch (IOException ex) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to read stored metadata", ex);
         }
     }
 
     private <T> T readValue(String json, Class<T> type) throws IOException {
+        if (json == null || json.isBlank()) {
+            return null;
+        }
+        return objectMapper.readValue(json, type);
+    }
+
+    private <T> T readValue(String json, TypeReference<T> type) throws IOException {
         if (json == null || json.isBlank()) {
             return null;
         }

@@ -25,12 +25,39 @@ class RiskScorerTest {
                 new ManifestFlags(false, false, false),
                 List.of(),
                 List.of(),
-                List.of());
+                List.of(),
+                List.of()); // Added new argument
 
         RiskAssessment assessment = riskScorer.score(metadata);
 
         assertThat(assessment.level()).isEqualTo(RiskLevel.HIGH);
         assertThat(assessment.reasons()).containsExactly("permission=android.permission.READ_SMS");
+    }
+
+    @Test
+    void testLowRisk() {
+        ApkMetadata metadata = new ApkMetadata("com.example", "1.0", List.of(),
+                new ManifestFlags(false, false, false), List.of(), List.of(), List.of(), List.of());
+        RiskAssessment assessment = riskScorer.score(metadata);
+        assertThat(assessment.level()).isEqualTo(RiskLevel.LOW);
+    }
+
+    @Test
+    void testHighRiskDebuggable() {
+        ApkMetadata metadata = new ApkMetadata("com.example", "1.0", List.of(),
+                new ManifestFlags(true, true, false), List.of(), List.of(), List.of(), List.of());
+        RiskAssessment assessment = riskScorer.score(metadata);
+        assertThat(assessment.level()).isEqualTo(RiskLevel.HIGH);
+        assertThat(assessment.reasons()).contains("App is debuggable");
+    }
+
+    @Test
+    void testMediumRiskPermissions() {
+        ApkMetadata metadata = new ApkMetadata("com.example", "1.0",
+                List.of("android.permission.READ_EXTERNAL_STORAGE"),
+                new ManifestFlags(false, true, false), List.of(), List.of(), List.of(), List.of());
+        RiskAssessment assessment = riskScorer.score(metadata);
+        assertThat(assessment.level()).isEqualTo(RiskLevel.MEDIUM);
     }
 
     @Test
@@ -42,12 +69,13 @@ class RiskScorerTest {
                 new ManifestFlags(false, true, false),
                 List.of(),
                 List.of(),
-                List.of());
+                List.of(),
+                List.of()); // Added new argument
 
         RiskAssessment assessment = riskScorer.score(metadata);
 
         assertThat(assessment.level()).isEqualTo(RiskLevel.MEDIUM);
-        assertThat(assessment.reasons()).containsExactly("allowBackup=true",
+        assertThat(assessment.reasons()).containsExactlyInAnyOrder("allowBackup=true",
                 "permission=android.permission.ACCESS_FINE_LOCATION");
     }
 
@@ -60,7 +88,8 @@ class RiskScorerTest {
                 new ManifestFlags(false, false, false),
                 List.of(),
                 List.of(),
-                List.of());
+                List.of(),
+                List.of()); // Added new argument
 
         RiskAssessment assessment = riskScorer.score(metadata);
 

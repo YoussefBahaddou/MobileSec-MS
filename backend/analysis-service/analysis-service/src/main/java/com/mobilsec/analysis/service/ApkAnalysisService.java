@@ -53,7 +53,9 @@ public class ApkAnalysisService {
                     riskAssessment.level().name(),
                     now,
                     writeValue(metadata.secrets()),
-                    writeValue(metadata.cryptoIssues()));
+                    writeValue(metadata.cryptoIssues()),
+                    writeValue(metadata.networkIssues()),
+                    writeValue(riskAssessment.remediation()));
 
             entity = repository.save(entity);
 

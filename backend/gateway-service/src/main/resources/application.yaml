@@ -18,11 +18,18 @@ spring:
                 - Method=POST
               filters:
                 - StripPrefix=1
-            - id: analysis-results
+            - id: analysis-service-results
               uri: http://localhost:8082
               predicates:
                 - Path=/api/analysis/results/**
                 - Method=GET
+              filters:
+                - StripPrefix=1
+            - id: analysis-service-ci
+              uri: http://localhost:8082
+              predicates:
+                - Path=/api/ci/**
+                - Method=POST
               filters:
                 - StripPrefix=1
             - id: report-by-id

@@ -27,6 +27,8 @@ import AppsOutlinedIcon from '@mui/icons-material/AppsOutlined';
 import AndroidIcon from '@mui/icons-material/Android';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
+import PublicOutlinedIcon from '@mui/icons-material/PublicOutlined';
+import HandymanOutlinedIcon from '@mui/icons-material/HandymanOutlined';
 import { useSnackbar } from 'notistack';
 import { useNavigate, useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -324,6 +326,30 @@ function DetailPage() {
                   </CardContent>
                 </Card>
               )}
+
+              {analysis.networkIssues?.length > 0 && (
+                <Card elevation={0} sx={{ borderRadius: 4, border: `1px solid ${theme.palette.info.light}`, bgcolor: '#F0F7FF' }}>
+                  <CardContent>
+                    <Stack direction="row" spacing={1} alignItems="center" mb={2}>
+                      <PublicOutlinedIcon color="info" />
+                      <Typography variant="h6" fontWeight={600} color="info.dark">
+                        Network Security Issues
+                      </Typography>
+                    </Stack>
+                    <Grid container spacing={2}>
+                      {analysis.networkIssues.map((issue, idx) => (
+                        <Grid item xs={12} key={idx}>
+                          <Paper elevation={0} sx={{ p: 2, bgcolor: 'white', borderRadius: 2, border: '1px solid rgba(0,0,0,0.05)' }}>
+                            <Typography variant="body2" fontFamily="monospace" color="info.dark">
+                              {issue}
+                            </Typography>
+                          </Paper>
+                        </Grid>
+                      ))}
+                    </Grid>
+                  </CardContent>
+                </Card>
+              )}
             </Stack>
           </Grid>
         )}
@@ -345,6 +371,36 @@ function DetailPage() {
                       <Paper elevation={0} sx={{ p: 2, bgcolor: 'white', borderRadius: 2, display: 'flex', alignItems: 'center', gap: 1.5, border: '1px solid rgba(0,0,0,0.05)' }}>
                         <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: 'warning.main', flexShrink: 0 }} />
                         <Typography variant="body2" fontWeight={500}>{reason}</Typography>
+                      </Paper>
+                    </Grid>
+                  ))}
+                </Grid>
+              </CardContent>
+            </Card>
+          </Grid>
+        )}
+
+        {/* Remediation Advice */}
+        {analysis.remediation && Object.keys(analysis.remediation).length > 0 && (
+          <Grid item xs={12}>
+            <Card elevation={0} sx={{ borderRadius: 4, border: `1px solid ${theme.palette.success.light}`, bgcolor: '#F0FFF4' }}>
+              <CardContent>
+                <Stack direction="row" spacing={1} alignItems="center" mb={2}>
+                  <HandymanOutlinedIcon color="success" />
+                  <Typography variant="h6" fontWeight={600} color="success.dark">
+                    Remediation Advice
+                  </Typography>
+                </Stack>
+                <Grid container spacing={2}>
+                  {Object.entries(analysis.remediation).map(([risk, advice], idx) => (
+                    <Grid item xs={12} md={6} key={idx}>
+                      <Paper elevation={0} sx={{ p: 2, bgcolor: 'white', borderRadius: 2, border: '1px solid rgba(0,0,0,0.05)', height: '100%' }}>
+                        <Typography variant="subtitle2" fontWeight={700} color="text.primary" gutterBottom>
+                          {risk}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          {advice}
+                        </Typography>
                       </Paper>
                     </Grid>
                   ))}

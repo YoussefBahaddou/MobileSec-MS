@@ -1,16 +1,19 @@
 import React from 'react';
-import { Box, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography, useTheme, Stack } from '@mui/material';
+import { Box, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography, useTheme } from '@mui/material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import AssessmentIcon from '@mui/icons-material/Assessment';
 import SecurityIcon from '@mui/icons-material/Security';
+import IntegrationInstructionsIcon from '@mui/icons-material/IntegrationInstructions';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 const drawerWidth = 260;
 
 const menuItems = [
-    { text: 'Dashboard', icon: <DashboardIcon />, path: '/results' },
-    { text: 'New Analysis', icon: <CloudUploadIcon />, path: '/' },
+    { text: 'Upload APK', icon: <CloudUploadIcon />, path: '/' },
+    { text: 'Analysis Results', icon: <AssessmentIcon />, path: '/results' },
+    { text: 'CI/CD Integration', icon: <IntegrationInstructionsIcon />, path: '/ci-integration' },
 ];
 
 const Layout = ({ children }) => {
