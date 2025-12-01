@@ -11,7 +11,8 @@ import { motion } from 'framer-motion';
 const drawerWidth = 260;
 
 const menuItems = [
-    { text: 'Upload APK', icon: <CloudUploadIcon />, path: '/' },
+    { text: 'Dashboard', icon: <DashboardIcon />, path: '/' },
+    { text: 'Upload APK', icon: <CloudUploadIcon />, path: '/upload' },
     { text: 'Analysis Results', icon: <AssessmentIcon />, path: '/results' },
     { text: 'CI/CD Integration', icon: <IntegrationInstructionsIcon />, path: '/ci-integration' },
 ];

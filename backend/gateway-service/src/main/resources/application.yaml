@@ -32,6 +32,13 @@ spring:
                 - Method=POST
               filters:
                 - StripPrefix=1
+            - id: dashboard-route
+              uri: http://localhost:8082
+              predicates:
+                - Path=/api/dashboard/**
+                - Method=GET
+              filters:
+                - StripPrefix=1
             - id: report-by-id
               uri: http://localhost:8084
               predicates:

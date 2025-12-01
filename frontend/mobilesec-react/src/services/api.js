@@ -30,6 +30,9 @@ export const listResults = (page = 0, size = 5) =>
 export const getResultById = (id) =>
   analysisClient.get(`/analysis/results/${id}`).then((response) => response.data);
 
+export const getDashboardStats = () =>
+  analysisClient.get('/dashboard/stats').then((response) => response.data);
+
 const REPORT_FILE_MAP = {
   JSON: {
     mimeType: 'application/json',
