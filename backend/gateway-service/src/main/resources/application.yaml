@@ -44,6 +44,10 @@ spring:
               predicates:
                 - Path=/reports/by-id/**
                 - Method=POST
+            - id: network-inspector-route
+              uri: http://localhost:8087
+              predicates:
+                - Path=/api/network/**
           globalcors:
             cors-configurations:
               '[/**]':

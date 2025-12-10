@@ -5,6 +5,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import SecurityIcon from '@mui/icons-material/Security';
 import IntegrationInstructionsIcon from '@mui/icons-material/IntegrationInstructions';
+import WifiIcon from '@mui/icons-material/Wifi';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
@@ -15,6 +16,7 @@ const menuItems = [
     { text: 'Upload APK', icon: <CloudUploadIcon />, path: '/upload' },
     { text: 'Analysis Results', icon: <AssessmentIcon />, path: '/results' },
     { text: 'CI/CD Integration', icon: <IntegrationInstructionsIcon />, path: '/ci-integration' },
+    { text: 'Network Inspector', icon: <WifiIcon />, path: '/network' },
 ];
 
 const Layout = ({ children }) => {
