@@ -1,0 +1,184 @@
+crypto check : 
+2025-12-10T12:16:04.922+01:00  WARN 32636 --- [crypto-check] [nio-8090-exec-2] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.multipart.MaxUploadSizeExceededException: Maximum upload size exceeded]
+2025-12-10T12:16:04.923+01:00  WARN 32636 --- [crypto-check] [nio-8090-exec-2] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.multipart.MaxUploadSizeExceededException: Maximum upload size exceeded]
+2025-12-10T12:16:05.369+01:00  WARN 32636 --- [crypto-check] [nio-8090-exec-4] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.multipart.MaxUploadSizeExceededException: Maximum upload size exceeded]
+2025-12-10T12:16:05.370+01:00  WARN 32636 --- [crypto-check] [nio-8090-exec-4] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.multipart.MaxUploadSizeExceededException: Maximum upload size exceeded]
+2025-12-10T12:16:05.537+01:00  WARN 32636 --- [crypto-check] [nio-8090-exec-3] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.multipart.MaxUploadSizeExceededException: Maximum upload size exceeded]
+2025-12-10T12:16:05.537+01:00  WARN 32636 --- [crypto-check] [nio-8090-exec-3] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.multipart.MaxUploadSizeExceededException: Maximum upload size exceeded]
+2025-12-10T12:16:05.697+01:00  WARN 32636 --- [crypto-check] [nio-8090-exec-5] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.multipart.MaxUploadSizeExceededException: Maximum upload size exceeded]
+2025-12-10T12:16:05.698+01:00  WARN 32636 --- [crypto-check] [nio-8090-exec-5] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.multipart.MaxUploadSizeExceededException: Maximum upload size exceeded]
+2025-12-10T12:16:05.856+01:00  WARN 32636 --- [crypto-check] [nio-8090-exec-6] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.multipart.MaxUploadSizeExceededException: Maximum upload size exceeded]
+2025-12-10T12:16:05.856+01:00  WARN 32636 --- [crypto-check] [nio-8090-exec-6] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.multipart.MaxUploadSizeExceededException: Maximum upload size exceeded]
+2025-12-10T12:16:06.016+01:00  WARN 32636 --- [crypto-check] [nio-8090-exec-7] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.multipart.MaxUploadSizeExceededException: Maximum upload size exceeded]
+2025-12-10T12:16:06.018+01:00  WARN 32636 --- [crypto-check] [nio-8090-exec-7] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.multipart.MaxUploadSizeExceededException: Maximum upload size exceeded]
+2025-12-10T12:16:09.352+01:00  WARN 32636 --- [crypto-check] [nio-8090-exec-8] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.multipart.MaxUploadSizeExceededException: Maximum upload size exceeded]
+2025-12-10T12:16:09.352+01:00  WARN 32636 --- [crypto-check] [nio-8090-exec-8] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.multipart.MaxUploadSizeExceededException: Maximum upload size exceeded]
+2025-12-10T12:16:09.998+01:00  WARN 32636 --- [crypto-check] [nio-8090-exec-9] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.multipart.MaxUploadSizeExceededException: Maximum upload size exceeded]
+2025-12-10T12:16:09.999+01:00  WARN 32636 --- [crypto-check] [nio-8090-exec-9] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.multipart.MaxUploadSizeExceededException: Maximum upload size exceeded]
+2025-12-10T12:16:10.157+01:00  WARN 32636 --- [crypto-check] [io-8090-exec-10] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.multipart.MaxUploadSizeExceededException: Maximum upload size exceeded]
+2025-12-10T12:16:10.158+01:00  WARN 32636 --- [crypto-check] [io-8090-exec-10] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.multipart.MaxUploadSizeExceededException: Maximum upload size exceeded]
+2025-12-10T12:16:10.322+01:00  WARN 32636 --- [crypto-check] [nio-8090-exec-1] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.multipart.MaxUploadSizeExceededException: Maximum upload size exceeded]
+2025-12-10T12:16:10.323+01:00  WARN 32636 --- [crypto-check] [nio-8090-exec-1] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.multipart.MaxUploadSizeExceededException: Maximum upload size exceeded]
+2025-12-10T12:16:10.464+01:00  WARN 32636 --- [crypto-check] [nio-8090-exec-2] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.multipart.MaxUploadSizeExceededException: Maximum upload size exceeded]
+2025-12-10T12:16:10.464+01:00  WARN 32636 --- [crypto-check] [nio-8090-exec-2] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.multipart.MaxUploadSizeExceededException: Maximum upload size exceeded]
+2025-12-10T12:16:10.581+01:00  WARN 32636 --- [crypto-check] [nio-8090-exec-4] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.multipart.MaxUploadSizeExceededException: Maximum upload size exceeded]
+2025-12-10T12:16:10.582+01:00  WARN 32636 --- [crypto-check] [nio-8090-exec-4] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.multipart.MaxUploadSizeExceededException: Maximum upload size exceeded]
+2025-12-10T12:19:33.506+01:00  WARN 32636 --- [crypto-check] [nio-8090-exec-3] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.multipart.MaxUploadSizeExceededException: Maximum upload size exceeded]
+2025-12-10T12:19:33.507+01:00  WARN 32636 --- [crypto-check] [nio-8090-exec-3] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.multipart.MaxUploadSizeExceededException: Maximum upload size exceeded]
+
+frontend : 
+PS C:\DEV\Project\frontend\mobilesec-react> npm start
+
+> mobilesec-react@0.1.0 start
+> react-scripts start
+
+(node:36652) [DEP_WEBPACK_DEV_SERVER_ON_AFTER_SETUP_MIDDLEWARE] DeprecationWarning: 'onAfterSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:36652) [DEP_WEBPACK_DEV_SERVER_ON_BEFORE_SETUP_MIDDLEWARE] DeprecationWarning: 'onBeforeSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
+Starting the development server...
+Compiled with warnings.
+
+[eslint]
+src\pages\UploadPage.js
+  Line 8:3:    'IconButton' is defined but never used           no-unused-vars
+  Line 20:3:   'ListItem' is defined but never used             no-unused-vars
+  Line 21:3:   'ListItemText' is defined but never used         no-unused-vars
+  Line 22:3:   'ListItemIcon' is defined but never used         no-unused-vars
+  Line 26:8:   'DeleteOutlineIcon' is defined but never used    no-unused-vars
+  Line 27:8:   'InsertDriveFileIcon' is defined but never used  no-unused-vars
+  Line 34:8:   'CodeIcon' is defined but never used             no-unused-vars
+  Line 36:18:  'AnimatePresence' is defined but never used      no-unused-vars
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+WARNING in [eslint]
+src\pages\UploadPage.js
+  Line 8:3:    'IconButton' is defined but never used           no-unused-vars
+  Line 20:3:   'ListItem' is defined but never used             no-unused-vars
+  Line 21:3:   'ListItemText' is defined but never used         no-unused-vars
+  Line 22:3:   'ListItemIcon' is defined but never used         no-unused-vars
+  Line 26:8:   'DeleteOutlineIcon' is defined but never used    no-unused-vars
+  Line 27:8:   'InsertDriveFileIcon' is defined but never used  no-unused-vars
+  Line 34:8:   'CodeIcon' is defined but never used             no-unused-vars
+  Line 36:18:  'AnimatePresence' is defined but never used      no-unused-vars
+
+webpack compiled with 1 warning
+
+secret hunter  : 
+PS C:\Users\Youssef> cd C:\DEV\Project\backend\
+PS C:\DEV\Project\backend> cd .\secret-hunter\
+PS C:\DEV\Project\backend\secret-hunter> uvicorn app.main:app --port 8089
+INFO:     Started server process [29972]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8089 (Press CTRL+C to quit)
+INFO:     127.0.0.1:59993 - "POST /api/secrets/analyze HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60074 - "POST /api/secrets/analyze HTTP/1.1" 200 OK
+
+
+apk scanner : 
+2025-12-10 12:15:33.723 | DEBUG    | androguard.core.axml:_do_next:609 - NEXT HEADER <ARSCHeader idx='0x0000d568' type='258' header_size='16' size='116'>
+2025-12-10 12:15:33.723 | DEBUG    | androguard.core.axml:__init__:1139 - DEBUG ARSC TYPE 2
+2025-12-10 12:15:33.723 | DEBUG    | androguard.core.axml:__init__:1160 - START_TAG: activity (line=765)
+2025-12-10 12:15:33.723 | DEBUG    | androguard.core.axml:getAttributeNamespace:977 - 0
+2025-12-10 12:15:33.723 | DEBUG    | androguard.core.axml:getAttributeUri:964 - 0
+2025-12-10 12:15:33.723 | DEBUG    | androguard.core.axml:getAttributeName:993 - 0
+2025-12-10 12:15:33.724 | DEBUG    | androguard.core.axml:getAttributeValueType:1020 - 0
+2025-12-10 12:15:33.724 | DEBUG    | androguard.core.axml:getAttributeValueData:1031 - 0
+2025-12-10 12:15:33.724 | DEBUG    | androguard.core.axml:__init__:1188 - found an attribute: {http://schemas.android.com/apk/res/android}theme='b'@android:01030007''
+2025-12-10 12:15:33.724 | DEBUG    | androguard.core.axml:getAttributeNamespace:977 - 1
+2025-12-10 12:15:33.724 | DEBUG    | androguard.core.axml:getAttributeUri:964 - 1
+2025-12-10 12:15:33.724 | DEBUG    | androguard.core.axml:getAttributeName:993 - 1
+2025-12-10 12:15:33.724 | DEBUG    | androguard.core.axml:getAttributeValueType:1020 - 1
+2025-12-10 12:15:33.724 | DEBUG    | androguard.core.axml:getAttributeValueData:1031 - 1
+2025-12-10 12:15:33.724 | DEBUG    | androguard.core.axml:getAttributeValue:1045 - 1
+2025-12-10 12:15:33.724 | DEBUG    | androguard.core.axml:__init__:1188 - found an attribute: {http://schemas.android.com/apk/res/android}name='b'com.unity3d.services.ads.adunit.AdUnitSoftwareActivity''
+2025-12-10 12:15:33.725 | DEBUG    | androguard.core.axml:getAttributeNamespace:977 - 2
+2025-12-10 12:15:33.725 | DEBUG    | androguard.core.axml:getAttributeUri:964 - 2
+2025-12-10 12:15:33.725 | DEBUG    | androguard.core.axml:getAttributeName:993 - 2
+2025-12-10 12:15:33.725 | DEBUG    | androguard.core.axml:getAttributeValueType:1020 - 2
+2025-12-10 12:15:33.725 | DEBUG    | androguard.core.axml:getAttributeValueData:1031 - 2
+2025-12-10 12:15:33.725 | DEBUG    | androguard.core.axml:__init__:1188 - found an attribute: {http://schemas.android.com/apk/res/android}configChanges='b'0x40000FFF''
+2025-12-10 12:15:33.725 | DEBUG    | androguard.core.axml:getAttributeNamespace:977 - 3
+2025-12-10 12:15:33.725 | DEBUG    | androguard.core.axml:getAttributeUri:964 - 3
+2025-12-10 12:15:33.725 | DEBUG    | androguard.core.axml:getAttributeName:993 - 3
+2025-12-10 12:15:33.725 | DEBUG    | androguard.core.axml:getAttributeValueType:1020 - 3
+2025-12-10 12:15:33.726 | DEBUG    | androguard.core.axml:getAttributeValueData:1031 - 3
+2025-12-10 12:15:33.726 | DEBUG    | androguard.core.axml:__init__:1188 - found an attribute: {http://schemas.android.com/apk/res/android}hardwareAccelerated='b'false''
+2025-12-10 12:15:33.726 | DEBUG    | androguard.core.axml:is_valid:575 - True
+2025-12-10 12:15:33.726 | DEBUG    | androguard.core.axml:_do_next:593 - M_EVENT 2
+2025-12-10 12:15:33.726 | DEBUG    | androguard.core.axml:_do_next:609 - NEXT HEADER <ARSCHeader idx='0x0000d5dc' type='259' header_size='16' size='24'>
+2025-12-10 12:15:33.728 | DEBUG    | androguard.core.axml:__init__:1139 - DEBUG ARSC TYPE 3
+2025-12-10 12:15:33.728 | DEBUG    | androguard.core.axml:is_valid:575 - True
+2025-12-10 12:15:33.728 | DEBUG    | androguard.core.axml:_do_next:593 - M_EVENT 3
+2025-12-10 12:15:33.728 | DEBUG    | androguard.core.axml:_do_next:609 - NEXT HEADER <ARSCHeader idx='0x0000d5f4' type='259' header_size='16' size='24'>
+2025-12-10 12:15:33.728 | DEBUG    | androguard.core.axml:__init__:1139 - DEBUG ARSC TYPE 3
+2025-12-10 12:15:33.728 | DEBUG    | androguard.core.axml:is_valid:575 - True
+2025-12-10 12:15:33.728 | DEBUG    | androguard.core.axml:_do_next:593 - M_EVENT 3
+2025-12-10 12:15:33.729 | DEBUG    | androguard.core.axml:_do_next:609 - NEXT HEADER <ARSCHeader idx='0x0000d60c' type='259' header_size='16' size='24'>
+2025-12-10 12:15:33.729 | DEBUG    | androguard.core.axml:__init__:1139 - DEBUG ARSC TYPE 3
+2025-12-10 12:15:33.729 | DEBUG    | androguard.core.axml:is_valid:575 - True
+2025-12-10 12:15:33.729 | DEBUG    | androguard.core.axml:_do_next:593 - M_EVENT 3
+2025-12-10 12:15:33.729 | DEBUG    | androguard.core.axml:_do_next:609 - NEXT HEADER <ARSCHeader idx='0x0000d624' type='257' header_size='16' size='24'>
+2025-12-10 12:15:33.729 | DEBUG    | androguard.core.axml:__init__:1139 - DEBUG ARSC TYPE 1
+2025-12-10 12:15:33.729 | DEBUG    | androguard.core.axml:is_valid:575 - True
+2025-12-10 12:15:33.731 | INFO     | androguard.core.apk:_apk_analysis:496 - APK file was successfully validated!
+2025-12-10 12:15:33.734 | DEBUG    | androguard.core.api_specific_resources:load_permissions:56 - Available API levels: 4, 5, 6, 7, 8, 9, 10, 13, 14, 15, 16, 17, 18, 19, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34
+2025-12-10 12:15:33.736 | DEBUG    | androguard.core.api_specific_resources:load_permissions:56 - Available API levels: 4, 5, 6, 7, 8, 9, 10, 13, 14, 15, 16, 17, 18, 19, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34
+INFO:     127.0.0.1:59990 - "POST /api/scan/analyze HTTP/1.1" 200 OK
+
+gateaway : 
+12:13:42.958+01:00  INFO 5836 --- [gateway-service] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [XForwardedRemoteAddr]
+2025-12-10T12:13:42.958+01:00  INFO 5836 --- [gateway-service] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Weight]
+2025-12-10T12:13:42.958+01:00  INFO 5836 --- [gateway-service] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [CloudFoundryRouteService]
+2025-12-10T12:13:43.129+01:00  INFO 5836 --- [gateway-service] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2025-12-10T12:13:43.419+01:00  INFO 5836 --- [gateway-service] [           main] o.s.b.web.embedded.netty.NettyWebServer  : Netty started on port 8083 (http)
+2025-12-10T12:13:43.481+01:00  INFO 5836 --- [gateway-service] [           main] c.mobilesec.getaway_service.Application  : Started Application in 2.671 seconds (process running for 3.055)
+2025-12-10T12:15:03.863+01:00 ERROR 5836 --- [gateway-service] [ctor-http-nio-2] a.w.r.e.AbstractErrorWebExceptionHandler : [83e94a51-1]  500 Server Error for HTTP GET "/api/dashboard/stats"
+
+io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: no further information: localhost/127.0.0.1:8082
+        Suppressed: reactor.core.publisher.FluxOnAssembly$OnAssemblyException:
+Error has been observed at the following site(s):
+        *__checkpoint ? org.springframework.web.cors.reactive.CorsWebFilter [DefaultWebFilterChain]
+        *__checkpoint ? org.springframework.cloud.gateway.filter.WeightCalculatorWebFilter [DefaultWebFilterChain]
+        *__checkpoint ? HTTP GET "/api/dashboard/stats" [ExceptionHandlingWebHandler]
+Original Stack Trace:
+Caused by: java.net.ConnectException: Connection refused: no further information
+        at java.base/sun.nio.ch.Net.pollConnect(Native Method) ~[na:na]
+        at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:682) ~[na:na]
+        at java.base/sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:973) ~[na:na]
+        at io.netty.channel.socket.nio.NioSocketChannel.doFinishConnect(NioSocketChannel.java:336) ~[netty-transport-4.1.128.Final.jar:4.1.128.Final]
+        at io.netty.channel.nio.AbstractNioChannel$AbstractNioUnsafe.finishConnect(AbstractNioChannel.java:339) ~[netty-transport-4.1.128.Final.jar:4.1.128.Final]
+        at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:784) ~[netty-transport-4.1.128.Final.jar:4.1.128.Final]
+        at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:732) ~[netty-transport-4.1.128.Final.jar:4.1.128.Final]
+        at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:658) ~[netty-transport-4.1.128.Final.jar:4.1.128.Final]
+        at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:562) ~[netty-transport-4.1.128.Final.jar:4.1.128.Final]
+        at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:998) ~[netty-common-4.1.128.Final.jar:4.1.128.Final]
+        at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74) ~[netty-common-4.1.128.Final.jar:4.1.128.Final]
+        at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30) ~[netty-common-4.1.128.Final.jar:4.1.128.Final]
+        at java.base/java.lang.Thread.run(Thread.java:1583) ~[na:na]
+
+2025-12-10T12:15:03.905+01:00 ERROR 5836 --- [gateway-service] [ctor-http-nio-2] a.w.r.e.AbstractErrorWebExceptionHandler : [05c8a538-2]  500 Server Error for HTTP GET "/api/dashboard/stats"
+
+io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: no further information: localhost/127.0.0.1:8082
+        Suppressed: reactor.core.publisher.FluxOnAssembly$OnAssemblyException:
+Error has been observed at the following site(s):
+        *__checkpoint ? org.springframework.web.cors.reactive.CorsWebFilter [DefaultWebFilterChain]
+        *__checkpoint ? org.springframework.cloud.gateway.filter.WeightCalculatorWebFilter [DefaultWebFilterChain]
+        *__checkpoint ? HTTP GET "/api/dashboard/stats" [ExceptionHandlingWebHandler]
+Original Stack Trace:
+Caused by: java.net.ConnectException: Connection refused: no further information
+        at java.base/sun.nio.ch.Net.pollConnect(Native Method) ~[na:na]
+        at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:682) ~[na:na]
+        at java.base/sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:973) ~[na:na]
+        at io.netty.channel.socket.nio.NioSocketChannel.doFinishConnect(NioSocketChannel.java:336) ~[netty-transport-4.1.128.Final.jar:4.1.128.Final]
+        at io.netty.channel.nio.AbstractNioChannel$AbstractNioUnsafe.finishConnect(AbstractNioChannel.java:339) ~[netty-transport-4.1.128.Final.jar:4.1.128.Final]
+        at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:784) ~[netty-transport-4.1.128.Final.jar:4.1.128.Final]
+        at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:732) ~[netty-transport-4.1.128.Final.jar:4.1.128.Final]
+        at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:658) ~[netty-transport-4.1.128.Final.jar:4.1.128.Final]
+        at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:562) ~[netty-transport-4.1.128.Final.jar:4.1.128.Final]
+        at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:998) ~[netty-common-4.1.128.Final.jar:4.1.128.Final]
+        at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74) ~[netty-common-4.1.128.Final.jar:4.1.128.Final]
+        at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30) ~[netty-common-4.1.128.Final.jar:4.1.128.Final]
+        at java.base/java.lang.Thread.run(Thread.java:1583) ~[na:na]

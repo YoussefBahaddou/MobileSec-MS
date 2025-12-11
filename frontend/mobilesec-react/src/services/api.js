@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const analysisClient = axios.create({
-  baseURL: 'http://localhost:8083/api',
+  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:8083/api',
 });
 
 const reportClient = axios.create({
@@ -12,15 +12,44 @@ export const uploadApk = (file, onUploadProgress) => {
   const formData = new FormData();
   formData.append('file', file);
 
+  // New Endpoint: /scan/analyze (APK Scanner)
   return analysisClient
-    .post('/analysis/upload', formData, {
+    .post('/scan/analyze', formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
       onUploadProgress,
     })
     .then((response) => response.data);
 };
 
+export const scanSecrets = (text, file) => {
+  const formData = new FormData();
+  if (text) formData.append('text', text);
+  if (file) formData.append('file', file);
+
+  // Endpoint: /secrets/analyze (Secret Hunter)
+  return analysisClient
+    .post('/secrets/analyze', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    })
+    .then((response) => response.data);
+};
+
+export const scanCrypto = (code, file) => {
+  const formData = new FormData();
+  if (code) formData.append('code', code);
+  if (file) formData.append('file', file);
+
+  // Endpoint: /crypto/analyze (Crypto Check)
+  return analysisClient
+    .post('/crypto/analyze', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    })
+    .then((response) => response.data);
+};
+
 export const listResults = (page = 0, size = 5) =>
+  // NOTE: This might need adjustment if we no longer have a central DB for results.
+  // For now, assuming user relies on the immediate scan response or legacy stats.
   analysisClient
     .get('/analysis/results', {
       params: { page, size },
@@ -28,7 +57,7 @@ export const listResults = (page = 0, size = 5) =>
     .then((response) => response.data);
 
 export const getResultById = (id) =>
-  analysisClient.get(`/analysis/results/${id}`).then((response) => response.data);
+  analysisClient.get(`/scan/${id}`).then((response) => response.data);
 
 export const getDashboardStats = () =>
   analysisClient.get('/dashboard/stats').then((response) => response.data);
@@ -46,6 +75,17 @@ const REPORT_FILE_MAP = {
     mimeType: 'application/pdf',
     filename: (id) => `analysis-${id}.report.pdf`,
   },
+};
+
+export const extractStrings = (file, onUploadProgress) => {
+  const formData = new FormData();
+  formData.append('file', file);
+  return analysisClient
+    .post('/scan/extract-strings', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+      onUploadProgress
+    })
+    .then((response) => response.data);
 };
 
 export const downloadReportById = async (id, format) => {

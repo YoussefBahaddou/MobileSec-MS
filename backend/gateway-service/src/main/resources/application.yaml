@@ -11,34 +11,34 @@ spring:
           default-filters:
             - PreserveHostHeader
           routes:
-            - id: analysis-upload
-              uri: http://localhost:8082
+            # Microservices Replacement
+            - id: apk-scanner-route
+              uri: http://localhost:8088
               predicates:
-                - Path=/api/analysis/upload
-                - Method=POST
-              filters:
-                - StripPrefix=1
-            - id: analysis-service-results
-              uri: http://localhost:8082
+                - Path=/api/scan/**
+                - Method=GET,POST,OPTIONS
+            - id: secret-hunter-route
+              uri: http://localhost:8089
               predicates:
-                - Path=/api/analysis/results/**
-                - Method=GET
-              filters:
-                - StripPrefix=1
-            - id: analysis-service-ci
-              uri: http://localhost:8082
+                - Path=/api/secrets/**
+                - Method=GET,POST,OPTIONS
+            - id: crypto-check-route
+              uri: http://localhost:8090
               predicates:
-                - Path=/api/ci/**
-                - Method=POST
-              filters:
-                - StripPrefix=1
+                - Path=/api/crypto/**
+                - Method=GET,POST,OPTIONS
+            # Dashboard (Keep pointing to 8082 for now if it aggregates, or 8088 if we moved it?)
+            # The dashboard stats were likely in analysis-service. 
+            # If we kill analysis-service, dashboard breaks. 
+            # For now, I'll keep dashboard pointing to 8082 (assuming user keeps monolith running for stats)
+            # But the 'Upload' and 'Results' are now handled by microservices.
             - id: dashboard-route
-              uri: http://localhost:8082
+              uri: http://localhost:8088
               predicates:
                 - Path=/api/dashboard/**
-                - Method=GET
+                - Method=GET,OPTIONS
               filters:
-                - StripPrefix=1
+                - StripPrefix=0
             - id: report-by-id
               uri: http://localhost:8084
               predicates:

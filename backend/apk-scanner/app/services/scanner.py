@@ -50,7 +50,9 @@ class APKScannerService:
             }
 
         except Exception as e:
+            import traceback
             logging.error(f"Error during APK analysis: {e}")
+            logging.error(traceback.format_exc())
             raise Exception(f"Analysis Failed: {str(e)}")
 
     @staticmethod

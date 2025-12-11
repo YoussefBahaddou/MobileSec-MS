@@ -20,13 +20,58 @@ public class CryptoScannerService {
     public List<CryptoFinding> scanCode(String sourceCode, String fileName) {
         List<CryptoFinding> findings = new ArrayList<>();
         try {
+            // Try explicit Java parsing first
             CompilationUnit cu = StaticJavaParser.parse(sourceCode);
             cu.accept(new CryptoVisitor(findings, fileName), null);
         } catch (Exception e) {
-            // If parsing fails (e.g. incomplete code), return error finding or log it
-            System.err.println("Parse error for " + fileName + ": " + e.getMessage());
+            // Fallback to Regex Scan (e.g. for APK strings or incomplete code)
+            scanWithRegex(sourceCode, fileName, findings);
         }
         return findings;
+    }
+
+    private void scanWithRegex(String source, String fileName, List<CryptoFinding> findings) {
+        // Simple heuristic patterns for common weak crypto
+        if (source.contains("MD5")) {
+            findings.add(CryptoFinding.builder()
+                    .ruleId("CWE-327-REGEX")
+                    .description("Weak Hashing (MD5) detected via text scan")
+                    .severity("HIGH")
+                    .fileName(fileName)
+                    .lineNumber(0)
+                    .snippet("...MD5...")
+                    .build());
+        }
+        if (source.contains("SHA-1") || source.contains("SHA1")) {
+            findings.add(CryptoFinding.builder()
+                    .ruleId("CWE-327-REGEX")
+                    .description("Weak Hashing (SHA-1) detected via text scan")
+                    .severity("HIGH")
+                    .fileName(fileName)
+                    .lineNumber(0)
+                    .snippet("...SHA-1...")
+                    .build());
+        }
+        if (source.contains("AES/ECB") || source.contains("AES") && source.contains("ECB")) {
+            findings.add(CryptoFinding.builder()
+                    .ruleId("CWE-327-REGEX")
+                    .description("Insecure Cipher Mode (ECB) detected via text scan")
+                    .severity("HIGH")
+                    .fileName(fileName)
+                    .lineNumber(0)
+                    .snippet("...ECB...")
+                    .build());
+        }
+        if (source.contains("DES") || source.contains("Blowfish")) {
+            findings.add(CryptoFinding.builder()
+                    .ruleId("CWE-327-REGEX")
+                    .description("Weak Encryption Algorithm detected via text scan")
+                    .severity("HIGH")
+                    .fileName(fileName)
+                    .lineNumber(0)
+                    .snippet("...Weak Algo...")
+                    .build());
+        }
     }
 
     private static class CryptoVisitor extends VoidVisitorAdapter<Void> {

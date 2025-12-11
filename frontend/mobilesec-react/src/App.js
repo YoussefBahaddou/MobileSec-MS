@@ -7,6 +7,7 @@ import DetailPage from './pages/DetailPage';
 import DashboardPage from './pages/DashboardPage';
 import CIIntegrationPage from './pages/CIIntegrationPage';
 import NetworkPage from './pages/NetworkPage';
+import ReportPage from './pages/ReportPage';
 import './App.css';
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
           <Route path="/results/:id" element={<DetailPage />} />
           <Route path="/ci-integration" element={<CIIntegrationPage />} />
           <Route path="/network" element={<NetworkPage />} />
+          <Route path="/report" element={<ReportPage />} />
         </Routes>
       </Layout>
     </Router>

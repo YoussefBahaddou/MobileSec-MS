@@ -106,7 +106,8 @@ const DashboardPage = () => {
                 }
             } catch (error) {
                 console.error('Failed to fetch dashboard stats', error);
-                setError('Failed to load dashboard data. Please try again later.');
+                const msg = error.response ? `Server Error: ${error.response.status}` : error.message;
+                setError(`Failed to load dashboard data: ${msg}`);
             } finally {
                 setLoading(false);
             }
