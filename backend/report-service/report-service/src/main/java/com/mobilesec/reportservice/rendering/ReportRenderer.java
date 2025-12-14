@@ -1,10 +1,10 @@
 package com.mobilesec.reportservice.rendering;
 
-import com.mobilesec.reportservice.dto.AnalysisResultDto;
+import com.mobilesec.reportservice.dto.ComprehensiveReportDto;
 
 public interface ReportRenderer {
 
     ReportFormat format();
 
-    RenderedReport render(AnalysisResultDto result);
+    RenderedReport render(ComprehensiveReportDto result);
 }

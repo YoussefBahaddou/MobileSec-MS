@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState, useMemo, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
     Box,
     Button,
     Container,
-    Divider,
     Grid,
     Paper,
     Stack,
@@ -16,11 +15,10 @@ import {
     TableContainer,
     TableHead,
     TableRow,
-    useTheme,
-    Card,
-    CardContent
+    useTheme
 } from '@mui/material';
 import PrintIcon from '@mui/icons-material/Print';
+import CodeIcon from '@mui/icons-material/Code';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import WarningIcon from '@mui/icons-material/Warning';
@@ -29,14 +27,100 @@ import SecurityIcon from '@mui/icons-material/Security';
 import BugReportIcon from '@mui/icons-material/BugReport';
 
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
+import { createReport, downloadReportById } from '../services/api';
+import { useSnackbar } from 'notistack';
 
 export default function ReportPage() {
     const location = useLocation();
     const navigate = useNavigate();
     const theme = useTheme();
+    const { enqueueSnackbar } = useSnackbar();
 
     // Destructure with default empty objects to prevent crashes
     const { apkResult, secretResult, cryptoResult, scanDate } = location.state || {};
+    const [scanId] = useState(apkResult?.scan_id || null);
+    const [isSaving, setIsSaving] = useState(false);
+    const hasSavedRef = useRef(false);
+
+    // Normalize findings (useMemo to prevent unstable dependencies)
+    const secretFindings = useMemo(() =>
+        Array.isArray(secretResult) ? secretResult : (secretResult?.findings || []),
+        [secretResult]);
+
+    const cryptoFindings = useMemo(() =>
+        Array.isArray(cryptoResult) ? cryptoResult : (cryptoResult?.findings || []),
+        [cryptoResult]);
+
+    // Save report to backend on load
+    // Save report to backend on load
+    // Helper to ensure report exists on backend
+    const ensureReportExists = async () => {
+        setIsSaving(true);
+        try {
+            const payload = {
+                scanId: apkResult.scan_id,
+                manifest: apkResult.manifest,
+                secrets: { findings: secretFindings },
+                crypto: { findings: cryptoFindings }
+            };
+            await createReport(payload);
+            return true;
+        } catch (error) {
+            console.error("Failed to save report", error);
+            return false;
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
+    // Save report to backend on load (Initial sync)
+    useEffect(() => {
+        if (apkResult && scanId && !hasSavedRef.current) {
+            hasSavedRef.current = true;
+            ensureReportExists()
+                .then(success => {
+                    if (success) enqueueSnackbar('Report saved successfully', { variant: 'success' });
+                    else enqueueSnackbar('Failed to save report to backend', { variant: 'error' });
+                });
+        }
+    }, [scanId, apkResult, secretFindings, cryptoFindings, enqueueSnackbar]);
+
+    // Robust Download Handler
+    const handleDownload = async (format) => {
+        const attemptDownload = async () => {
+            const { blob, filename } = await downloadReportById(scanId, format);
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', filename);
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+        };
+
+        try {
+            await attemptDownload();
+        } catch (e) {
+            // If download fails (likely 404 due to backend restart), try Resaving
+            console.warn("Download failed, attempting to restore report...", e);
+            enqueueSnackbar('Report not found on server. Resaving...', { variant: 'info' });
+
+            const saved = await ensureReportExists();
+            if (saved) {
+                try {
+                    await attemptDownload();
+                    enqueueSnackbar(`${format} downloaded successfully`, { variant: 'success' });
+                } catch (retryError) {
+                    enqueueSnackbar(`Failed to download ${format} after restore`, { variant: 'error' });
+                }
+            } else {
+                enqueueSnackbar('Failed to restore report data to server', { variant: 'error' });
+            }
+        }
+    };
+
+    const handleDownloadPdf = () => handleDownload('PDF');
+    const handleDownloadSarif = () => handleDownload('SARIF');
 
     if (!apkResult) {
         return (
@@ -53,8 +137,8 @@ export default function ReportPage() {
     if (apkResult.manifest?.allow_backup) manifestRisks.push({ type: 'Manifest', severity: 'Medium', desc: 'Backup Allowed' });
     if (apkResult.manifest?.uses_cleartext_traffic) manifestRisks.push({ type: 'Manifest', severity: 'High', desc: 'Cleartext Traffic Allowed' });
 
-    const secretRisks = (secretResult?.findings || []).map(f => ({ type: 'Secret', severity: 'Critical', desc: f.type, match: f.match }));
-    const cryptoRisks = (cryptoResult?.findings || []).map(f => ({ type: 'Crypto', severity: 'High', desc: f.description, rule: f.ruleId }));
+    const secretRisks = secretFindings.map(f => ({ type: 'Secret', severity: 'Critical', desc: f.type, match: f.match }));
+    const cryptoRisks = cryptoFindings.map(f => ({ type: 'Crypto', severity: 'High', desc: f.description, rule: f.ruleId }));
 
     const allRisks = [...manifestRisks, ...secretRisks, ...cryptoRisks];
 
@@ -62,7 +146,6 @@ export default function ReportPage() {
     const criticalCount = allRisks.filter(r => r.severity === 'Critical').length;
     const highCount = allRisks.filter(r => r.severity === 'High').length;
     const mediumCount = allRisks.filter(r => r.severity === 'Medium').length;
-    const lowCount = allRisks.filter(r => r.severity === 'Low').length;
     const totalIssues = allRisks.length;
 
     // Score Calculation (Simple)
@@ -83,9 +166,7 @@ export default function ReportPage() {
         { name: 'Medium', count: mediumCount },
     ];
 
-    const handlePrint = () => {
-        window.print();
-    };
+
 
     const getSeverityColor = (sev) => {
         switch (sev) {
@@ -102,7 +183,10 @@ export default function ReportPage() {
             {/* ACTION BAR */}
             <Stack direction="row" justifyContent="space-between" mb={4} className="no-print">
                 <Button startIcon={<ArrowBackIcon />} onClick={() => navigate('/upload')}>Back to Scan</Button>
-                <Button variant="contained" startIcon={<PrintIcon />} onClick={handlePrint} color="primary">Export PDF</Button>
+                <Stack direction="row" spacing={2}>
+                    <Button variant="outlined" startIcon={<CodeIcon />} onClick={handleDownloadSarif}>Export SARIF</Button>
+                    <Button variant="contained" startIcon={<PrintIcon />} onClick={handleDownloadPdf} color="primary">Export PDF</Button>
+                </Stack>
             </Stack>
 
             {/* HEADER SECTION */}

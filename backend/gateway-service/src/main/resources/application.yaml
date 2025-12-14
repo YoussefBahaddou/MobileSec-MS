@@ -39,6 +39,11 @@ spring:
                 - Method=GET,OPTIONS
               filters:
                 - StripPrefix=0
+            - id: report-service-route
+              uri: http://localhost:8084
+              predicates:
+                - Path=/api/reports/**
+                - Method=GET,POST,OPTIONS
             - id: report-by-id
               uri: http://localhost:8084
               predicates:

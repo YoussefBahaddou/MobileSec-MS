@@ -2,7 +2,7 @@ package com.mobilesec.reportservice.rendering;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mobilesec.reportservice.dto.AnalysisResultDto;
+import com.mobilesec.reportservice.dto.ComprehensiveReportDto;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -20,11 +20,11 @@ public class JsonReportRenderer implements ReportRenderer {
     }
 
     @Override
-    public RenderedReport render(AnalysisResultDto result) {
+    public RenderedReport render(ComprehensiveReportDto result) {
         try {
             byte[] content = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsBytes(result);
-            String filename = ReportFilenameUtils.composeFilename(result, ".json");
-            return new RenderedReport(content, format(), filename);
+            String filename = "report-" + result.getScanId() + ".json";
+            return new RenderedReport(content, filename, "application/json");
         } catch (JsonProcessingException e) {
             throw new IllegalStateException("Failed to serialize analysis result to JSON", e);
         }

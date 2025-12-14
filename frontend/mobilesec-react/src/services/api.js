@@ -62,6 +62,9 @@ export const getResultById = (id) =>
 export const getDashboardStats = () =>
   analysisClient.get('/dashboard/stats').then((response) => response.data);
 
+export const createReport = (reportData) =>
+  reportClient.post('/api/reports', reportData).then((response) => response.data);
+
 const REPORT_FILE_MAP = {
   JSON: {
     mimeType: 'application/json',
@@ -103,11 +106,18 @@ export const downloadReportById = async (id, format) => {
       },
     };
 
+    let url;
     if (format === 'PDF') {
       config.responseType = 'blob';
+      url = `/api/reports/${id}/pdf`;
+    } else if (format === 'SARIF') {
+      url = `/api/reports/${id}/sarif`;
+    } else {
+      // Fallback or JSON
+      url = `/api/reports/${id}`;
     }
 
-    const response = await reportClient.post(`/reports/by-id/${id}`, {}, config);
+    const response = await reportClient.get(url, config);
 
     let blob;
     let filename;

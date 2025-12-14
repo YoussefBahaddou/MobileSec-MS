@@ -1,58 +1,70 @@
 package com.mobilesec.reportservice.controller;
 
+import com.mobilesec.reportservice.dto.ComprehensiveReportDto;
+import com.mobilesec.reportservice.entity.ReportEntity;
 import com.mobilesec.reportservice.rendering.RenderedReport;
 import com.mobilesec.reportservice.rendering.ReportFormat;
-import com.mobilesec.reportservice.service.ReportGenerationService;
-import org.springframework.http.ContentDisposition;
+import com.mobilesec.reportservice.service.ReportService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/reports")
-@Validated
+@RequestMapping("/api/reports")
+@RequiredArgsConstructor
+@CrossOrigin(origins = "*") // Allow frontend
 public class ReportController {
 
-    private final ReportGenerationService reportGenerationService;
+    private final ReportService reportService;
 
-    public ReportController(ReportGenerationService reportGenerationService) {
-        this.reportGenerationService = reportGenerationService;
+    @PostMapping
+    public ResponseEntity<?> createReport(@RequestBody ComprehensiveReportDto dto) {
+        try {
+            System.out.println("Received Report DTO: " + dto);
+            if (dto.getManifest() != null) {
+                System.out.println("Manifest Package: " + dto.getManifest().getPackageName());
+            } else {
+                System.out.println("Manifest is NULL");
+            }
+
+            ReportEntity saved = reportService.saveReport(dto);
+            // Return the DTO with the generated Scan ID (if new) or confirmation
+            return ResponseEntity.ok(reportService.getReport(saved.getScanId()));
+        } catch (Exception e) {
+            e.printStackTrace(); // Log to console for user to see
+            return ResponseEntity.status(500).body("Error saving report: " + e.getMessage());
+        }
     }
 
-    @PostMapping("/by-id/{id}")
-    public ResponseEntity<byte[]> generateById(@PathVariable long id,
-                                               @RequestParam(name = "format", defaultValue = "JSON") String formatParam) {
-        ReportFormat format = ReportFormat.fromParam(formatParam);
-        RenderedReport report = reportGenerationService.generateById(id, format);
-        return buildResponse(report);
+    @GetMapping("/{scanId}")
+    public ResponseEntity<ComprehensiveReportDto> getReport(@PathVariable String scanId) {
+        return ResponseEntity.ok(reportService.getReport(scanId));
     }
 
-    @PostMapping("/by-package/{packageName}")
-    public ResponseEntity<byte[]> generateByPackage(@PathVariable String packageName,
-                                                    @RequestParam(name = "format", defaultValue = "JSON") String formatParam) {
-        ReportFormat format = ReportFormat.fromParam(formatParam);
-        RenderedReport report = reportGenerationService.generateByPackage(packageName, format);
-        return buildResponse(report);
+    @GetMapping("/{scanId}/pdf")
+    public ResponseEntity<byte[]> getPdfReport(@PathVariable String scanId) {
+        RenderedReport report = reportService.generateReport(scanId, ReportFormat.PDF);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + report.filename() + "\"")
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(report.content());
     }
 
-    private ResponseEntity<byte[]> buildResponse(RenderedReport report) {
-        MediaType mediaType = MediaType.parseMediaType(report.contentType());
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(mediaType);
-        headers.setContentDisposition(buildDisposition(report));
-        return new ResponseEntity<>(report.content(), headers, HttpStatus.OK);
+    @GetMapping("/{scanId}/sarif")
+    public ResponseEntity<byte[]> getSarifReport(@PathVariable String scanId) {
+        RenderedReport report = reportService.generateReport(scanId, ReportFormat.SARIF);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + report.filename() + "\"")
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(report.content());
     }
 
-    private ContentDisposition buildDisposition(RenderedReport report) {
-        return ContentDisposition.attachment()
-                .filename(report.filename())
-                .build();
+    @ExceptionHandler(org.springframework.http.converter.HttpMessageNotReadableException.class)
+    public ResponseEntity<String> handleJsonError(
+            org.springframework.http.converter.HttpMessageNotReadableException e) {
+        e.printStackTrace();
+        return ResponseEntity.badRequest().body("JSON Parse Error: " + e.getMessage());
     }
 }
