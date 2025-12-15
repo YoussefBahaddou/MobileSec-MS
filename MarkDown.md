@@ -45,8 +45,8 @@ Based on the project specifications, here is the detailed breakdown of the 7 mic
 ## 5. ReportGen
 [cite_start]**Role:** Aggregates results from other services and generates reports in multiple formats[cite: 32].
 **Technologies:**
-* [cite_start]Node.js [cite: 33]
-* [cite_start]Puppeteer [cite: 33]
+* [cite_start]spring boot [cite: 33]
+* [cite_start]whatever dependencies and libraries are needed to make this works [cite: 33]
 **Function:**
 * [cite_start]Generates detailed sheets of detected flaws[cite: 34].
 * [cite_start]Provides corrective recommendations[cite: 34].

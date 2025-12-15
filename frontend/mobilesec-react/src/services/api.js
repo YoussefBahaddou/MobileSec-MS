@@ -4,6 +4,21 @@ const analysisClient = axios.create({
   baseURL: process.env.REACT_APP_API_URL || 'http://localhost:8083/api',
 });
 
+// Add detailed logging
+analysisClient.interceptors.response.use(
+  response => response,
+  error => {
+    console.error("❌ API ERROR:", {
+      url: error.config?.url,
+      method: error.config?.method,
+      status: error.response?.status,
+      data: error.response?.data,
+      message: error.message
+    });
+    return Promise.reject(error);
+  }
+);
+
 const reportClient = axios.create({
   baseURL: 'http://localhost:8083',
 });
@@ -89,6 +104,20 @@ export const extractStrings = (file, onUploadProgress) => {
       onUploadProgress
     })
     .then((response) => response.data);
+};
+
+export const getFixSuggestion = async (issueId, description, vulnerableCode = null) => {
+  try {
+    const response = await axios.post('http://localhost:8085/api/suggest', {
+      issueId,
+      description,
+      vulnerableCode
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching fix suggestion", error);
+    throw error;
+  }
 };
 
 export const downloadReportById = async (id, format) => {

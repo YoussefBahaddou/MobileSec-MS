@@ -52,8 +52,8 @@ async def analyze_apk(
             await buffer.write(contents)
             
         # 2. Analyze
-        # Assuming APKScannerService.analyze_apk can take the temp_file path
-        results = APKScannerService.analyze_apk(temp_file)
+        # Pass file.filename to enable simulation checks logic
+        results = APKScannerService.analyze_apk(temp_file, original_filename=file.filename)
         
         # 3. Save to DB
         metadata = APKMetadata(

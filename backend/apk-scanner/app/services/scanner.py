@@ -4,7 +4,7 @@ from androguard.core.apk import APK
 
 class APKScannerService:
     @staticmethod
-    def analyze_apk(file_path: str):
+    def analyze_apk(file_path: str, original_filename: str = None):
         """
         Analyzes the APK using Androguard to extract manifest details and security flags.
         """
@@ -18,6 +18,26 @@ class APKScannerService:
             
             # 2. Permissions
             permissions = a.get_permissions() # Returns list of strings
+
+            # --- SIMULATION MODE (FOR TESTING FRONTEND) ---
+            # Check original filename OR physical path
+            target_name = original_filename if original_filename else file_path
+            
+            if "malware_sim" in target_name or "spyware" in target_name:
+                logging.warning("⚠️ SIMULATION DETECTED: Injecting FAKE malware permissions for testing!")
+                permissions = [
+                    "android.permission.SEND_SMS",
+                    "android.permission.RECEIVE_SMS", 
+                    "android.permission.READ_SMS",
+                    "android.permission.READ_CONTACTS",
+                    "android.permission.READ_CALL_LOG",
+                    "android.permission.RECORD_AUDIO",
+                    "android.permission.CAMERA",
+                    "android.permission.ACCESS_FINE_LOCATION",
+                    "android.permission.RECEIVE_BOOT_COMPLETED",
+                    "android.permission.INTERNET"
+                ]
+            # ----------------------------------------------
             
             # 3. Exported Components
             # Androguard methods return raw xml or list. Easier to Iterate activities.
@@ -36,6 +56,10 @@ class APKScannerService:
             allow_backup = APKScannerService._get_bool_attr(app_element, "allowBackup", True) # Default true
             uses_cleartext_traffic = APKScannerService._get_bool_attr(app_element, "usesCleartextTraffic", True) # Default true often, but safer to detect explicit
             
+            # 5. ML-Based Malware Analysis (XGBoost "God Tier" Model)
+            from app.ml_engine import predict_score
+            ml_result = predict_score(permissions)
+            
             return {
                 "package_name": package_name,
                 "version_code": str(version_code),
@@ -46,7 +70,9 @@ class APKScannerService:
                 "exported_providers": exported_providers,
                 "is_debuggable": is_debuggable,
                 "allow_backup": allow_backup,
-                "uses_cleartext_traffic": uses_cleartext_traffic
+                "uses_cleartext_traffic": uses_cleartext_traffic,
+                "security_score": ml_result, # Keep for backward compat if any
+                "ai_security_score": ml_result # New requested key
             }
 
         except Exception as e:

@@ -32,11 +32,21 @@ cd C:\DEV\Project\backend\network-inspector
 uvicorn app.main:app --port 8087 --reload
 ```
 
-### 6. Frontend (Ports 3000/3001)
+### 6. FixSuggest Service
+**Port**: 8085
 ```powershell
-cd C:\DEV\Project\frontend\mobilesec-react
+cd backend/fix-suggest
+mvn spring-boot:run
+```
+
+### 7. Frontend (React)
+**Port**: 3000 -> 3001
+```powershell
+cd frontend/mobilesec-react
 npm start
 ```
+
+
 
 ---
 **Tips:**

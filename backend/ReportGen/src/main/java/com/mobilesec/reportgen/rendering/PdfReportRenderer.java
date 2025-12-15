@@ -170,6 +170,28 @@ public class PdfReportRenderer implements ReportRenderer {
 
         sb.append("</div>");
 
+        // ML RISK ASSESSMENT
+        if (data.getManifest() != null && data.getManifest().getSecurityScore() != null) {
+            var ss = data.getManifest().getSecurityScore();
+            sb.append("<h3>ML Risk Assessment</h3>");
+            sb.append("<div style='background: #f8f9fa; padding: 15px; border-radius: 5px; border-left: 5px solid #");
+            // Choose color
+            String color = "#27ae60"; // Safe
+            if (ss.getScore() > 70)
+                color = "#e74c3c"; // Critical
+            else if (ss.getScore() > 30)
+                color = "#f39c12"; // Suspicious
+
+            sb.append(color.substring(1)).append(";'>");
+
+            sb.append("<div style='font-size: 20px; font-weight: bold; color: ").append(color).append(";'>")
+                    .append(ss.getScore()).append("% ").append(escape(ss.getRiskLabel())).append("</div>");
+            sb.append("<div style='margin-top: 5px; color: #7f8c8d;'>").append(escape(ss.getDetails()))
+                    .append("</div>");
+            sb.append("</div>");
+            sb.append("<br/>");
+        }
+
         // APP DETAILS
         if (data.getManifest() != null) {
             sb.append("<h3>Target Application</h3>");

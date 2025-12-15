@@ -45,6 +45,22 @@ public class ComprehensiveReportDto {
         private List<String> exportedServices;
         private List<String> exportedReceivers;
         private List<String> exportedProviders;
+
+        @JsonProperty("security_score")
+        private SecurityScore securityScore;
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class SecurityScore {
+        private double score;
+
+        @JsonProperty("risk_label")
+        private String riskLabel;
+
+        private String details;
     }
 
     @Data

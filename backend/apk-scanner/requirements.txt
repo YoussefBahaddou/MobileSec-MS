@@ -5,3 +5,8 @@ sqlalchemy>=2.0.0
 python-multipart
 aiofiles
 pydantic-settings
+scikit-learn
+joblib
+pandas
+xgboost
+numpy
