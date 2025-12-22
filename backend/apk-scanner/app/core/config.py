@@ -5,6 +5,7 @@ class Settings(BaseSettings):
     API_V1_STR: str = "/api"
     # SQLite Database as per requirements
     DATABASE_URL: str = "sqlite:///./apk_metadata.db"
+    SUPABASE_JWT_SECRET: str = "" # User must provide this in .env
 
     class Config:
         env_file = ".env"

@@ -8,6 +8,8 @@ import IntegrationInstructionsIcon from '@mui/icons-material/IntegrationInstruct
 import WifiIcon from '@mui/icons-material/Wifi';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import { useAuth } from '../context/AuthContext';
 
 const drawerWidth = 260;
 
@@ -23,6 +25,7 @@ const Layout = ({ children }) => {
     const theme = useTheme();
     const navigate = useNavigate();
     const location = useLocation();
+    const { signOut } = useAuth();
 
     return (
         <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: 'background.default' }}>
@@ -84,8 +87,34 @@ const Layout = ({ children }) => {
                     })}
                 </List>
 
-                <Box sx={{ mt: 'auto', p: 3 }}>
-                    <Typography variant="caption" sx={{ color: 'grey.600' }}>
+                <Box sx={{ mt: 'auto', p: 2 }}>
+                    <ListItemButton
+                        onClick={async () => {
+                            try {
+                                await signOut();
+                                navigate('/login');
+                            } catch (error) {
+                                console.error('Logout failed', error);
+                            }
+                        }}
+                        sx={{
+                            borderRadius: 2,
+                            color: 'error.light',
+                            bgcolor: 'rgba(211, 47, 47, 0.1)',
+                            mb: 2,
+                            '&:hover': {
+                                bgcolor: 'rgba(211, 47, 47, 0.2)',
+                                color: 'error.main',
+                            },
+                        }}
+                    >
+                        <ListItemIcon sx={{ color: 'inherit', minWidth: 40 }}>
+                            <ExitToAppIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Sign Out" primaryTypographyProps={{ fontWeight: 600 }} />
+                    </ListItemButton>
+
+                    <Typography variant="caption" sx={{ color: 'grey.600', display: 'block', textAlign: 'center' }}>
                         v1.0.0 • MobileSec-MS
                     </Typography>
                 </Box>

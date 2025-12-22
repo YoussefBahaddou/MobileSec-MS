@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { supabase } from '../supabaseClient';
 
 const analysisClient = axios.create({
   baseURL: process.env.REACT_APP_API_URL || 'http://localhost:8083/api',
@@ -18,6 +19,15 @@ analysisClient.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+// Add Request Interceptor to inject Token
+analysisClient.interceptors.request.use(async (config) => {
+  const { data: { session } } = await supabase.auth.getSession();
+  if (session?.access_token) {
+    config.headers.Authorization = `Bearer ${session.access_token}`;
+  }
+  return config;
+});
 
 const reportClient = axios.create({
   baseURL: 'http://localhost:8083',

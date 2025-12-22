@@ -10,6 +10,8 @@ app = FastAPI(title="APK Scanner Service")
 
 app.include_router(scan.router, prefix="/api/scan", tags=["scan"])
 app.include_router(dashboard.router, prefix="/api/dashboard", tags=["dashboard"])
+from app.api.endpoints import analysis
+app.include_router(analysis.router, prefix="/api/analysis", tags=["analysis"])
 
 @app.get("/health")
 def health_check():

@@ -330,7 +330,7 @@ const DashboardPage = () => {
                             </Typography>
                             <Box sx={{ flexGrow: 1, minHeight: 300, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                 {pieData.length > 0 ? (
-                                    <ResponsiveContainer width="100%" height="100%">
+                                    <ResponsiveContainer width="99%" height={300}>
                                         <PieChart>
                                             <Pie
                                                 data={pieData}

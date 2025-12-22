@@ -24,3 +24,4 @@ class APKMetadata(Base):
     uses_cleartext_traffic = Column(Boolean, default=False)
     
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
+    user_id = Column(String, index=True) # Supabase User ID

@@ -3,21 +3,22 @@ from sqlalchemy.orm import Session
 from sqlalchemy import func
 from app.db.session import get_db
 from app.models.metadata import APKMetadata
+from app.api.deps import get_current_user
 from typing import List
 
 router = APIRouter()
 
 @router.get("/stats")
-def get_dashboard_stats(db: Session = Depends(get_db)):
+def get_dashboard_stats(db: Session = Depends(get_db), user_id: str = Depends(get_current_user)):
     """
     Returns aggregated statistics for the dashboard.
     """
     try:
-        total_scans = db.query(APKMetadata).count()
+        total_scans = db.query(APKMetadata).filter(APKMetadata.user_id == user_id).count()
         
         # Simple risk logic based on flags
         # In a real app, this might query a RiskAssessment table
-        scans = db.query(APKMetadata).all()
+        scans = db.query(APKMetadata).filter(APKMetadata.user_id == user_id).all()
         
         high_risk = 0
         medium_risk = 0

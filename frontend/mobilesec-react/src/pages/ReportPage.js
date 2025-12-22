@@ -252,8 +252,8 @@ export default function ReportPage() {
                                         <Typography variant="h6" fontWeight="bold">ML Risk (XGBoost)</Typography>
                                     </Stack>
 
-                                    <Box sx={{ height: 200, position: 'relative' }}>
-                                        <ResponsiveContainer width="100%" height="100%">
+                                    <Box sx={{ height: 200, width: '100%', position: 'relative' }}>
+                                        <ResponsiveContainer width="99%" height={200}>
                                             <PieChart>
                                                 <Pie
                                                     data={[
@@ -309,9 +309,9 @@ export default function ReportPage() {
                             );
                         })()}
 
-                        <Paper variant="outlined" sx={{ p: 3, borderRadius: 3, height: 350 }}>
+                        <Paper variant="outlined" sx={{ p: 3, borderRadius: 3, height: 350, minHeight: 350 }}>
                             <Typography variant="h6" fontWeight="bold" gutterBottom>Vulnerability Types</Typography>
-                            <ResponsiveContainer width="100%" height="85%">
+                            <ResponsiveContainer width="99%" height={270}>
                                 <PieChart>
                                     <Pie data={pieData} innerRadius={60} outerRadius={80} paddingAngle={5} dataKey="value">
                                         {pieData.map((entry, index) => (
@@ -323,9 +323,9 @@ export default function ReportPage() {
                                 </PieChart>
                             </ResponsiveContainer>
                         </Paper>
-                        <Paper variant="outlined" sx={{ p: 3, borderRadius: 3, height: 350 }}>
+                        <Paper variant="outlined" sx={{ p: 3, borderRadius: 3, height: 350, minHeight: 350 }}>
                             <Typography variant="h6" fontWeight="bold" gutterBottom>Severity Distribution</Typography>
-                            <ResponsiveContainer width="100%" height="85%">
+                            <ResponsiveContainer width="99%" height={270}>
                                 <BarChart data={severityData}>
                                     <CartesianGrid strokeDasharray="3 3" />
                                     <XAxis dataKey="name" />

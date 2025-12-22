@@ -1,4 +1,4 @@
-from fastapi import APIRouter, UploadFile, File, Depends, HTTPException
+
 from sqlalchemy.orm import Session
 from app.db.session import get_db
 from app.services.scanner import APKScannerService
@@ -7,6 +7,8 @@ import shutil
 import os
 import uuid
 import aiofiles # Added for async file operations
+from fastapi import APIRouter, UploadFile, File, Depends, HTTPException
+from app.api.deps import get_current_user
 from datetime import datetime # Added for scan_date
 import logging # Added for logging
 
@@ -17,11 +19,11 @@ router = APIRouter()
 
 
 @router.get("/recents")
-def get_recent_scans(limit: int = 10, db: Session = Depends(get_db)):
+def get_recent_scans(limit: int = 10, db: Session = Depends(get_db), user_id: str = Depends(get_current_user)):
     """
-    Returns the most recent scans.
+    Returns the most recent scans for the logged-in user.
     """
-    scans = db.query(APKMetadata).order_by(APKMetadata.created_at.desc()).limit(limit).all()
+    scans = db.query(APKMetadata).filter(APKMetadata.user_id == user_id).order_by(APKMetadata.created_at.desc()).limit(limit).all()
     # Serialize manually if needed, or rely on Pydantic/ORM mode
     return [
         {
@@ -39,7 +41,8 @@ def get_recent_scans(limit: int = 10, db: Session = Depends(get_db)):
 @router.post("/analyze")
 async def analyze_apk(
     file: UploadFile = File(...),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    user_id: str = Depends(get_current_user)
 ):
     # 1. Save uploaded file temporarily
     scan_id = str(uuid.uuid4())
@@ -58,6 +61,7 @@ async def analyze_apk(
         # 3. Save to DB
         metadata = APKMetadata(
             scan_id=scan_id,
+            user_id=user_id,
             file_name=file.filename,
             package_name=results["package_name"],
             version_code=results["version_code"],
@@ -92,8 +96,8 @@ async def analyze_apk(
             os.remove(temp_file)
 
 @router.get("/{scan_id}")
-def get_results(scan_id: str, db: Session = Depends(get_db)):
-    result = db.query(APKMetadata).filter(APKMetadata.scan_id == scan_id).first()
+def get_results(scan_id: str, db: Session = Depends(get_db), user_id: str = Depends(get_current_user)):
+    result = db.query(APKMetadata).filter(APKMetadata.scan_id == scan_id, APKMetadata.user_id == user_id).first()
     if not result:
         raise HTTPException(status_code=404, detail="Scan not found")
     return result
