@@ -1,0 +1,83 @@
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Install the latest PowerShell for new features and improvements! https://aka.ms/PSWindows
+
+PS C:\Users\Youssef> psql -U postgres -h localhost -p 5432
+Password for user postgres:
+
+psql (18.0, server 16.10)
+WARNING: Console code page (850) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+postgres=# /dt
+postgres-# \dt
+               List of tables
+ Schema |      Name      | Type  |  Owner
+--------+----------------+-------+----------
+ public | employer       | table | postgres
+ public | experience     | table | postgres
+ public | jobapplication | table | postgres
+ public | joboffer       | table | postgres
+ public | jobofferskill  | table | postgres
+ public | jobseeker      | table | postgres
+ public | jobseekerskill | table | postgres
+ public | person         | table | postgres
+ public | skill          | table | postgres
+(9 rows)
+
+
+postgres-# CREATE DATABASE mobilesec;+
+ERROR:  syntax error at or near "/"
+LINE 1: /dt
+        ^
+postgres-# CREATE DATABASE mobilesec;
+ERROR:  syntax error at or near "+"
+LINE 1: +
+        ^
+postgres=# CREATE DATABASE mobilesec;
+CREATE DATABASE
+postgres=# \l
+                                                                           List of databases
+         Name          |  Owner   | Encoding | Locale Provider |          Collate           |           Ctype            | Locale | ICU Rules |   Access privileges
+-----------------------+----------+----------+-----------------+----------------------------+----------------------------+--------+-----------+------------------------
+ Gestion-Hotel         | postgres | UTF8     | libc            | English_United States.1252 | English_United States.1252 |        |           |
+ GestionDesReservation | postgres | UTF8     | libc            | English_United States.1252 | English_United States.1252 |        |           |
+ GestionLivreWPF       | postgres | UTF8     | libc            | English_United States.1252 | English_United States.1252 |        |           |
+ Livre                 | postgres | UTF8     | libc            | English_United States.1252 | English_United States.1252 |        |           |
+ Management-Hotel      | postgres | UTF8     | libc            | English_United States.1252 | English_United States.1252 |        |           |
+ PreparingForExam      | postgres | UTF8     | libc            | English_United States.1252 | English_United States.1252 |        |           |
+ TP10                  | postgres | UTF8     | libc            | English_United States.1252 | English_United States.1252 |        |           |
+ benchmark             | postgres | UTF8     | libc            | English_United States.1252 | English_United States.1252 |        |           | =Tc/postgres          +
+                       |          |          |                 |                            |                            |        |           | postgres=CTc/postgres +
+ |        |           | benchuser=CTc/postgres
+(13 rows)
+
+
+postgres=#
+postgres=# \c mobilesec
+psql (18.0, server 16.10)
+You are now connected to database "mobilesec" as user "postgres".
+mobilesec=# CREATE USER mobilesec_user WITH PASSWORD '306542zhf';
+CREATE ROLE
+mobilesec=# GRANT ALL PRIVILEGES ON DATABASE mobilesec TO mobilesec_user;
+GRANT
+mobilesec=# GRANT ALL PRIVILEGES ON SCHEMA public TO mobilesec_user;
+GRANT
+mobilesec=# ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO mobilesec_user;
+ALTER DEFAULT PRIVILEGES
+mobilesec=# ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO mobilesec_user;
+ALTER DEFAULT PRIVILEGES
+mobilesec=# \q
+PS C:\Users\Youssef> psql -U mobilesec_user -h localhost -p 5432 -d mobilesec
+Password for user mobilesec_user:
+
+psql (18.0, server 16.10)
+WARNING: Console code page (850) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+mobilesec=>

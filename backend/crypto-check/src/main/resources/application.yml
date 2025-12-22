@@ -1,0 +1,10 @@
+server:
+  port: 8090
+spring:
+  application:
+    name: crypto-check-service
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: -1
+      max-request-size: -1

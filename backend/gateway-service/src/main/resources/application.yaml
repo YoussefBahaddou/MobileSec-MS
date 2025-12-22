@@ -1,0 +1,75 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      server:
+        webflux:
+          default-filters:
+            - PreserveHostHeader
+          routes:
+            # Microservices Replacement
+            - id: apk-scanner-route
+              uri: http://localhost:8088
+              predicates:
+                - Path=/api/scan/**
+                - Method=GET,POST,OPTIONS
+            - id: secret-hunter-route
+              uri: http://localhost:8089
+              predicates:
+                - Path=/api/secrets/**
+                - Method=GET,POST,OPTIONS
+            - id: crypto-check-route
+              uri: http://localhost:8090
+              predicates:
+                - Path=/api/crypto/**
+                - Method=GET,POST,OPTIONS
+            # Dashboard (Keep pointing to 8082 for now if it aggregates, or 8088 if we moved it?)
+            # The dashboard stats were likely in analysis-service. 
+            # If we kill analysis-service, dashboard breaks. 
+            # For now, I'll keep dashboard pointing to 8082 (assuming user keeps monolith running for stats)
+            # But the 'Upload' and 'Results' are now handled by microservices.
+            - id: dashboard-route
+              uri: http://localhost:8088
+              predicates:
+                - Path=/api/dashboard/**
+                - Method=GET,OPTIONS
+              filters:
+                - StripPrefix=0
+            # Consolidating Analysis Service into APK Scanner (Port 8088)
+            - id: analysis-route
+              uri: http://localhost:8088
+              predicates:
+                - Path=/api/analysis/**
+                - Method=GET,POST,OPTIONS
+              filters:
+                - StripPrefix=0
+            - id: report-service-route
+              uri: http://localhost:8084
+              predicates:
+                - Path=/api/reports/**
+                - Method=GET,POST,OPTIONS
+            - id: report-by-id
+              uri: http://localhost:8084
+              predicates:
+                - Path=/reports/by-id/**
+                - Method=POST
+            - id: network-inspector-route
+              uri: http://localhost:8087
+              predicates:
+                - Path=/api/network/**
+          globalcors:
+            cors-configurations:
+              '[/**]':
+                allowed-origin-patterns:
+                  - "*"
+                allowed-methods:
+                  - GET
+                  - POST
+                  - OPTIONS
+                allowed-headers:
+                  - "*"
+                allow-credentials: false

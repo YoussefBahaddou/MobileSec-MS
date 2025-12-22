@@ -1,0 +1,18 @@
+SUPABASE_URL=https://ibrcdwgyocvqkogxhnqh.supabase.co
+SUPABASE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlicmNkd2d5b2N2cWtvZ3hobnFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI2MTU3NzAsImV4cCI6MjA3ODE5MTc3MH0.zLfcJkmBWdl7HYAzk9-QY7EgbPe81YKPlmWUGN6U4h4
+SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlicmNkd2d5b2N2cWtvZ3hobnFoIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MjYxNTc3MCwiZXhwIjoyMDc4MTkxNzcwfQ.IvlEbrPibnO4cJUaogDzMTaOsjSBR3buV-hGucuyQM8
+
+API_HOST=0.0.0.0
+API_PORT=8000
+API_RELOAD=True
+
+# CORS Origins (comma-separated)
+CORS_ORIGINS=http://localhost:3000
+
+# AI Model Configuration
+MODEL_NAME=sentence-transformers/all-MiniLM-L6-v2
+MODEL_CACHE_DIR=./models
+
+# Recommendation Settings
+MIN_CONFIDENCE_SCORE=0.3
+MAX_RECOMMENDATIONS=10

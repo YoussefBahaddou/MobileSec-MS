@@ -1,0 +1,21 @@
+XHRGET
+http://localhost:8083/api/reports/a12f57ef-5718-4643-9eae-2306a658ad66/pdf?format=PDF
+[HTTP/1.1 500 Internal Server Error 5ms]
+
+Download failed for format PDF: 
+Object { message: "Request failed with status code 500", name: "AxiosError", code: "ERR_BAD_RESPONSE", config: {…}, request: XMLHttpRequest, response: {…}, status: 500, stack: "", … }
+bundle.js:148100:13
+Download failed, attempting to restore report... 
+Object { message: "Request failed with status code 500", name: "AxiosError", code: "ERR_BAD_RESPONSE", config: {…}, request: XMLHttpRequest, response: {…}, status: 500, stack: "", … }
+bundle.js:145565:15
+XHRPOST
+http://localhost:8083/api/reports
+[HTTP/1.1 500 Internal Server Error 9ms]
+
+Failed to save report 
+Object { message: "Request failed with status code 500", name: "AxiosError", code: "ERR_BAD_RESPONSE", config: {…}, request: XMLHttpRequest, response: {…}, status: 500, stack: "", … }
+bundle.js:145535:15
+The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(85%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. 2 bundle.js:130447:17

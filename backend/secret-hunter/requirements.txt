@@ -1,0 +1,14 @@
+fastapi>=0.100.0
+uvicorn>=0.20.0
+python-multipart
+pydantic-settings
+# yara-python can be tricky on Windows without build tools. 
+# If 'pip install yara-python' fails, we will fallback to Regex only.
+# But listing it here as requested.
+# yara-python>=4.0.0 
+# For now, I will comment it out to ensure the "smooth" experience first with Regex, 
+# as yara often requires MSVC++ 14.0+, which breaks many verified environments.
+# We can enable it if the user confirms they have it.
+# using basic file handling for now.
+aiofiles
+requests

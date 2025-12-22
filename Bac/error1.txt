@@ -1,0 +1,143 @@
+Compiled with problems:
+ERROR
+Module build failed (from ./node_modules/babel-loader/lib/index.js):
+SyntaxError: C:\DEV\Project\frontend\mobilesec-react\src\pages\ReportPage.js: Unexpected token, expected "}" (74:52)
+
+  72 |                         <Typography variant="subtitle1" color="text.secondary">MobileSec-MS Automated Scan</Typography>
+  73 |                     </Box>
+> 74 |                     <Chip label={risk} color={color as any} sx={{ fontSize: 18, px: 2, py: 3, borderRadius: 2 }} />
+     |                                                     ^
+  75 |                 </Stack>
+  76 |
+  77 |                 <Divider sx={{ mb: 4 }} />
+    at constructor (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:367:19)
+    at FlowParserMixin.raise (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:6624:19)
+    at FlowParserMixin.unexpected (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:6644:16)
+    at FlowParserMixin.expect (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:6924:12)
+    at FlowParserMixin.jsxParseExpressionContainer (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:4666:10)
+    at FlowParserMixin.jsxParseAttributeValue (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:4633:21)
+    at FlowParserMixin.jsxParseAttribute (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:4682:38)
+    at FlowParserMixin.jsxParseOpeningElementAfterName (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:4696:28)
+    at FlowParserMixin.jsxParseOpeningElementAfterName (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:4097:18)
+    at FlowParserMixin.jsxParseOpeningElementAt (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:4691:17)
+    at FlowParserMixin.jsxParseElementAt (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:4715:33)
+    at FlowParserMixin.jsxParseElementAt (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:4727:32)
+    at FlowParserMixin.jsxParseElementAt (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:4727:32)
+    at FlowParserMixin.jsxParseElementAt (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:4727:32)
+    at FlowParserMixin.jsxParseElement (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:4778:17)
+    at FlowParserMixin.parseExprAtom (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:4788:19)
+    at FlowParserMixin.parseExprSubscripts (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:11145:23)
+    at FlowParserMixin.parseUpdate (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:11130:21)
+    at FlowParserMixin.parseMaybeUnary (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:11110:23)
+    at FlowParserMixin.parseMaybeUnaryOrPrivate (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:10963:61)
+    at FlowParserMixin.parseExprOps (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:10968:23)
+    at FlowParserMixin.parseMaybeConditional (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:10945:23)
+    at FlowParserMixin.parseMaybeAssign (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:10895:21)
+    at C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:3527:39
+    at FlowParserMixin.tryParse (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:6932:20)
+    at FlowParserMixin.parseMaybeAssign (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:3527:18)
+    at C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:10864:39
+    at FlowParserMixin.allowInAnd (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:12500:12)
+    at FlowParserMixin.parseMaybeAssignAllowIn (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:10864:17)
+    at FlowParserMixin.parseMaybeAssignAllowInOrVoidPattern (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:12567:17)
+    at FlowParserMixin.parseParenAndDistinguishExpression (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:11747:28)
+    at FlowParserMixin.parseParenAndDistinguishExpression (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:3620:18)
+    at FlowParserMixin.parseExprAtom (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:11395:23)
+    at FlowParserMixin.parseExprAtom (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:4793:20)
+    at FlowParserMixin.parseExprSubscripts (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:11145:23)
+    at FlowParserMixin.parseUpdate (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:11130:21)
+    at FlowParserMixin.parseMaybeUnary (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:11110:23)
+    at FlowParserMixin.parseMaybeUnaryOrPrivate (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:10963:61)
+    at FlowParserMixin.parseExprOps (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:10968:23)
+    at FlowParserMixin.parseMaybeConditional (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:10945:23)
+    at FlowParserMixin.parseMaybeAssign (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:10895:21)
+    at FlowParserMixin.parseMaybeAssign (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:3578:18)
+    at FlowParserMixin.parseExpressionBase (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:10848:23)
+    at C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:10844:39
+    at FlowParserMixin.allowInAnd (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:12495:16)
+    at FlowParserMixin.parseExpression (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:10844:17)
+    at FlowParserMixin.parseReturnStatement (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:13218:28)
+    at FlowParserMixin.parseStatementContent (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:12874:21)
+    at FlowParserMixin.parseStatementLike (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:12843:17)
+    at FlowParserMixin.parseStatementLike (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:2945:24)
+./src/pages/ReportPage.js@http://localhost:3001/static/js/bundle.js:144271:7
+options.factory@http://localhost:3001/static/js/bundle.js:146533:30
+__webpack_require__@http://localhost:3001/static/js/bundle.js:145901:32
+fn@http://localhost:3001/static/js/bundle.js:146149:21
+hotRequire@http://localhost:3001/static/js/bundle.js:146516:61
+./src/App.js@http://localhost:3001/static/js/bundle.js:139954:95
+options.factory@http://localhost:3001/static/js/bundle.js:146533:30
+__webpack_require__@http://localhost:3001/static/js/bundle.js:145901:32
+fn@http://localhost:3001/static/js/bundle.js:146149:21
+hotRequire@http://localhost:3001/static/js/bundle.js:146516:61
+./src/index.js@http://localhost:3001/static/js/bundle.js:140998:81
+options.factory@http://localhost:3001/static/js/bundle.js:146533:30
+__webpack_require__@http://localhost:3001/static/js/bundle.js:145901:32
+@http://localhost:3001/static/js/bundle.js:147137:56
+@http://localhost:3001/static/js/bundle.js:147139:12
+ERROR in ./src/pages/ReportPage.js
+Module build failed (from ./node_modules/babel-loader/lib/index.js):
+SyntaxError: C:\DEV\Project\frontend\mobilesec-react\src\pages\ReportPage.js: Unexpected token, expected "}" (74:52)
+
+  72 |                         <Typography variant="subtitle1" color="text.secondary">MobileSec-MS Automated Scan</Typography>
+  73 |                     </Box>
+> 74 |                     <Chip label={risk} color={color as any} sx={{ fontSize: 18, px: 2, py: 3, borderRadius: 2 }} />
+     |                                                     ^
+  75 |                 </Stack>
+  76 |
+  77 |                 <Divider sx={{ mb: 4 }} />
+    at constructor (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:367:19)
+    at FlowParserMixin.raise (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:6624:19)
+    at FlowParserMixin.unexpected (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:6644:16)
+    at FlowParserMixin.expect (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:6924:12)
+    at FlowParserMixin.jsxParseExpressionContainer (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:4666:10)
+    at FlowParserMixin.jsxParseAttributeValue (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:4633:21)
+    at FlowParserMixin.jsxParseAttribute (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:4682:38)
+    at FlowParserMixin.jsxParseOpeningElementAfterName (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:4696:28)
+    at FlowParserMixin.jsxParseOpeningElementAfterName (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:4097:18)
+    at FlowParserMixin.jsxParseOpeningElementAt (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:4691:17)
+    at FlowParserMixin.jsxParseElementAt (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:4715:33)
+    at FlowParserMixin.jsxParseElementAt (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:4727:32)
+    at FlowParserMixin.jsxParseElementAt (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:4727:32)
+    at FlowParserMixin.jsxParseElementAt (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:4727:32)
+    at FlowParserMixin.jsxParseElement (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:4778:17)
+    at FlowParserMixin.parseExprAtom (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:4788:19)
+    at FlowParserMixin.parseExprSubscripts (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:11145:23)
+    at FlowParserMixin.parseUpdate (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:11130:21)
+    at FlowParserMixin.parseMaybeUnary (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:11110:23)
+    at FlowParserMixin.parseMaybeUnaryOrPrivate (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:10963:61)
+    at FlowParserMixin.parseExprOps (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:10968:23)
+    at FlowParserMixin.parseMaybeConditional (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:10945:23)
+    at FlowParserMixin.parseMaybeAssign (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:10895:21)
+    at C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:3527:39
+    at FlowParserMixin.tryParse (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:6932:20)
+    at FlowParserMixin.parseMaybeAssign (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:3527:18)
+    at C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:10864:39
+    at FlowParserMixin.allowInAnd (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:12500:12)
+    at FlowParserMixin.parseMaybeAssignAllowIn (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:10864:17)
+    at FlowParserMixin.parseMaybeAssignAllowInOrVoidPattern (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:12567:17)
+    at FlowParserMixin.parseParenAndDistinguishExpression (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:11747:28)
+    at FlowParserMixin.parseParenAndDistinguishExpression (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:3620:18)
+    at FlowParserMixin.parseExprAtom (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:11395:23)
+    at FlowParserMixin.parseExprAtom (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:4793:20)
+    at FlowParserMixin.parseExprSubscripts (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:11145:23)
+    at FlowParserMixin.parseUpdate (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:11130:21)
+    at FlowParserMixin.parseMaybeUnary (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:11110:23)
+    at FlowParserMixin.parseMaybeUnaryOrPrivate (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:10963:61)
+    at FlowParserMixin.parseExprOps (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:10968:23)
+    at FlowParserMixin.parseMaybeConditional (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:10945:23)
+    at FlowParserMixin.parseMaybeAssign (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:10895:21)
+    at FlowParserMixin.parseMaybeAssign (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:3578:18)
+    at FlowParserMixin.parseExpressionBase (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:10848:23)
+    at C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:10844:39
+    at FlowParserMixin.allowInAnd (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:12495:16)
+    at FlowParserMixin.parseExpression (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:10844:17)
+    at FlowParserMixin.parseReturnStatement (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:13218:28)
+    at FlowParserMixin.parseStatementContent (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:12874:21)
+    at FlowParserMixin.parseStatementLike (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:12843:17)
+    at FlowParserMixin.parseStatementLike (C:\DEV\Project\frontend\mobilesec-react\node_modules\@babel\parser\lib\index.js:2945:24)
+ERROR
+[eslint] 
+src\pages\ReportPage.js
+  Line 74:52:  Parsing error: Unexpected token, expected "}" (74:52)
+
