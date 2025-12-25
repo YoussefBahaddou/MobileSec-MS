@@ -61,9 +61,5 @@ public class ScanController {
             return ResponseEntity.badRequest().body(Map.of("error", "No code or file provided"));
         }
 
-        return ResponseEntity.ok(Map.of(
-                "status", "completed",
-                "findings_count", findings.size(),
-                "findings", findings));
     }
 }
