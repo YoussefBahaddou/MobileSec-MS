@@ -1,0 +1,1742 @@
+Started by user admin
+Obtained Jenkinsfile from git https://github.com/YoussefBahaddou/MobileSec-MS.git
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+The recommended git tool is: git.exe
+No credentials specified
+ > git.exe rev-parse --resolve-git-dir C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\.git # timeout=10
+Fetching changes from the remote Git repository
+ > git.exe config remote.origin.url https://github.com/YoussefBahaddou/MobileSec-MS.git # timeout=10
+Fetching upstream changes from https://github.com/YoussefBahaddou/MobileSec-MS.git
+ > git.exe --version # timeout=10
+ > git --version # 'git version 2.42.0.windows.2'
+ > git.exe fetch --tags --force --progress -- https://github.com/YoussefBahaddou/MobileSec-MS.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git.exe rev-parse "refs/remotes/origin/CI-CD-Pipleline^{commit}" # timeout=10
+Checking out Revision 15206c5450af377a89c18abff0695232f7652ea7 (refs/remotes/origin/CI-CD-Pipleline)
+ > git.exe config core.sparsecheckout # timeout=10
+ > git.exe checkout -f 15206c5450af377a89c18abff0695232f7652ea7 # timeout=10
+Commit message: "Upgrade Dockerfiles to use Java 21 to match pom.xml"
+ > git.exe rev-list --no-walk 22549c857da335feb19ef3dc6f4a0f5ab004201f # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Checkout)
+[Pipeline] git
+The recommended git tool is: git.exe
+No credentials specified
+ > git.exe rev-parse --resolve-git-dir C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\.git # timeout=10
+Fetching changes from the remote Git repository
+ > git.exe config remote.origin.url https://github.com/YoussefBahaddou/MobileSec-MS # timeout=10
+Fetching upstream changes from https://github.com/YoussefBahaddou/MobileSec-MS
+ > git.exe --version # timeout=10
+ > git --version # 'git version 2.42.0.windows.2'
+ > git.exe fetch --tags --force --progress -- https://github.com/YoussefBahaddou/MobileSec-MS +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git.exe rev-parse "refs/remotes/origin/CI-CD-Pipleline^{commit}" # timeout=10
+Checking out Revision 15206c5450af377a89c18abff0695232f7652ea7 (refs/remotes/origin/CI-CD-Pipleline)
+ > git.exe config core.sparsecheckout # timeout=10
+ > git.exe checkout -f 15206c5450af377a89c18abff0695232f7652ea7 # timeout=10
+ > git.exe branch -a -v --no-abbrev # timeout=10
+ > git.exe branch -D CI-CD-Pipleline # timeout=10
+ > git.exe checkout -b CI-CD-Pipleline 15206c5450af377a89c18abff0695232f7652ea7 # timeout=10
+Commit message: "Upgrade Dockerfiles to use Java 21 to match pom.xml"
+[Pipeline] echo
+Checked out CI-CD-Pipleline successfully!
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Cleanup)
+[Pipeline] bat
+
+C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD>call docker-compose down --volumes --remove-orphans   || echo No containers to remove 
+time="2025-12-25T19:45:42+01:00" level=warning msg="C:\\Users\\Youssef\\AppData\\Local\\Jenkins\\.jenkins\\workspace\\MobileSec-CD\\docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build & Test Backend (Java))
+[Pipeline] script
+[Pipeline] {
+[Pipeline] dir
+Running in C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\gateway-service
+[Pipeline] {
+[Pipeline] echo
+Building backend/gateway-service...
+[Pipeline] bat
+
+C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\gateway-service>mvn clean package -DskipTests 
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------------< com.mobilesec:getaway-service >--------------------
+[INFO] Building com.getaway.service 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.4.1:clean (default-clean) @ getaway-service ---
+[INFO] Deleting C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\gateway-service\target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ getaway-service ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ getaway-service ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 5 source files with javac [debug parameters release 21] to target\classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ getaway-service ---
+[INFO] skip non existing resourceDirectory C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\gateway-service\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ getaway-service ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 1 source file with javac [debug parameters release 21] to target\test-classes
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ getaway-service ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ getaway-service ---
+[INFO] Building jar: C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\gateway-service\target\getaway-service-0.0.1-SNAPSHOT.jar
+[INFO] 
+[INFO] --- spring-boot:3.5.7:repackage (repackage) @ getaway-service ---
+[INFO] Replacing main artifact C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\gateway-service\target\getaway-service-0.0.1-SNAPSHOT.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\gateway-service\target\getaway-service-0.0.1-SNAPSHOT.jar.original
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  7.624 s
+[INFO] Finished at: 2025-12-25T19:45:52+01:00
+[INFO] ------------------------------------------------------------------------
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] dir
+Running in C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\crypto-check
+[Pipeline] {
+[Pipeline] echo
+Building backend/crypto-check...
+[Pipeline] bat
+
+C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\crypto-check>mvn clean package -DskipTests 
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------< com.mobilesec:crypto-check >---------------------
+[INFO] Building crypto-check 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.4.1:clean (default-clean) @ crypto-check ---
+[INFO] Deleting C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\crypto-check\target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ crypto-check ---
+[INFO] Copying 2 resources from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ crypto-check ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 4 source files with javac [debug parameters release 21] to target\classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ crypto-check ---
+[INFO] skip non existing resourceDirectory C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\crypto-check\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ crypto-check ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 1 source file with javac [debug parameters release 21] to target\test-classes
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ crypto-check ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ crypto-check ---
+[INFO] Building jar: C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\crypto-check\target\crypto-check-0.0.1-SNAPSHOT.jar
+[INFO] 
+[INFO] --- spring-boot:3.5.8:repackage (repackage) @ crypto-check ---
+[INFO] Replacing main artifact C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\crypto-check\target\crypto-check-0.0.1-SNAPSHOT.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\crypto-check\target\crypto-check-0.0.1-SNAPSHOT.jar.original
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  8.830 s
+[INFO] Finished at: 2025-12-25T19:46:03+01:00
+[INFO] ------------------------------------------------------------------------
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] dir
+Running in C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\ReportGen
+[Pipeline] {
+[Pipeline] echo
+Building backend/ReportGen...
+[Pipeline] bat
+
+C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\ReportGen>mvn clean package -DskipTests 
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------------< com.mobilesec:reportgen >-----------------------
+[INFO] Building reportgen 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.4.1:clean (default-clean) @ reportgen ---
+[INFO] Deleting C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\ReportGen\target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ reportgen ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ reportgen ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 13 source files with javac [debug parameters release 21] to target\classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ reportgen ---
+[INFO] skip non existing resourceDirectory C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\ReportGen\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ reportgen ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 1 source file with javac [debug parameters release 21] to target\test-classes
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ reportgen ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ reportgen ---
+[INFO] Building jar: C:\Users\Youssef
+
+
+...etc...
+
+
+52 kB
+Progress (5): 2.0/2.0 MB | 0.3/1.4 MB | 0.8/9.0 MB | 20/126 kB | 61/152 kB
+Progress (5): 2.0/2.0 MB | 0.3/1.4 MB | 0.8/9.0 MB | 20/126 kB | 61/152 kB
+Progress (5): 2.0/2.0 MB | 0.3/1.4 MB | 0.8/9.0 MB | 20/126 kB | 61/152 kB
+Progress (5): 2.0/2.0 MB | 0.3/1.4 MB | 0.8/9.0 MB | 20/126 kB | 61/152 kB
+Progress (5): 2.0/2.0 MB | 0.3/1.4 MB | 0.8/9.0 MB | 20/126 kB | 77/152 kB
+Progress (5): 2.0/2.0 MB | 0.3/1.4 MB | 0.9/9.0 MB | 20/126 kB | 77/152 kB
+Progress (5): 2.0/2.0 MB | 0.3/1.4 MB | 0.9/9.0 MB | 20/126 kB | 93/152 kB
+Progress (5): 2.0/2.0 MB | 0.3/1.4 MB | 0.9/9.0 MB | 20/126 kB | 110/152 kB
+Progress (5): 2.0/2.0 MB | 0.3/1.4 MB | 0.9/9.0 MB | 20/126 kB | 126/152 kB
+Progress (5): 2.0/2.0 MB | 0.3/1.4 MB | 0.9/9.0 MB | 20/126 kB | 142/152 kB
+Progress (5): 2.0/2.0 MB | 0.3/1.4 MB | 0.9/9.0 MB | 20/126 kB | 142/152 kB
+Progress (5): 2.0/2.0 MB | 0.3/1.4 MB | 0.9/9.0 MB | 20/126 kB | 142/152 kB
+Progress (5): 2.0/2.0 MB | 0.3/1.4 MB | 0.9/9.0 MB | 20/126 kB | 152 kB    
+                                                                       
+Downloaded from central: https://repo.maven.apache.org/maven2/org/junit/platform/junit-platform-commons/1.12.2/junit-platform-commons-1.12.2.jar (152 kB at 7.3 kB/s)
+#56 67.46 Downloading from central: https://repo.maven.apache.org/maven2/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar
+#56 67.47 Progress (4): 2.0/2.0 MB | 0.3/1.4 MB | 0.9/9.0 MB | 37/126 kB
+Progress (4): 2.0/2.0 MB | 0.3/1.4 MB | 0.9/9.0 MB | 37/126 kB
+Progress (4): 2.0/2.0 MB | 0.3/1.4 MB | 0.9/9.0 MB | 37/126 kB
+Progress (4): 2.0/2.0 MB | 0.3/1.4 MB | 0.9/9.0 MB | 37/126 kB
+Progress (4): 2.0/2.0 MB | 0.3/1.4 MB | 0.9/9.0 MB | 53/126 kB
+Progress (4): 2.0/2.0 MB | 0.3/1.4 MB | 0.9/9.0 MB | 53/126 kB
+Progress (4): 2.0/2.0 MB | 0.3/1.4 MB | 0.9/9.0 MB | 53/126 kB
+Progress (5): 2.0/2.0 MB | 0.3/1.4 MB | 0.9/9.0 MB | 53/126 kB | 4.0/6.8 kB
+Progress (5): 2.0/2.0 MB | 0.3/1.4 MB | 0.9/9.0 MB | 69/126 kB | 4.0/6.8 kB
+Progress (5): 2.0/2.0 MB | 0.3/1.4 MB | 0.9/9.0 MB | 69/126 kB | 4.0/6.8 kB
+Progress (5): 2.0/2.0 MB | 0.3/1.4 MB | 0.9/9.0 MB | 69/126 kB | 6.8 kB    
+                                                                       
+Downloaded from central: https://repo.maven.apache.org/maven2/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar (6.8 kB at 326 B/s)
+#56 67.64 Downloading from central: https://repo.maven.apache.org/maven2/org/junit/jupiter/junit-jupiter-params/5.12.2/junit-jupiter-params-5.12.2.jar
+#56 67.71 Progress (4): 2.0/2.0 MB | 0.4/1.4 MB | 0.9/9.0 MB | 69/126 kB
+Progress (4): 2.0/2.0 MB | 0.4/1.4 MB | 0.9/9.0 MB | 69/126 kB
+Progress (4): 2.0/2.0 MB | 0.4/1.4 MB | 0.9/9.0 MB | 86/126 kB
+Progress (4): 2.0/2.0 MB | 0.4/1.4 MB | 0.9/9.0 MB | 86/126 kB
+Progress (4): 2.0/2.0 MB | 0.4/1.4 MB | 0.9/9.0 MB | 86/126 kB
+Progress (4): 2.0/2.0 MB | 0.4/1.4 MB | 1.0/9.0 MB | 86/126 kB
+Progress (4): 2.0/2.0 MB | 0.4/1.4 MB | 1.0/9.0 MB | 102/126 kB
+Progress (4): 2.0/2.0 MB | 0.4/1.4 MB | 1.0/9.0 MB | 102/126 kB
+Progress (4): 2.0/2.0 MB | 0.4/1.4 MB | 1.0/9.0 MB | 119/126 kB
+Progress (4): 2.0/2.0 MB | 0.4/1.4 MB | 1.0/9.0 MB | 119/126 kB
+Progress (5): 2.0/2.0 MB | 0.4/1.4 MB | 1.0/9.0 MB | 119/126 kB | 7.7/602 kB
+Progress (5): 2.0/2.0 MB | 0.4/1.4 MB | 1.0/9.0 MB | 119/126 kB | 16/602 kB 
+Progress (5): 2.0/2.0 MB | 0.4/1.4 MB | 1.0/9.0 MB | 126 kB | 16/602 kB    
+                                                                       
+Downloaded from central: https://repo.maven.apache.org/maven2/org/hamcrest/hamcrest/3.0/hamcrest-3.0.jar (126 kB at 6.0 kB/s)
+#56 68.00 Downloading from central: https://repo.maven.apache.org/maven2/org/junit/jupiter/junit-jupiter-engine/5.12.2/junit-jupiter-engine-5.12.2.jar
+#56 68.01 Progress (4): 2.0/2.0 MB | 0.4/1.4 MB | 1.0/9.0 MB | 16/602 kB
+Progress (4): 2.0/2.0 MB | 0.4/1.4 MB | 1.0/9.0 MB | 16/602 kB
+Progress (4): 2.0/2.0 MB | 0.4/1.4 MB | 1.0/9.0 MB | 32/602 kB
+Progress (4): 2.0/2.0 MB | 0.4/1.4 MB | 1.0/9.0 MB | 32/602 kB
+Progress (4): 2.0/2.0 MB | 0.4/1.4 MB | 1.0/9.0 MB | 32/602 kB
+Progress (4): 2.0/2.0 MB | 0.4/1.4 MB | 1.0/9.0 MB | 49/602 kB
+Progress (4): 2.0/2.0 MB | 0.5/1.4 MB | 1.0/9.0 MB | 49/602 kB
+Progress (4): 2.0/2.0 MB | 0.5/1.4 MB | 1.0/9.0 MB | 53/602 kB
+Progress (4): 2.0/2.0 MB | 0.5/1.4 MB | 1.0/9.0 MB | 53/602 kB
+Progress (4): 2.0/2.0 MB | 0.5/1.4 MB | 1.0/9.0 MB | 53/602 kB
+Progress (4): 2.0/2.0 MB | 0.5/1.4 MB | 1.0/9.0 MB | 70/602 kB
+Progress (4): 2.0/2.0 MB | 0.5/1.4 MB | 1.0/9.0 MB | 70/602 kB
+Progress (4): 2.0/2.0 MB | 0.5/1.4 MB | 1.0/9.0 MB | 70/602 kB
+Progress (4): 2.0/2.0 MB | 0.5/1.4 MB | 1.0/9.0 MB | 70/602 kB
+Progress (4): 2.0/2.0 MB | 0.5/1.4 MB | 1.1/9.0 MB | 70/602 kB
+Progress (4): 2.0/2.0 MB | 0.5/1.4 MB | 1.1/9.0 MB | 70/602 kB
+Progress (4): 2.0/2.0 MB | 0.5/1.4 MB | 1.1/9.0 MB | 70/602 kB
+Progress (4): 2.0 MB | 0.5/1.4 MB | 1.1/9.0 MB | 70/602 kB    
+                                                          
+Downloaded from central: https://repo.maven.apache.org/maven2/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar (2.0 MB at 93 kB/s)
+#56 68.70 Downloading from central: https://repo.maven.apache.org/maven2/org/junit/platform/junit-platform-engine/1.12.2/junit-platform-engine-1.12.2.jar
+#56 68.75 Progress (3): 0.5/1.4 MB | 1.1/9.0 MB | 70/602 kB
+Progress (3): 0.5/1.4 MB | 1.1/9.0 MB | 70/602 kB
+Progress (3): 0.5/1.4 MB | 1.1/9.0 MB | 70/602 kB
+Progress (3): 0.5/1.4 MB | 1.1/9.0 MB | 70/602 kB
+Progress (4): 0.5/1.4 MB | 1.1/9.0 MB | 70/602 kB | 7.7/292 kB
+Progress (4): 0.5/1.4 MB | 1.1/9.0 MB | 70/602 kB | 16/292 kB 
+Progress (5): 0.5/1.4 MB | 1.1/9.0 MB | 70/602 kB | 16/292 kB | 7.7/256 kB
+Progress (5): 0.5/1.4 MB | 1.1/9.0 MB | 70/602 kB | 16/292 kB | 16/256 kB 
+Progress (5): 0.5/1.4 MB | 1.1/9.0 MB | 70/602 kB | 16/292 kB | 16/256 kB
+Progress (5): 0.5/1.4 MB | 1.1/9.0 MB | 70/602 kB | 16/292 kB | 25/256 kB
+Progress (5): 0.6/1.4 MB | 1.1/9.0 MB | 70/602 kB | 16/292 kB | 25/256 kB
+Progress (5): 0.6/1.4 MB | 1.1/9.0 MB | 70/602 kB | 25/292 kB | 25/256 kB
+Progress (5): 0.6/1.4 MB | 1.1/9.0 MB | 86/602 kB | 25/292 kB | 25/256 kB
+Progress (5): 0.6/1.4 MB | 1.1/9.0 MB | 86/602 kB | 41/292 kB | 25/256 kB
+
+
+...etc...
+
+Progress (4): 0.1/1.4 MB | 0.2/2.0 MB | 44/373 kB | 0/1.1 MB
+Progress (4): 0.1/1.4 MB | 0.2/2.0 MB | 44/373 kB | 0.1/1.1 MB
+Progress (4): 0.1/1.4 MB | 0.2/2.0 MB | 61/373 kB | 0.1/1.1 MB
+Progress (4): 0.1/1.4 MB | 0.2/2.0 MB | 61/373 kB | 0.1/1.1 MB
+Progress (4): 0.1/1.4 MB | 0.2/2.0 MB | 61/373 kB | 0.1/1.1 MB
+Progress (4): 0.1/1.4 MB | 0.2/2.0 MB | 61/373 kB | 0.1/1.1 MB
+Progress (4): 0.1/1.4 MB | 0.2/2.0 MB | 61/373 kB | 0.1/1.1 MB
+Progress (4): 0.1/1.4 MB | 0.2/2.0 MB | 61/373 kB | 0.1/1.1 MB
+Progress (4): 0.1/1.4 MB | 0.2/2.0 MB | 61/373 kB | 0.1/1.1 MB
+Progress (4): 0.1/1.4 MB | 0.2/2.0 MB | 61/373 kB | 0.1/1.1 MB
+Progress (4): 0.1/1.4 MB | 0.2/2.0 MB | 77/373 kB | 0.1/1.1 MB
+Progress (4): 0.1/1.4 MB | 0.2/2.0 MB | 77/373 kB | 0.1/1.1 MB
+Progress (4): 0.1/1.4 MB | 0.2/2.0 MB | 93/373 kB | 0.1/1.1 MB
+Progress (4): 0.2/1.4 MB | 0.2/2.0 MB | 93/373 kB | 0.1/1.1 MB
+Progress (4): 0.2/1.4 MB | 0.2/2.0 MB | 93/373 kB | 0.1/1.1 MB
+Progress (4): 0.2/1.4 MB | 0.2/2.0 MB | 93/373 kB | 0.1/1.1 MB
+Progress (4): 0.2/1.4 MB | 0.2/2.0 MB | 93/373 kB | 0.1/1.1 MB
+Progress (4): 0.2/1.4 MB | 0.2/2.0 MB | 110/373 kB | 0.1/1.1 MB
+Progress (4): 0.2/1.4 MB | 0.2/2.0 MB | 110/373 kB | 0.2/1.1 MB
+Progress (4): 0.2/1.4 MB | 0.2/2.0 MB | 126/373 kB | 0.2/1.1 MB
+Progress (4): 0.2/1.4 MB | 0.2/2.0 MB | 126/373 kB | 0.2/1.1 MB
+Progress (4): 0.2/1.4 MB | 0.2/2.0 MB | 126/373 kB | 0.2/1.1 MB
+Progress (4): 0.2/1.4 MB | 0.2/2.0 MB | 126/373 kB | 0.2/1.1 MB
+Progress (4): 0.2/1.4 MB | 0.2/2.0 MB | 126/373 kB | 0.2/1.1 MB
+Progress (4): 0.2/1.4 MB | 0.3/2.0 MB | 126/373 kB | 0.2/1.1 MB
+Progress (4): 0.2/1.4 MB | 0.3/2.0 MB | 142/373 kB | 0.2/1.1 MB
+Progress (4): 0.2/1.4 MB | 0.3/2.0 MB | 142/373 kB | 0.2/1.1 MB
+Progress (4): 0.2/1.4 MB | 0.3/2.0 MB | 142/373 kB | 0.2/1.1 MB
+Progress (4): 0.2/1.4 MB | 0.3/2.0 MB | 142/373 kB | 0.2/1.1 MB
+Progress (4): 0.2/1.4 MB | 0.3/2.0 MB | 159/373 kB | 0.2/1.1 MB
+Progress (4): 0.2/1.4 MB | 0.3/2.0 MB | 159/373 kB | 0.2/1.1 MB
+Progress (4): 0.2/1.4 MB | 0.3/2.0 MB | 175/373 kB | 0.2/1.1 MB
+Progress (4): 0.2/1.4 MB | 0.3/2.0 MB | 175/373 kB | 0.2/1.1 MB
+Progress (4): 0.2/1.4 MB | 0.3/2.0 MB | 175/373 kB | 0.2/1.1 MB
+Progress (4): 0.2/1.4 MB | 0.3/2.0 MB | 175/373 kB | 0.2/1.1 MB
+Progress (4): 0.2/1.4 MB | 0.3/2.0 MB | 175/373 kB | 0.2/1.1 MB
+Progress (4): 0.2/1.4 MB | 0.3/2.0 MB | 175/373 kB | 0.3/1.1 MB
+Progress (4): 0.2/1.4 MB | 0.3/2.0 MB | 175/373 kB | 0.3/1.1 MB
+Progress (4): 0.2/1.4 MB | 0.3/2.0 MB | 175/373 kB | 0.3/1.1 MB
+Progress (4): 0.2/1.4 MB | 0.3/2.0 MB | 192/373 kB | 0.3/1.1 MB
+Progress (4): 0.2/1.4 MB | 0.3/2.0 MB | 192/373 kB | 0.3/1.1 MB
+Progress (4): 0.2/1.4 MB | 0.3/2.0 MB | 192/373 kB | 0.3/1.1 MB
+Progress (4): 0.2/1.4 MB | 0.3/2.0 MB | 192/373 kB | 0.3/1.1 MB
+Progress (4): 0.2/1.4 MB | 0.3/2.0 MB | 192/373 kB | 0.3/1.1 MB
+Progress (4): 0.2/1.4 MB | 0.3/2.0 MB | 208/373 kB | 0.3/1.1 MB
+Progress (4): 0.2/1.4 MB | 0.4/2.0 MB | 208/373 kB | 0.3/1.1 MB
+Progress (4): 0.2/1.4 MB | 0.4/2.0 MB | 208/373 kB | 0.3/1.1 MB
+Progress (4): 0.2/1.4 MB | 0.4/2.0 MB | 208/373 kB | 0.3/1.1 MB
+Progress (4): 0.2/1.4 MB | 0.4/2.0 MB | 208/373 kB | 0.3/1.1 MB
+Progress (4): 0.2/1.4 MB | 0.4/2.0 MB | 208/373 kB | 0.3/1.1 MB
+Progress (4): 0.3/1.4 MB | 0.4/2.0 MB | 208/373 kB | 0.3/1.1 MB
+Progress (4): 0.3/1.4 MB | 0.4/2.0 MB | 208/373 kB | 0.3/1.1 MB
+Progress (4): 0.3/1.4 MB | 0.4/2.0 MB | 224/373 kB | 0.3/1.1 MB
+Progress (4): 0.3/1.4 MB | 0.4/2.0 MB | 224/373 kB | 0.3/1.1 MB
+Progress (4): 0.3/1.4 MB | 0.4/2.0 MB | 224/373 kB | 0.3/1.1 MB
+Progress (4): 0.3/1.4 MB | 0.4/2.0 MB | 224/373 kB | 0.3/1.1 MB
+Progress (4): 0.3/1.4 MB | 0.4/2.0 MB | 224/373 kB | 0.3/1.1 MB
+Progress (4): 0.3/1.4 MB | 0.4/2.0 MB | 224/373 kB | 0.3/1.1 MB
+Progress (4): 0.3/1.4 MB | 0.4/2.0 MB | 241/373 kB | 0.3/1.1 MB
+Progress (4): 0.3/1.4 MB | 0.5/2.0 MB | 241/373 kB | 0.3/1.1 MB
+Progress (4): 0.3/1.4 MB | 0.5/2.0 MB | 241/373 kB | 0.3/1.1 MB
+Progress (4): 0.3/1.4 MB | 0.5/2.0 MB | 241/373 kB | 0.3/1.1 MB
+Progress (4): 0.3/1.4 MB | 0.5/2.0 MB | 241/373 kB | 0.3/1.1 MB
+Progress (4): 0.3/1.4 MB | 0.5/2.0 MB | 241/373 kB | 0.4/1.1 MB
+Progress (4): 0.3/1.4 MB | 0.5/2.0 MB | 241/373 kB | 0.4/1.1 MB
+Progress (4): 0.3/1.4 MB | 0.5/2.0 MB | 241/373 kB | 0.4/1.1 MB
+Progress (4): 0.3/1.4 MB | 0.5/2.0 MB | 257/373 kB | 0.4/1.1 MB
+Progress (4): 0.3/1.4 MB | 0.5/2.0 MB | 257/373 kB | 0.4/1.1 MB
+Progress (4): 0.3/1.4 MB | 0.5/2.0 MB | 257/373 kB | 0.4/1.1 MB
+Progress (4): 0.3/1.4 MB | 0.5/2.0 MB | 274/373 kB | 0.4/1.1 MB
+Progress (4): 0.3/1.4 MB | 0.5/2.0 MB | 274/373 kB | 0.4/1.1 MB
+Progress (4): 0.3/1.4 MB | 0.5/2.0 MB | 274/373 kB | 0.4/1.1 MB
+Progress (4): 0.3/1.4 MB | 0.5/2.0 MB | 290/373 kB | 0.4/1.1 MB
+Progress (4): 0.3/1.4 MB | 0.5/2.0 MB | 306/373 kB | 0.4/1.1 MB
+Progress (4): 0.3/1.4 MB | 0.5/2.0 MB | 306/373 kB | 0.4/1.1 MB
+Progress (4): 0.3/1.4 MB | 0.5/2.0 MB | 306/373 kB | 0.4/1.1 MB
+Progress (4): 0.3/1.4 MB | 0.5/2.0 MB | 323/373 kB | 0.4/1.1 MB
+Progress (4): 0.3/1.4 MB | 0.5/2.0 MB | 323/373 kB | 0.4/1.1 MB
+Progress (4): 0.3/1.4 MB | 0.5/2.0 MB | 323/373 kB | 0.4/1.1 MB
+Progress (4): 0.3/1.4 MB | 0.5/2.0 MB | 323/373 kB | 0.4/1.1 MB
+Progress (4): 0.3/1.4 MB | 0.5/2.0 MB | 339/373 kB | 0.4/1.1 MB
+Progress (4): 0.3/1.4 MB | 0.6/2.0 MB | 339/373 kB | 0.4/1.1 MB
+Progress (4): 0.4/1.4 MB | 0.6/2.0 MB | 339/373 kB | 0.4/1.1 MB
+Progress (4): 0.4/1.4 MB | 0.6/2.0 MB | 355/373 kB | 0.4/1.1 MB
+Progress (4): 0.4/1.4 MB | 0.6/2.0 MB | 372/373 kB | 0.4/1.1 MB
+Progress (4): 0.4/1.4 MB | 0.6/2.0 MB | 373 kB | 0.4/1.1 MB    
+                                                           
+Downloaded from central: https://repo.maven.apache.org/maven2/commons-codec/commons-codec/1.17.1/commons-codec-1.17.1.jar (373 kB at 991 kB/s)
+#53 149.4 Downloading from central: https://repo.maven.apache.org/maven2/org/apache/commons/commons-lang3/3.16.0/commons-lang3-3.16.0.jar
+#53 149.4 Progress (3): 0.4/1.4 MB | 0.6/2.0 MB | 0.4/1.1 MB
+Progress (3): 0.4/1.4 MB | 0.6/2.0 MB | 0.4/1.1 MB
+Progress (3): 0.4/1.4 MB | 0.6/2.0 MB | 0.4/1.1 MB
+Progress (3): 0.4/1.4 MB | 0.6/2.0 MB | 0.4/1.1 MB
+
+...etc...
+
+): 0.6/1.4 MB | 0.8/2.0 MB | 0.7/1.1 MB | 20/323 kB | 90/674 kB
+Progress (5): 0.6/1.4 MB | 0.8/2.0 MB | 0.7/1.1 MB | 20/323 kB | 90/674 kB
+Progress (5): 0.6/1.4 MB | 0.8/2.0 MB | 0.7/1.1 MB | 20/323 kB | 90/674 kB
+Progress (5): 0.6/1.4 MB | 0.8/2.0 MB | 0.7/1.1 MB | 20/323 kB | 90/674 kB
+Progress (5): 0.7/1.4 MB | 0.8/2.0 MB | 0.7/1.1 MB | 20/323 kB | 90/674 kB
+Progress (5): 0.7/1.4 MB | 0.8/2.0 MB | 0.7/1.1 MB | 20/323 kB | 90/674 kB
+Progress (5): 0.7/1.4 MB | 0.8/2.0 MB | 0.7/1.1 MB | 20/323 kB | 90/674 kB
+Progress (5): 0.7/1.4 MB | 0.8/2.0 MB | 0.7/1.1 MB | 20/323 kB | 106/674 kB
+Progress (5): 0.7/1.4 MB | 0.9/2.0 MB | 0.7/1.1 MB | 20/323 kB | 106/674 kB
+Progress (5): 0.7/1.4 MB | 0.9/2.0 MB | 0.7/1.1 MB | 20/323 kB | 106/674 kB
+Progress (5): 0.7/1.4 MB | 0.9/2.0 MB | 0.7/1.1 MB | 20/323 kB | 106/674 kB
+Progress (5): 0.7/1.4 MB | 0.9/2.0 MB | 0.7/1.1 MB | 20/323 kB | 115/674 kB
+Progress (5): 0.7/1.4 MB | 0.9/2.0 MB | 0.7/1.1 MB | 20/323 kB | 115/674 kB
+Progress (5): 0.7/1.4 MB | 0.9/2.0 MB | 0.7/1.1 MB | 20/323 kB | 115/674 kB
+Progress (5): 0.7/1.4 MB | 0.9/2.0 MB | 0.7/1.1 MB | 20/323 kB | 131/674 kB
+Progress (5): 0.7/1.4 MB | 0.9/2.0 MB | 0.7/1.1 MB | 20/323 kB | 131/674 kB
+Progress (5): 0.7/1.4 MB | 0.9/2.0 MB | 0.7/1.1 MB | 20/323 kB | 147/674 kB
+Progress (5): 0.7/1.4 MB | 0.9/2.0 MB | 0.7/1.1 MB | 20/323 kB | 147/674 kB
+Progress (5): 0.7/1.4 MB | 0.9/2.0 MB | 0.7/1.1 MB | 20/323 kB | 147/674 kB
+Progress (5): 0.7/1.4 MB | 0.9/2.0 MB | 0.7/1.1 MB | 20/323 kB | 164/674 kB
+Progress (5): 0.7/1.4 MB | 0.9/2.0 MB | 0.7/1.1 MB | 20/323 kB | 164/674 kB
+Progress (5): 0.7/1.4 MB | 0.9/2.0 MB | 0.7/1.1 MB | 20/323 kB | 164/674 kB
+Progress (5): 0.7/1.4 MB | 0.9/2.0 MB | 0.7/1.1 MB | 20/323 kB | 164/674 kB
+Progress (5): 0.7/1.4 MB | 0.9/2.0 MB | 0.7/1.1 MB | 20/323 kB | 164/674 kB
+Progress (5): 0.7/1.4 MB | 0.9/2.0 MB | 0.7/1.1 MB | 20/323 kB | 180/674 kB
+Progress (5): 0.7/1.4 MB | 0.9/2.0 MB | 0.7/1.1 MB | 20/323 kB | 180/674 kB
+Progress (5): 0.7/1.4 MB | 0.9/2.0 MB | 0.8/1.1 MB | 20/323 kB | 180/674 kB
+Progress (5): 0.7/1.4 MB | 0.9/2.0 MB | 0.8/1.1 MB | 20/323 kB | 197/674 kB
+Progress (5): 0.7/1.4 MB | 0.9/2.0 MB | 0.8/1.1 MB | 20/323 kB | 197/674 kB
+Progress (5): 0.7/1.4 MB | 0.9/2.0 MB | 0.8/1.1 MB | 20/323 kB | 197/674 kB
+Progress (5): 0.8/1.4 MB | 0.9/2.0 MB | 0.8/1.1 MB | 20/323 kB | 197/674 kB
+Progress (5): 0.8/1.4 MB | 0.9/2.0 MB | 0.8/1.1 MB | 20/323 kB | 213/674 kB
+Progress (5): 0.8/1.4 MB | 0.9/2.0 MB | 0.8/1.1 MB | 20/323 kB | 213/674 kB
+Progress (5): 0.8/1.4 MB | 1.0/2.0 MB | 0.8/1.1 MB | 20/323 kB | 213/674 kB
+Progress (5): 0.8/1.4 MB | 1.0/2.0 MB | 0.8/1.1 MB | 20/323 kB | 213/674 kB
+Progress (5): 0.8/1.4 MB | 1.0/2.0 MB | 0.8/1.1 MB | 20/323 kB | 213/674 kB
+Progress (5): 0.8/1.4 MB | 1.0/2.0 MB | 0.8/1.1 MB | 20/323 kB | 229/674 kB
+Progress (5): 0.8/1.4 MB | 1.0/2.0 MB | 0.8/1.1 MB | 20/323 kB | 229/674 kB
+Progress (5): 0.8/1.4 MB | 1.0/2.0 MB | 0.8/1.1 MB | 20/323 kB | 246/674 kB
+Progress (5): 0.8/1.4 MB | 1.0/2.0 MB | 0.8/1.1 MB | 20/323 kB | 246/674 kB
+Progress (5): 0.8/1.4 MB | 1.0/2.0 MB | 0.8/1.1 MB | 20/323 kB | 246/674 kB
+Progress (5): 0.8/1.4 MB | 1.0/2.0 MB | 0.8/1.1 MB | 20/323 kB | 246/674 kB
+Progress (5): 0.8/1.4 MB | 1.0/2.0 MB | 0.8/1.1 MB | 20/323 kB | 246/674 kB
+Progress (5): 0.8/1.4 MB | 1.0/2.0 MB | 0.8/1.1 MB | 20/323 kB | 262/674 kB
+Progress (5): 0.8/1.4 MB | 1.0/2.0 MB | 0.8/1.1 MB | 20/323 kB | 262/674 kB
+Progress (5): 0.8/1.4 MB | 1.0/2.0 MB | 0.9/1.1 MB | 20/323 kB | 262/674 kB
+Progress (5): 0.8/1.4 MB | 1.0/2.0 MB | 0.9/1.1 MB | 20/323 kB | 262/674 kB
+Progress (5): 0.8/1.4 MB | 1.0/2.0 MB | 0.9/1.1 MB | 20/323 kB | 279/674 kB
+Progress (5): 0.8/1.4 MB | 1.0/2.0 MB | 0.9/1.1 MB | 20/323 kB | 279/674 kB
+Progress (5): 0.8/1.4 MB | 1.0/2.0 MB | 0.9/1.1 MB | 20/323 kB | 279/674 kB
+Progress (5): 0.8/1.4 MB | 1.0/2.0 MB | 0.9/1.1 MB | 20/323 kB | 279/674 kB
+Progress (5): 0.8/1.4 MB | 1.0/2.0 MB | 0.9/1.1 MB | 20/323 kB | 279/674 kB
+Progress (5): 0.8/1.4 MB | 1.0/2.0 MB | 0.9/1.1 MB | 20/323 kB | 279/674 kB
+Progress (5): 0.8/1.4 MB | 1.0/2.0 MB | 0.9/1.1 MB | 20/323 kB | 295/674 kB
+Progress (5): 0.8/1.4 MB | 1.0/2.0 MB | 0.9/1.1 MB | 20/323 kB | 295/674 kB
+Progress (5): 0.8/1.4 MB | 1.0/2.0 MB | 0.9/1.1 MB | 20/323 kB | 295/674 kB
+Progress (5): 0.9/1.4 MB | 1.0/2.0 MB | 0.9/1.1 MB | 20/323 kB | 295/674 kB
+Progress (5): 0.9/1.4 MB | 1.0/2.0 MB | 0.9/1.1 MB | 20/323 kB | 311/674 kB
+Progress (5): 0.9/1.4 MB | 1.0/2.0 MB | 0.9/1.1 MB | 20/323 kB | 311/674 kB
+Progress (5): 0.9/1.4 MB | 1.0/2.0 MB | 0.9/1.1 MB | 20/323 kB | 328/674 kB
+Progress (5): 0.9/1.4 MB | 1.0/2.0 MB | 0.9/1.1 MB | 20/323 kB | 328/674 kB
+Progress (5): 0.9/1.4 MB | 1.0/2.0 MB | 0.9/1.1 MB | 20/323 kB | 344/674 kB
+Progress (5): 0.9/1.4 MB | 1.1/2.0 MB | 0.9/1.1 MB | 20/323 kB | 344/674 kB
+Progress (5): 0.9/1.4 MB | 1.1/2.0 MB | 0.9/1.1 MB | 20/323 kB | 344/674 kB
+Progress (5): 0.9/1.4 MB | 1.1/2.0 MB | 0.9/1.1 MB | 20/323 kB | 360/674 kB
+Progress (5): 0.9/1.4 MB | 1.1/2.0 MB | 0.9/1.1 MB | 20/323 kB | 360/674 kB
+Progress (5): 0.9/1.4 MB | 1.1/2.0 MB | 0.9/1.1 MB | 20/323 kB | 377/674 kB
+Progress (5): 0.9/1.4 MB | 1.1/2.0 MB | 0.9/1.1 MB | 20/323 kB | 377/674 kB
+Progress (5): 0.9/1.4 MB | 1.1/2.0 MB | 0.9/1.1 MB | 20/323 kB | 393/674 kB
+Progress (5): 0.9/1.4 MB | 1.1/2.0 MB | 0.9/1.1 MB | 20/323 kB | 393/674 kB
+Progress (5): 0.9/1.4 MB | 1.1/2.0 MB | 0.9/1.1 MB | 37/323 kB | 393/674 kB
+Progress (5): 0.9/1.4 MB | 1.1/2.0 MB | 1.0/1.1 MB | 37/323 kB | 393/674 kB
+Progress (5): 0.9/1.4 MB | 1.1/2.0 MB | 1.0/1.1 MB | 37/323 kB | 393/674 kB
+Progress (5): 0.9/1.4 MB | 1.1/2.0 MB | 1.0/1.1 MB | 37/323 kB | 393/674 kB
+Progress (5): 0.9/1.4 MB | 1.1/2.0 MB | 1.0/1.1 MB | 37/323 kB | 410/674 kB
+Progress (5): 0.9/1.4 MB | 1.1/2.0 MB | 1.0/1.1 MB | 37/323 kB | 426/674 kB
+Progress (5): 0.9/1.4 MB | 1.1/2.0 MB | 1.0/1.1 MB | 37/323 kB | 426/674 kB
+Progress (5): 0.9/1.4 MB | 1.1/2.0 MB | 1.0/1.1 MB | 37/323 kB | 442/674 kB
+Progress (5): 0.9/1.4 MB | 1.1/2.0 MB | 1.0/1.1 MB | 37/323 kB | 442/674 kB
+Progress (5): 0.9/1.4 MB | 1.1/2.0 MB | 1.0/1.1 MB | 37/323 kB | 442/674 kB
+Progress (5): 0.9/1.4 MB | 1.1/2.0 MB | 1.0/1.1 MB | 37/323 kB | 442/674 kB
+Progress (5): 0.9/1.4 MB | 1.1/2.0 MB | 1.0/1.1 MB | 53/323 kB | 442/674 kB
+Progress (5): 0.9/1.4 MB | 1.1/2.0 MB | 1.0/1.1 MB | 53/323 kB | 442/674 kB
+Progress (5): 0.9/1.4 MB | 1.1/2.0 MB | 1.0/1.1 MB | 70/323 kB | 442/674 kB
+Progress (5): 0.9/1.4 MB | 1.1/2.0 MB | 1.0/1.1 MB | 70/323 kB | 442/674 kB
+Progress (5): 0.9/1.4 MB | 1.1/2.0 MB | 1.0/1.1 MB | 70/323 kB | 459/674 kB
+Progress (5): 0.9/1.4 MB | 1.2/2.0 MB | 1.0/1.1 MB | 70/323 kB | 459/674 kB
+Progress (5): 0.9/1.4 MB | 1.2/2.0 MB | 1.0/1.1 MB | 70/323 kB | 459/674 kB
+Progress (5): 0.9/1.4 MB | 1.2/2.0 MB | 1.0/1.1 MB | 70/323 kB | 475/674 kB
+Progress (5): 0.9/1.4 MB | 1.2/2.0 MB | 1.0/1.1 MB | 70/323 kB | 492/674 kB
+Progress (5): 0.9/1.4 MB | 1.2/2.0 MB | 1.0/1.1 MB | 70/323 kB | 492/674 kB
+Progress (5): 0.9/1.4 MB | 1.2/2.0 MB | 1.0/1.1 MB | 70/323 kB | 492/674 kB
+Progress (5): 0.9/1.4 MB | 1.2/2.0 MB | 1.0/1.1 MB | 70/323 kB | 492/674 kB
+Progress (5): 0.9/1.4 MB | 1.2/2.0 MB | 1.0/1.1 MB | 70/323 kB | 492/674 kB
+Progress (5): 1.0/1.4 MB | 1.2/2.0 MB | 1.0/1.1 MB | 70/323 kB | 492/674 kB
+Progress (5): 1.0/1.4 MB | 1.2/2.0 MB | 1.0/1.1 MB | 70/323 kB | 508/674 kB
+Progress (5): 1.0/1.4 MB | 1.2/2.0 MB | 1.0/1.1 MB | 70/323 kB | 508/674 kB
+Progress (5): 1.0/1.4 MB | 1.2/2.0 MB | 1.0/1.1 MB | 70/323 kB | 524/674 kB
+Progress (5): 1.0/1.4 MB | 1.2/2.0 MB | 1.0/1.1 MB | 70/323 kB | 524/674 kB
+Progress (5): 1.0/1.4 MB | 1.2/2.0 MB | 1.0/1.1 MB | 70/323 kB | 524/674 kB
+Progress (5): 1.0/1.4 MB | 1.2/2.0 MB | 1.0/1.1 MB | 70/323 kB | 541/674 kB
+Progress (5): 1.0/1.4 MB | 1.2/2.0 MB | 1.1/1.1 MB | 70/323 kB | 541/674 kB
+Progress (5): 1.0/1.4 MB | 1.2/2.0 MB | 1.1/1.1 MB | 70/323 kB | 557/674 kB
+Progress (5): 1.0/1.4 MB | 1.2/2.0 MB | 1.1/1.1 MB | 70/323 kB | 557/674 kB
+Progress (5): 1.0/1.4 MB | 1.2/2.0 MB | 1.1/1.1 MB | 70/323 kB | 573/674 kB
+Progress (5): 1.0/1.4 MB | 1.2/2.0 MB | 1.1/1.1 MB | 70/323 kB | 573/674 kB
+Progress (5): 1.0/1.4 MB | 1.2/2.0 MB | 1.1/1.1 MB | 70/323 kB | 573/674 kB
+Progress (5): 1.0/1.4 MB | 1.2/2.0 MB | 1.1/1.1 MB | 70/323 kB | 573/674 kB
+Progress (5): 1.0/1.4 MB | 1.2/2.0 MB | 1.1/1.1 MB | 70/323 kB | 573/674 kB
+Progress (5): 1.0/1.4 MB | 1.2/2.0 MB | 1.1 MB | 70/323 kB | 573/674 kB    
+Progress (5): 1.0/1.4 MB | 1.2/2.0 MB | 1.1 MB | 70/323 kB | 590/674 kB
+                                                                       
+Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/commons/commons-compress/1.27.1/commons-compress-1.27.1.jar (1.1 MB at 1.3 MB/s)
+#53 149.9 Downloading from central: https://repo.maven.apache.org/maven2/org/apache/httpcomponents/client5/httpclient5/5.5.1/httpclient5-5.5.1.jar
+#53 149.9 Progress (4): 1.0/1.4 MB | 1.2/2.0 MB | 70/323 kB | 590/674 kB
+Progress (4): 1.0/1.4 MB | 1.2/2.0 MB | 70/323 kB | 590/674 kB
+Progress (4): 1.0/1.4 MB | 1.2/2.0 MB | 70/323 kB | 590/674 kB
+Progress (4): 1.0/1.4 MB | 1.2/2.0 MB | 70/323 kB | 606/674 kB
+Progress (4): 1.0/1.4 MB | 1.2/2.0 MB | 70/323 kB | 623/674 kB
+Progress (4): 1.0/1.4 MB | 1.3/2.0 MB | 70/323 kB | 623/674 kB
+Progress (4): 1.0/1.4 MB | 1.3/2.0 MB | 70/323 kB | 623/674 kB
+Progress (4): 1.1/1.4 MB | 1.3/2.0 MB | 70/323 kB | 623/674 kB
+Progress (4): 1.1/1.4 MB | 1.3/2.0 MB | 70/323 kB | 623/674 kB
+Progress (4): 1.1/1.4 MB | 1.3/2.0 MB | 70/323 kB | 623/674 kB
+Progress (4): 1.1/1.4 MB | 1.3/2.0 MB | 70/323 kB | 623/674 kB
+Progress (4): 1.1/1.4 MB | 1.3/2.0 MB | 70/323 kB | 623/674 kB
+Progress (4): 1.1/1.4 MB | 1.3/2.0 MB | 70/323 kB | 639/674 kB
+Progress (4): 1.1/1.4 MB | 1.3/2.0 MB | 70/323 kB | 655/674 kB
+Progress (4): 1.1/1.4 MB | 1.3/2.0 MB | 70/323 kB | 672/674 kB
+Progress (4): 1.1/1.4 MB | 1.3/2.0 MB | 70/323 kB | 674 kB    
+                                                          
+Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/commons/commons-lang3/3.16.0/commons-lang3-3.16.0.jar (674 kB at 774 kB/s)
+#53 149.9 Downloading from central: https://repo.maven.apache.org/maven2/org/apache/httpcomponents/core5/httpcore5/5.3.6/httpcore5-5.3.6.jar
+#53 149.9 Progress (3): 1.1/1.4 MB | 1.3/2.0 MB | 70/323 kB
+Progress (3): 1.1/1.4 MB | 1.3/2.0 MB | 70/323 kB
+Progress (3): 1.1/1.4 MB | 1.3/2.0 MB | 70/323 kB
+Progress (3): 1.1/1.4 MB | 1.3/2.0 MB | 70/323 kB
+Progress (3): 1.1/1.4 MB | 1.3/2.0 MB | 70/323 kB
+Progress (3): 1.2/1.4 MB | 1.3/2.0 MB | 70/323 kB
+Progress (3): 1.2/1.4 MB | 1.3/2.0 MB | 70/323 kB
+Progress (3): 1.2/1.4 MB | 1.3/2.0 MB | 70/323 kB
+Progress (3): 1.2/1.4 MB | 1.4/2.0 MB | 70/323 kB
+Progress (3): 1.2/1.4 MB | 1.4/2.0 MB | 70/323 kB
+Progress (3): 1.2/1.4 MB | 1.4/2.0 MB | 70/323 kB
+Progress (3): 1.2/1.4 MB | 1.4/2.0 MB | 70/323 kB
+Progress (3): 1.2/1.4 MB | 1.4/2.0 MB | 70/323 kB
+Progress (3): 1.2/1.4 MB | 1.4/2.0 MB | 70/323 kB
+Progress (3): 1.2/1.4 MB | 1.4/2.0 MB | 70/323 kB
+Progress (3): 1.2/1.4 MB | 1.4/2.0 MB | 70/323 kB
+Progress (3): 1.2/1.4 MB | 1.4/2.0 MB | 70/323 kB
+Progress (3): 1.3/1.4 MB | 1.4/2.0 MB | 70/323 kB
+Progress (3): 1.3/1.4 MB | 1.4/2.0 MB | 70/323 kB
+Progress (3): 1.3/1.4 MB | 1.4/2.0 MB | 70/323 kB
+Progress (3): 1.3/1.4 MB | 1.5/2.0 MB | 70/323 kB
+Progress (3): 1.3/1.4 MB | 1.5/2.0 MB | 70/323 kB
+Progress (3): 1.3/1.4 MB | 1.5/2.0 MB | 70/323 kB
+Progress (3): 1.3/1.4 MB | 1.5/2.0 MB | 70/323 kB
+Progress (3): 1.3/1.4 MB | 1.5/2.0 MB | 70/323 kB
+Progress (3): 1.3/1.4 MB | 1.5/2.0 MB | 70/323 kB
+Progress (3): 1.3/1.4 MB | 1.5/2.0 MB | 70/323 kB
+Progress (3): 1.3/1.4 MB | 1.5/2.0 MB | 70/323 kB
+Progress (3): 1.3/1.4 MB | 1.5/2.0 MB | 70/323 kB
+Progress (3): 1.3/1.4 MB | 1.6/2.0 MB | 70/323 kB
+Progress (3): 1.3/1.4 MB | 1.6/2.0 MB | 70/323 kB
+Progress (3): 1.4/1.4 MB | 1.6/2.0 MB | 70/323 kB
+Progress (3): 1.4/1.4 MB | 1.6/2.0 MB | 70/323 kB
+Progress (3): 1.4/1.4 MB | 1.6/2.0 MB | 70/323 kB
+Progress (3): 1.4 MB | 1.6/2.0 MB | 70/323 kB    
+                                             
+Downloaded from central: https://repo.maven.apache.org/maven2/net/java/dev/jna/jna-platform/5.17.0/jna-platform-5.17.0.jar (1.4 MB at 1.5 MB/s)
+#53 150.0 Downloading from central: https://repo.maven.apache.org/maven2/org/apache/httpcomponents/core5/httpcore5-h2/5.3.6/httpcore5-h2-5.3.6.jar
+#53 150.0 Progress (2): 1.6/2.0 MB | 70/323 kB
+Progress (3): 1.6/2.0 MB | 70/323 kB | 7.7/959 kB
+Progress (3): 1.6/2.0 MB | 70/323 kB | 16/959 kB 
+Progress (3): 1.6/2.0 MB | 70/323 kB | 16/959 kB
+Progress (3): 1.6/2.0 MB | 70/323 kB | 28/959 kB
+Progress (3): 1.6/2.0 MB | 70/323 kB | 28/959 kB
+Progress (3): 1.6/2.0 MB | 70/323 kB | 28/959 kB
+Progress (3): 1.7/2.0 MB | 70/323 kB | 28/959 kB
+#53 ...
+
+#61 [gateway-service stage-1 3/3] COPY --from=build /app/target/*.jar app.jar
+#61 DONE 0.5s
+
+#53 [report-service build 5/5] RUN mvn clean package -DskipTests
+#53 150.0 Progress (2): 1.6/2.0 MB | 70/323 kB
+Progress (3): 1.6/2.0 MB | 70/323 kB | 7.7/959 kB
+Progress (3): 1.6/2.0 MB | 70/323 kB | 16/959 kB 
+Progress (3): 1.6/2.0 MB | 70/323 kB | 16/959 kB
+Progress (3): 1.6/2.0 MB | 70/323 kB | 28/959 kB
+Progress (3): 1.6/2.0 MB | 70/323 kB | 28/959 kB
+Progress (3): 1.6/2.0 MB | 70/323 kB | 28/959 kB
+Progress (3): 1.7/2.0 MB | 70/323 kB | 28/959 kB
+Progress (3): 1.7/2.0 MB | 70/323 kB | 44/959 kB
+Progress (3): 1.7/2.0 MB | 70/323 kB | 61/959 kB
+Progress (3): 1.7/2.0 MB | 70/323 kB | 77/959 kB
+Progress (3): 1.7/2.0 MB | 70/323 kB | 77/959 kB
+Progress (3): 1.7/2.0 MB | 70/323 kB | 77/959 kB
+Progress (3): 1.7/2.0 MB | 70/323 kB | 93/959 kB
+Progress (4): 1.7/2.0 MB | 70/323 kB | 93/959 kB | 7.7/909 kB
+Progress (4): 1.7/2.0 MB | 70/323 kB | 93/959 kB | 16/909 kB 
+Progress (4): 1.7/2.0 MB | 70/323 kB | 93/959 kB | 16/909 kB
+Progress (4): 1.7/2.0 MB | 70/323 kB | 93/959 kB | 25/909 kB
+Progress (4): 1.7/2.0 MB | 70/323 kB | 93/959 kB | 25/909 kB
+Progress (4): 1.7/2.0 MB | 70/323 kB | 110/959 kB | 25/909 kB
+Progress (4): 1.7/2.0 MB | 70/323 kB | 110/959 kB | 25/909 kB
+Progress (4): 1.7/2.0 MB | 70/323 kB | 126/959 kB | 25/909 kB
+Progress (4): 1.8/2.0 MB | 70/323 kB | 126/959 kB | 25/909 kB
+Progress (4): 1.8/2.0 MB | 70/323 kB | 142/959 kB | 25/909 kB
+Progress (4): 1.8/2.0 MB | 70/323 kB | 142/959 kB | 25/909 kB
+Progress (4): 1.8/2.0 MB | 70/323 kB | 142/959 kB | 41/909 kB
+Progress (4): 1.8/2.0 MB | 70/323 kB | 159/959 kB | 41/909 kB
+Progress (4): 1.8/2.0 MB | 70/323 kB | 159/959 kB | 57/909 kB
+Progress (4): 1.8/2.0 MB | 70/323 kB | 159/959 kB | 57/909 kB
+Progress (4): 1.8/2.0 MB | 70/323 kB | 175/959 kB | 57/909 kB
+Progress (4): 1.8/2.0 MB | 70/323 kB | 175/959 kB | 74/909 kB
+Progress (4): 1.8/2.0 MB | 70/323 kB | 192/959 kB | 74/909 kB
+Progress (4): 1.8/2.0 MB | 70/323 kB | 192/959 kB | 74/909 kB
+Progress (4): 1.8/2.0 MB | 70/323 kB | 192/959 kB | 74/909 kB
+Progress (4): 1.8/2.0 MB | 70/323 kB | 208/959 kB | 74/909 kB
+Progress (4): 1.8/2.0 MB | 70/323 kB | 208/959 kB | 90/909 kB
+Progress (4): 1.8/2.0 MB | 70/323 kB | 208/959 kB | 106/909 kB
+Progress (4): 1.8/2.0 MB | 70/323 kB | 224/959 kB | 106/909 kB
+Progress (4): 1.8/2.0 MB | 70/323 kB | 224/959 kB | 123/909 kB
+Progress (4): 1.8/2.0 MB | 70/323 kB | 224/959 kB | 139/909 kB
+Progress (4): 1.8/2.0 MB | 70/323 kB | 224/959 kB | 156/909 kB
+Progress (4): 1.8/2.0 MB | 70/323 kB | 241/959 kB | 156/909 kB
+Progress (4): 1.8/2.0 MB | 70/323 kB | 241/959 kB | 156/909 kB
+Progress (4): 1.9/2.0 MB | 70/323 kB | 241/959 kB | 156/909 kB
+Progress (4): 1.9/2.0 MB | 70/323 kB | 241/959 kB | 172/909 kB
+Progress (4): 1.9/2.0 MB | 70/323 kB | 257/959 kB | 172/909 kB
+Progress (4): 1.9/2.0 MB | 70/323 kB | 257/959 kB | 188/909 kB
+Progress (4): 1.9/2.0 MB | 70/323 kB | 274/959 kB | 188/909 kB
+Progress (4): 1.9/2.0 MB | 70/323 kB | 274/959 kB | 188/909 kB
+Progress (4): 1.9/2.0 MB | 70/323 kB | 274/959 kB | 205/909 kB
+Progress (4): 1.9/2.0 MB | 70/323 kB | 274/959 kB | 205/909 kB
+Progress (4): 1.9/2.0 MB | 70/323 kB | 290/959 kB | 205/909 kB
+Progress (4): 1.9/2.0 MB | 70/323 kB | 290/959 kB | 221/909 kB
+Progress (4): 1.9/2.0 MB | 70/323 kB | 306/959 kB | 221/909 kB
+Progress (4): 1.9/2.0 MB | 70/323 kB | 306/959 kB | 238/909 kB
+Progress (4): 1.9/2.0 MB | 70/323 kB | 306/959 kB | 238/909 kB
+Progress (4): 1.9/2.0 MB | 70/323 kB | 306/959 kB | 238/909 kB
+Progress (4): 1.9/2.0 MB | 70/323 kB | 323/959 kB | 238/909 kB
+Progress (4): 1.9/2.0 MB | 70/323 kB | 339/959 kB | 238/909 kB
+Progress (4): 1.9/2.0 MB | 70/323 kB | 339/959 kB | 254/909 kB
+Progress (4): 1.9/2.0 MB | 70/323 kB | 339/959 kB | 254/909 kB
+Progress (4): 1.9/2.0 MB | 70/323 kB | 355/959 kB | 254/909 kB
+Progress (4): 1.9/2.0 MB | 70/323 kB | 355/959 kB | 254/909 kB
+Progress (4): 1.9/2.0 MB | 70/323 kB | 355/959 kB | 270/909 kB
+Progress (4): 1.9/2.0 MB | 70/323 kB | 355/959 kB | 287/909 kB
+Progress (4): 2.0/2.0 MB | 70/323 kB | 355/959 kB | 287/909 kB
+Progress (4): 2.0/2.0 MB | 70/323 kB | 355/959 kB | 287/909 kB
+Progress (4): 2.0/2.0 MB | 70/323 kB | 355/959 kB | 303/909 kB
+Progress (4): 2.0/2.0 MB | 70/323 kB | 355/959 kB | 303/909 kB
+Progress (4): 2.0 MB | 70/323 kB | 355/959 kB | 303/909 kB    
+Progress (4): 2.0 MB | 70/323 kB | 372/959 kB | 303/909 kB
+Progress (5): 2.0 MB | 70/323 kB | 372/959 kB | 303/909 kB | 7.7/243 kB
+Progress (5): 2.0 MB | 70/323 kB | 372/959 kB | 303/909 kB | 16/243 kB 
+                                                                      
+Downloaded from central: https://repo.maven.apache.org/maven2/net/java/dev/jna/jna/5.17.0/jna-5.17.0.jar (2.0 MB at 1.9 MB/s)
+#53 150.1 Downloading from central: https://repo.maven.apache.org/maven2/org/tomlj/tomlj/1.0.0/tomlj-1.0.0.jar
+#53 150.1 Progress (4): 70/323 kB | 372/959 kB | 319/909 kB | 16/243 kB
+Progress (4): 70/323 kB | 388/959 kB | 319/909 kB | 16/243 kB
+Progress (4): 70/323 kB | 388/959 kB | 336/909 kB | 16/243 kB
+Progress (4): 70/323 kB | 388/959 kB | 352/909 kB | 16/243 kB
+Progress (4): 70/323 kB | 388/959 kB | 352/909 kB | 25/243 kB
+Progress (4): 70/323 kB | 388/959 kB | 369/909 kB | 25/243 kB
+Progress (4): 70/323 kB | 405/959 kB | 369/909 kB | 25/243 kB
+Progress (4): 70/323 kB | 405/959 kB | 385/909 kB | 25/243 kB
+Progress (4): 70/323 kB | 421/959 kB | 385/909 kB | 25/243 kB
+Progress (4): 70/323 kB | 437/959 kB | 385/909 kB | 25/243 kB
+Progress (4): 70/323 kB | 437/959 kB | 385/909 kB | 41/243 kB
+Progress (4): 70/323 kB | 437/959 kB | 401/909 kB | 41/243 kB
+Progress (4): 70/323 kB | 437/959 kB | 418/909 kB | 41/243 kB
+Progress (4): 70/323 kB | 437/959 kB | 418/909 kB | 57/243 kB
+Progress (4): 70/323 kB | 437/959 kB | 434/909 kB | 57/243 kB
+Progress (4): 70/323 kB | 437/959 kB | 451/909 kB | 57/243 kB
+Progress (4): 70/323 kB | 454/959 kB | 451/909 kB | 57/243 kB
+Progress (4): 70/323 kB | 454/959 kB | 467/909 kB | 57/243 kB
+Progress (4): 70/323 kB | 470/959 kB | 467/909 kB | 57/243 kB
+Progress (4): 70/323 kB | 487/959 kB | 467/909 kB | 57/243 kB
+Progress (4): 70/323 kB | 487/959 kB | 483/909 kB | 57/243 kB
+Progress (4): 70/323 kB | 503/959 kB | 483/909 kB | 57/243 kB
+Progress (4): 70/323 kB | 503/959 kB | 483/909 kB | 74/243 kB
+Progress (4): 70/323 kB | 503/959 kB | 500/909 kB | 74/243 kB
+Progress (4): 70/323 kB | 519/959 kB | 500/909 kB | 74/243 kB
+Progress (4): 70/323 kB | 519/959 kB | 516/909 kB | 74/243 kB
+Progress (4): 70/323 kB | 519/959 kB | 532/909 kB | 74/243 kB
+Progress (4): 70/323 kB | 519/959 kB | 532/909 kB | 90/243 kB
+Progress (4): 70/323 kB | 536/959 kB | 532/909 kB | 90/243 kB
+Progress (4): 70/323 kB | 536/959 kB | 549/909 kB | 90/243 kB
+Progress (4): 70/323 kB | 552/959 kB | 549/909 kB | 90/243 kB
+Progress (4): 70/323 kB | 552/959 kB | 565/909 kB | 90/243 kB
+Progress (4): 70/323 kB | 568/959 kB | 565/909 kB | 90/243 kB
+Progress (4): 70/323 kB | 568/959 kB | 565/909 kB | 106/243 kB
+Progress (4): 70/323 kB | 585/959 kB | 565/909 kB | 106/243 kB
+Progress (4): 70/323 kB | 585/959 kB | 582/909 kB | 106/243 kB
+Progress (4): 70/323 kB | 601/959 kB | 582/909 kB | 106/243 kB
+Progress (4): 70/323 kB | 601/959 kB | 598/909 kB | 106/243 kB
+Progress (4): 70/323 kB | 601/959 kB | 598/909 kB | 123/243 kB
+Progress (4): 70/323 kB | 618/959 kB | 598/909 kB | 123/243 kB
+Progress (4): 70/323 kB | 618/959 kB | 614/909 kB | 123/243 kB
+Progress (4): 70/323 kB | 618/959 kB | 631/909 kB | 123/243 kB
+Progress (4): 70/323 kB | 634/959 kB | 631/909 kB | 123/243 kB
+Progress (4): 70/323 kB | 634/959 kB | 647/909 kB | 123/243 kB
+Progress (4): 70/323 kB | 634/959 kB | 647/909 kB | 139/243 kB
+Progress (4): 70/323 kB | 634/959 kB | 664/909 kB | 139/243 kB
+Progress (4): 70/323 kB | 650/959 kB | 664/909 kB | 139/243 kB
+Progress (4): 70/323 kB | 650/959 kB | 680/909 kB | 139/243 kB
+Progress (4): 70/323 kB | 667/959 kB | 680/909 kB | 139/243 kB
+Progress (4): 70/323 kB | 683/959 kB | 680/909 kB | 139/243 kB
+Progress (4): 70/323 kB | 683/959 kB | 680/909 kB | 156/243 kB
+Progress (4): 70/323 kB | 683/959 kB | 696/909 kB | 156/243 kB
+Progress (4): 70/323 kB | 683/959 kB | 696/909 kB | 172/243 kB
+Progress (4): 70/323 kB | 683/959 kB | 713/909 kB | 172/243 kB
+Progress (4): 70/323 kB | 699/959 kB | 713/909 kB | 172/243 kB
+Progress (4): 70/323 kB | 699/959 kB | 729/909 kB | 172/243 kB
+Progress (4): 70/323 kB | 716/959 kB | 729/909 kB | 172/243 kB
+Progress (4): 70/323 kB | 732/959 kB | 729/909 kB | 172/243 kB
+Progress (4): 70/323 kB | 732/959 kB | 745/909 kB | 172/243 kB
+Progress (4): 70/323 kB | 732/959 kB | 745/909 kB | 188/243 kB
+Progress (4): 70/323 kB | 749/959 kB | 745/909 kB | 188/243 kB
+Progress (4): 70/323 kB | 749/959 kB | 762/909 kB | 188/243 kB
+Progress (4): 70/323 kB | 765/959 kB | 762/909 kB | 188/243 kB
+Progress (4): 70/323 kB | 765/959 kB | 778/909 kB | 188/243 kB
+Progress (4): 70/323 kB | 781/959 kB | 778/909 kB | 188/243 kB
+Progress (4): 70/323 kB | 781/959 kB | 795/909 kB | 188/243 kB
+Progress (4): 70/323 kB | 781/959 kB | 811/909 kB | 188/243 kB
+Progress (4): 70/323 kB | 781/959 kB | 827/909 kB | 188/243 kB
+Progress (4): 70/323 kB | 798/959 kB | 827/909 kB | 188/243 kB
+Progress (4): 70/323 kB | 798/959 kB | 827/909 kB | 205/243 kB
+Progress (4): 70/323 kB | 798/959 kB | 844/909 kB | 205/243 kB
+Progress (4): 70/323 kB | 798/959 kB | 860/909 kB | 205/243 kB
+Progress (4): 70/323 kB | 798/959 kB | 860/909 kB | 221/243 kB
+Progress (4): 70/323 kB | 814/959 kB | 860/909 kB | 221/243 kB
+Progress (4): 70/323 kB | 814/959 kB | 877/909 kB | 221/243 kB
+Progress (4): 70/323 kB | 814/959 kB | 877/909 kB | 238/243 kB
+Progress (4): 70/323 kB | 814/959 kB | 877/909 kB | 243 kB    
+Progress (4): 70/323 kB | 814/959 kB | 893/909 kB | 243 kB
+Progress (4): 70/323 kB | 831/959 kB | 893/909 kB | 243 kB
+                                                          
+Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/httpcomponents/core5/httpcore5-h2/5.3.6/httpcore5-h2-5.3.6.jar (243 kB at 192 kB/s)
+#53 150.3 Downloading from central: https://repo.maven.apache.org/maven2/org/antlr/antlr4-runtime/4.7.2/antlr4-runtime-4.7.2.jar
+#53 150.3 Progress (3): 70/323 kB | 847/959 kB | 893/909 kB
+Progress (3): 70/323 kB | 847/959 kB | 909/909 kB
+Progress (3): 70/323 kB | 847/959 kB | 909 kB    
+                                             
+Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/httpcomponents/core5/httpcore5/5.3.6/httpcore5-5.3.6.jar (909 kB at 717 kB/s)
+#53 150.3 Downloading from central: https://repo.maven.apache.org/maven2/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2.jar
+#53 150.3 Progress (2): 70/323 kB | 863/959 kB
+Progress (2): 70/323 kB | 880/959 kB
+Progress (2): 86/323 kB | 880/959 kB
+Progress (2): 86/323 kB | 896/959 kB
+Progress (2): 102/323 kB | 896/959 kB
+Progress (2): 102/323 kB | 912/959 kB
+Progress (2): 102/323 kB | 929/959 kB
+Progress (2): 102/323 kB | 945/959 kB
+Progress (2): 102/323 kB | 959/959 kB
+Progress (2): 102/323 kB | 959 kB    
+Progress (3): 102/323 kB | 959 kB | 7.7/157 kB
+Progress (3): 102/323 kB | 959 kB | 16/157 kB 
+                                             
+Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/httpcomponents/client5/httpclient5/5.5.1/httpclient5-5.5.1.jar (959 kB at 748 kB/s)
+#53 150.3 Downloading from central: https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-loader-tools/3.5.8/spring-boot-loader-tools-3.5.8.jar
+#53 150.3 Progress (2): 102/323 kB | 32/157 kB
+Progress (2): 102/323 kB | 49/157 kB
+Progress (2): 102/323 kB | 61/157 kB
+Progress (2): 102/323 kB | 77/157 kB
+Progress (2): 102/323 kB | 93/157 kB
+Progress (2): 102/323 kB | 110/157 kB
+Progress (2): 102/323 kB | 126/157 kB
+Progress (2): 102/323 kB | 142/157 kB
+Progress (2): 102/323 kB | 157 kB    
+                                 
+Downloaded from central: https://repo.maven.apache.org/maven2/org/tomlj/tomlj/1.0.0/tomlj-1.0.0.jar (157 kB at 118 kB/s)
+#53 150.4 Downloading from central: https://repo.maven.apache.org/maven2/io/micrometer/micrometer-observation/1.14.13/micrometer-observation-1.14.13.jar
+#53 150.4 Progress (2): 102/323 kB | 7.7/338 kB
+Progress (2): 102/323 kB | 8.2/338 kB
+Progress (2): 102/323 kB | 25/338 kB 
+Progress (2): 102/323 kB | 41/338 kB
+Progress (3): 102/323 kB | 41/338 kB | 7.7/20 kB
+Progress (3): 102/323 kB | 41/338 kB | 16/20 kB 
+Progress (3): 102/323 kB | 41/338 kB | 20 kB   
+Progress (3): 102/323 kB | 57/338 kB | 20 kB
+                                            
+Downloaded from central: https://repo.maven.apache.org/maven2/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2.jar (20 kB at 15 kB/s)
+#53 150.4 Downloading from central: https://repo.maven.apache.org/maven2/io/micrometer/micrometer-commons/1.14.13/micrometer-commons-1.14.13.jar
+#53 150.4 Progress (3): 102/323 kB | 57/338 kB | 7.7/465 kB
+Progress (3): 102/323 kB | 57/338 kB | 16/465 kB 
+Progress (3): 102/323 kB | 57/338 kB | 25/465 kB
+Progress (3): 102/323 kB | 57/338 kB | 41/465 kB
+Progress (3): 102/323 kB | 74/338 kB | 41/465 kB
+Progress (3): 102/323 kB | 90/338 kB | 41/465 kB
+Progress (3): 102/323 kB | 90/338 kB | 57/465 kB
+Progress (3): 102/323 kB | 90/338 kB | 74/465 kB
+Progress (3): 102/323 kB | 106/338 kB | 74/465 kB
+Progress (3): 102/323 kB | 106/338 kB | 90/465 kB
+Progress (3): 102/323 kB | 106/338 kB | 106/465 kB
+Progress (3): 102/323 kB | 106/338 kB | 123/465 kB
+Progress (3): 102/323 kB | 106/338 kB | 139/465 kB
+Progress (3): 102/323 kB | 123/338 kB | 139/465 kB
+Progress (3): 102/323 kB | 139/338 kB | 139/465 kB
+Progress (3): 102/323 kB | 139/338 kB | 156/465 kB
+Progress (3): 102/323 kB | 139/338 kB | 172/465 kB
+Progress (3): 102/323 kB | 139/338 kB | 188/465 kB
+Progress (3): 102/323 kB | 156/338 kB | 188/465 kB
+Progress (3): 102/323 kB | 156/338 kB | 205/465 kB
+Progress (3): 102/323 kB | 156/338 kB | 221/465 kB
+Progress (3): 102/323 kB | 172/338 kB | 221/465 kB
+Progress (3): 102/323 kB | 172/338 kB | 238/465 kB
+Progress (3): 102/323 kB | 188/338 kB | 238/465 kB
+Progress (3): 102/323 kB | 188/338 kB | 254/465 kB
+Progress (3): 102/323 kB | 188/338 kB | 270/465 kB
+Progress (3): 102/323 kB | 205/338 kB | 270/465 kB
+Progress (3): 102/323 kB | 205/338 kB | 287/465 kB
+Progress (3): 102/323 kB | 205/338 kB | 303/465 kB
+Progress (3): 102/323 kB | 205/338 kB | 319/465 kB
+Progress (4): 102/323 kB | 205/338 kB | 319/465 kB | 7.7/75 kB
+Progress (4): 102/323 kB | 205/338 kB | 319/465 kB | 16/75 kB 
+Progress (4): 102/323 kB | 205/338 kB | 319/465 kB | 20/75 kB
+Progress (4): 102/323 kB | 205/338 kB | 319/465 kB | 37/75 kB
+Progress (4): 102/323 kB | 221/338 kB | 319/465 kB | 37/75 kB
+Progress (4): 102/323 kB | 221/338 kB | 336/465 kB | 37/75 kB
+Progress (4): 102/323 kB | 221/338 kB | 336/465 kB | 53/75 kB
+Progress (4): 102/323 kB | 238/338 kB | 336/465 kB | 53/75 kB
+Progress (4): 102/323 kB | 238/338 kB | 352/465 kB | 53/75 kB
+Progress (4): 102/323 kB | 238/338 kB | 352/465 kB | 69/75 kB
+Progress (4): 102/323 kB | 238/338 kB | 352/465 kB | 75 kB   
+                                                          
+Downloaded from central: https://repo.maven.apache.org/maven2/io/micrometer/micrometer-observation/1.14.13/micrometer-observation-1.14.13.jar (75 kB at 51 kB/s)
+#53 150.5 Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-shade-plugin/3.6.0/maven-shade-plugin-3.6.0.jar
+#53 150.5 Progress (3): 102/323 kB | 238/338 kB | 369/465 kB
+Progress (3): 102/323 kB | 238/338 kB | 385/465 kB
+Progress (3): 102/323 kB | 254/338 kB | 385/465 kB
+Progress (4): 102/323 kB | 254/338 kB | 385/465 kB | 7.7/48 kB
+Progress (4): 102/323 kB | 254/338 kB | 385/465 kB | 16/48 kB 
+Progress (4): 102/323 kB | 254/338 kB | 401/465 kB | 16/48 kB
+Progress (4): 102/323 kB | 254/338 kB | 401/465 kB | 25/48 kB
+Progress (4): 102/323 kB | 254/338 kB | 401/465 kB | 41/48 kB
+Progress (4): 102/323 kB | 270/338 kB | 401/465 kB | 41/48 kB
+Progress (4): 102/323 kB | 270/338 kB | 418/465 kB | 41/48 kB
+Progress (4): 102/323 kB | 270/338 kB | 418/465 kB | 48 kB   
+                                                          
+Downloaded from central: https://repo.maven.apache.org/maven2/io/micrometer/micrometer-commons/1.14.13/micrometer-commons-1.14.13.jar (48 kB at 31 kB/s)
+#53 150.6 Downloading from central: https://repo.maven.apache.org/maven2/org/ow2/asm/asm/9.7/asm-9.7.jar
+#53 150.6 Progress (3): 102/323 kB | 270/338 kB | 434/465 kB
+Progress (3): 102/323 kB | 270/338 kB | 451/465 kB
+Progress (3): 102/323 kB | 287/338 kB | 451/465 kB
+Progress (3): 102/323 kB | 287/338 kB | 465 kB    
+                                              
+Downloaded from central: https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-loader-tools/3.5.8/spring-boot-loader-tools-3.5.8.jar (465 kB at 295 kB/s)
+#53 150.6 Downloading from central: https://repo.maven.apache.org/maven2/org/ow2/asm/asm-commons/9.7/asm-commons-9.7.jar
+#53 150.6 Progress (2): 102/323 kB | 303/338 kB
+Progress (2): 119/323 kB | 303/338 kB
+Progress (2): 119/323 kB | 319/338 kB
+Progress (2): 119/323 kB | 336/338 kB
+Progress (2): 119/323 kB | 338 kB    
+Progress (3): 119/323 kB | 338 kB | 7.7/150 kB
+Progress (3): 119/323 kB | 338 kB | 16/150 kB 
+                                             
+Downloaded from central: https://repo.maven.apache.org/maven2/org/antlr/antlr4-runtime/4.7.2/antlr4-runtime-4.7.2.jar (338 kB at 214 kB/s)
+#53 150.6 Downloading from central: https://repo.maven.apache.org/maven2/org/ow2/asm/asm-tree/9.7/asm-tree-9.7.jar
+#53 150.6 Progress (2): 119/323 kB | 32/150 kB
+Progress (2): 135/323 kB | 32/150 kB
+Progress (2): 135/323 kB | 49/150 kB
+Progress (2): 135/323 kB | 57/150 kB
+Progress (2): 135/323 kB | 74/150 kB
+Progress (2): 135/323 kB | 90/150 kB
+Progress (2): 135/323 kB | 106/150 kB
+Progress (2): 135/323 kB | 123/150 kB
+Progress (2): 135/323 kB | 139/150 kB
+Progress (2): 135/323 kB | 150 kB    
+                                 
+Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-shade-plugin/3.6.0/maven-shade-plugin-3.6.0.jar (150 kB at 93 kB/s)
+#53 150.6 Downloading from central: https://repo.maven.apache.org/maven2/org/jdom/jdom2/2.0.6.1/jdom2-2.0.6.1.jar
+#53 150.7 Progress (2): 135/323 kB | 7.7/125 kB
+Progress (2): 135/323 kB | 16/125 kB 
+Progress (2): 135/323 kB | 32/125 kB
+Progress (2): 135/323 kB | 49/125 kB
+Progress (2): 135/323 kB | 65/125 kB
+Progress (2): 135/323 kB | 81/125 kB
+Progress (2): 135/323 kB | 98/125 kB
+Progress (2): 135/323 kB | 114/125 kB
+Progress (2): 135/323 kB | 125 kB    
+Progress (3): 135/323 kB | 125 kB | 7.7/52 kB
+Progress (3): 135/323 kB | 125 kB | 11/52 kB 
+                                            
+Downloaded from central: https://repo.maven.apache.org/maven2/org/ow2/asm/asm/9.7/asm-9.7.jar (125 kB at 75 kB/s)
+#53 150.7 Downloading from central: https://repo.maven.apache.org/maven2/org/vafer/jdependency/2.10/jdependency-2.10.jar
+#53 150.7 Progress (2): 135/323 kB | 28/52 kB
+Progress (3): 135/323 kB | 28/52 kB | 7.7/73 kB
+Progress (3): 135/323 kB | 28/52 kB | 16/73 kB 
+Progress (3): 135/323 kB | 28/52 kB | 20/73 kB
+Progress (3): 135/323 kB | 28/52 kB | 37/73 kB
+Progress (3): 135/323 kB | 28/52 kB | 53/73 kB
+Progress (3): 135/323 kB | 28/52 kB | 69/73 kB
+Progress (3): 135/323 kB | 28/52 kB | 73 kB   
+Progress (3): 135/323 kB | 44/52 kB | 73 kB
+                                           
+Downloaded from central: https://repo.maven.apache.org/maven2/org/ow2/asm/asm-commons/9.7/asm-commons-9.7.jar (73 kB at 43 kB/s)
+#53 150.7 Progress (2): 135/323 kB | 52 kB
+                                
+Downloaded from central: https://repo.maven.apache.org/maven2/org/ow2/asm/asm-tree/9.7/asm-tree-9.7.jar (52 kB at 31 kB/s)
+#53 150.7 Progress (2): 135/323 kB | 7.7/328 kB
+Progress (2): 135/323 kB | 16/328 kB 
+Progress (2): 135/323 kB | 28/328 kB
+Progress (2): 135/323 kB | 44/328 kB
+Progress (2): 135/323 kB | 61/328 kB
+Progress (2): 135/323 kB | 77/328 kB
+Progress (2): 135/323 kB | 93/328 kB
+Progress (2): 135/323 kB | 110/328 kB
+Progress (2): 135/323 kB | 126/328 kB
+Progress (2): 135/323 kB | 142/328 kB
+Progress (2): 135/323 kB | 159/328 kB
+Progress (2): 135/323 kB | 175/328 kB
+Progress (2): 135/323 kB | 192/328 kB
+Progress (2): 135/323 kB | 208/328 kB
+Progress (2): 135/323 kB | 224/328 kB
+Progress (2): 135/323 kB | 241/328 kB
+Progress (2): 135/323 kB | 257/328 kB
+Progress (2): 135/323 kB | 274/328 kB
+Progress (2): 135/323 kB | 290/328 kB
+Progress (2): 135/323 kB | 306/328 kB
+Progress (2): 135/323 kB | 323/328 kB
+Progress (3): 135/323 kB | 323/328 kB | 7.7/416 kB
+Progress (3): 135/323 kB | 328 kB | 7.7/416 kB    
+Progress (3): 135/323 kB | 328 kB | 16/416 kB 
+Progress (3): 135/323 kB | 328 kB | 28/416 kB
+                                             
+Downloaded from central: https://repo.maven.apache.org/maven2/org/jdom/jdom2/2.0.6.1/jdom2-2.0.6.1.jar (328 kB at 186 kB/s)
+#53 150.8 Progress (2): 135/323 kB | 44/416 kB
+Progress (2): 135/323 kB | 61/416 kB
+Progress (2): 135/323 kB | 77/416 kB
+Progress (2): 135/323 kB | 93/416 kB
+Progress (2): 135/323 kB | 110/416 kB
+Progress (2): 135/323 kB | 126/416 kB
+Progress (2): 135/323 kB | 142/416 kB
+Progress (2): 135/323 kB | 159/416 kB
+Progress (2): 135/323 kB | 175/416 kB
+Progress (2): 135/323 kB | 192/416 kB
+Progress (2): 135/323 kB | 208/416 kB
+Progress (2): 135/323 kB | 224/416 kB
+Progress (2): 135/323 kB | 241/416 kB
+Progress (2): 135/323 kB | 257/416 kB
+Progress (2): 135/323 kB | 274/416 kB
+Progress (2): 135/323 kB | 290/416 kB
+Progress (2): 135/323 kB | 306/416 kB
+Progress (2): 135/323 kB | 323/416 kB
+Progress (2): 135/323 kB | 339/416 kB
+Progress (2): 135/323 kB | 355/416 kB
+Progress (2): 135/323 kB | 372/416 kB
+Progress (2): 135/323 kB | 388/416 kB
+Progress (2): 135/323 kB | 405/416 kB
+Progress (2): 135/323 kB | 416 kB    
+                                 
+Downloaded from central: https://repo.maven.apache.org/maven2/org/vafer/jdependency/2.10/jdependency-2.10.jar (416 kB at 228 kB/s)
+#53 150.9 Progress (1): 151/323 kB
+Progress (1): 168/323 kB
+Progress (1): 184/323 kB
+Progress (1): 201/323 kB
+Progress (1): 217/323 kB
+Progress (1): 233/323 kB
+Progress (1): 250/323 kB
+Progress (1): 266/323 kB
+Progress (1): 283/323 kB
+Progress (1): 299/323 kB
+Progress (1): 315/323 kB
+Progress (1): 323 kB    
+                    
+Downloaded from central: https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-buildpack-platform/3.5.8/spring-boot-buildpack-platform-3.5.8.jar (323 kB at 131 kB/s)
+#53 152.7 [INFO] Replacing main artifact /app/target/reportgen-0.0.1-SNAPSHOT.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+#53 152.7 [INFO] The original artifact has been renamed to /app/target/reportgen-0.0.1-SNAPSHOT.jar.original
+#53 152.7 [INFO] ------------------------------------------------------------------------
+#53 152.7 [INFO] BUILD SUCCESS
+#53 152.7 [INFO] ------------------------------------------------------------------------
+#53 152.7 [INFO] Total time:  02:26 min
+#53 152.7 [INFO] Finished at: 2025-12-25T18:50:56Z
+#53 152.7 [INFO] ------------------------------------------------------------------------
+#53 DONE 153.6s
+
+#29 [apk-scanner 5/6] RUN pip install --no-cache-dir -r requirements.txt
+#29 256.2 Collecting fonttools>=4.22.0
+#29 256.3   Downloading fonttools-4.61.1-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (4.9 MB)
+#29 257.0      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.9/4.9 MB 6.5 MB/s eta 0:00:00
+#29 257.7 Collecting contourpy>=1.0.1
+#29 257.9   Downloading contourpy-1.3.2-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (325 kB)
+#29 258.0      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 325.0/325.0 kB 6.1 MB/s eta 0:00:00
+#29 258.7 Collecting tomli
+#29 258.9   Downloading tomli-2.3.0-py3-none-any.whl (14 kB)
+#29 259.2 Collecting Mako
+#29 259.4   Downloading mako-1.3.10-py3-none-any.whl (78 kB)
+#29 259.4      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 78.5/78.5 kB 4.3 MB/s eta 0:00:00
+#29 259.8 Collecting idna>=2.8
+#29 259.9   Downloading idna-3.11-py3-none-any.whl (71 kB)
+#29 259.9      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 71.0/71.0 kB 44.1 MB/s eta 0:00:00
+#29 260.1 Collecting pycparser
+#29 260.2   Downloading pycparser-2.23-py3-none-any.whl (118 kB)
+#29 260.2      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 118.1/118.1 kB 8.8 MB/s eta 0:00:00
+#29 260.6 Collecting parso<0.9.0,>=0.8.4
+#29 260.6   Downloading parso-0.8.5-py2.py3-none-any.whl (106 kB)
+#29 260.7      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 106.7/106.7 kB 8.6 MB/s eta 0:00:00
+#29 260.8 Collecting ptyprocess>=0.5
+#29 260.9   Downloading ptyprocess-0.7.0-py2.py3-none-any.whl (13 kB)
+#29 261.1 Collecting wcwidth
+#29 261.2   Downloading wcwidth-0.2.14-py2.py3-none-any.whl (37 kB)
+#29 261.4 Collecting executing>=1.2.0
+#29 261.5   Downloading executing-2.2.1-py2.py3-none-any.whl (28 kB)
+#29 261.6 Collecting pure-eval
+#29 261.6   Downloading pure_eval-0.2.3-py3-none-any.whl (11 kB)
+#29 261.7 Collecting asttokens>=2.1.0
+#29 261.8   Downloading asttokens-3.0.1-py3-none-any.whl (27 kB)
+#29 262.2 Collecting MarkupSafe>=0.9.2
+#29 262.3   Downloading markupsafe-3.0.3-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (20 kB)
+#29 262.5 Building wheels for collected packages: mutf8
+#29 262.6   Building wheel for mutf8 (setup.py): started
+#29 ...
+
+#62 [fix-suggest] exporting to image
+#62 exporting layers 5.1s done
+#62 exporting manifest sha256:183bada1b7786ef8811ca425d85ea22af170a77f76488baeb3cbdd505c3ce7b4 0.2s done
+#62 exporting config sha256:3d15ed1b5c56ea204483beca6dd2b05244bb795b0c3a660db7a8b8fc9e39c368 0.1s done
+#62 exporting attestation manifest sha256:0d5c97081249e3f7a89735f0715d0daca8f960466e828a1182865a0a624651cf 0.2s done
+#62 exporting manifest list sha256:8e3ea60a158b5c0ebaba6af3f0843c843d429a4e1e43491eb7f8c6617701c8ca 0.9s done
+#62 naming to docker.io/library/mobilesec-cd-fix-suggest:latest 0.3s done
+#62 unpacking to docker.io/library/mobilesec-cd-fix-suggest:latest 0.6s done
+#62 DONE 7.6s
+
+#63 [report-service stage-1 3/3] COPY --from=build /app/target/*.jar app.jar
+#63 ...
+
+#41 [network-inspector 4/5] RUN pip install --no-cache-dir -r requirements.txt
+#41 254.3 INFO: This is taking longer than usual. You might need to provide the dependency resolver with stricter constraints to reduce runtime. See https://pip.pypa.io/warnings/backtracking for guidance. If you want to abort this run, press Ctrl + C.
+#41 254.6   Downloading requests-2.32.3-py3-none-any.whl (64 kB)
+#41 254.6      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 64.9/64.9 kB 27.3 MB/s eta 0:00:00
+#41 257.9 INFO: pip is looking at multiple versions of alembic to determine which version is compatible with other requirements. This could take a while.
+#41 258.1 Collecting alembic>=1.12.1
+#41 258.1   Downloading alembic-1.14.0-py3-none-any.whl (233 kB)
+#41 258.3      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 233.5/233.5 kB 2.4 MB/s eta 0:00:00
+#41 260.8 INFO: This is taking longer than usual. You might need to provide the dependency resolver with stricter constraints to reduce runtime. See https://pip.pypa.io/warnings/backtracking for guidance. If you want to abort this run, press Ctrl + C.
+#41 262.8   Downloading alembic-1.13.3-py3-none-any.whl (233 kB)
+#41 262.8      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 233.2/233.2 kB 6.0 MB/s eta 0:00:00
+#41 263.8 INFO: This is taking longer than usual. You might need to provide the dependency resolver with stricter constraints to reduce runtime. See https://pip.pypa.io/warnings/backtracking for guidance. If you want to abort this run, press Ctrl + C.
+#41 ...
+
+#64 [gateway-service] exporting to image
+#64 exporting layers 4.4s done
+#64 exporting manifest sha256:89d3482b6888e151953e963c9d59faf9eae0817cb471fe7773c91ef5e8c3c5f3 0.1s done
+#64 exporting config sha256:53826ff2f5c2d3ed389a7f2a77990968e7603acd6dfcf01f22bbc4c95f7df53a 0.3s done
+#64 exporting attestation manifest sha256:837bc8545eed5422c811463b7f6060b5fb4b846cd91ad556c19c57233f16a768
+#64 exporting attestation manifest sha256:837bc8545eed5422c811463b7f6060b5fb4b846cd91ad556c19c57233f16a768 0.1s done
+#64 exporting manifest list sha256:6492f291b8daa4b5173883dedd24c0efdcd98f2b01b2fe9d4000a9053d6913ac
+#64 ...
+
+#63 [report-service stage-1 3/3] COPY --from=build /app/target/*.jar app.jar
+#63 DONE 1.1s
+
+#41 [network-inspector 4/5] RUN pip install --no-cache-dir -r requirements.txt
+#41 265.1   Downloading alembic-1.13.2-py3-none-any.whl (232 kB)
+#41 265.1      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 233.0/233.0 kB 8.6 MB/s eta 0:00:00
+#41 ...
+
+#65 [fix-suggest] resolving provenance for metadata file
+#65 DONE 0.1s
+
+#64 [gateway-service] exporting to image
+#64 exporting manifest list sha256:6492f291b8daa4b5173883dedd24c0efdcd98f2b01b2fe9d4000a9053d6913ac 0.6s done
+#64 naming to docker.io/library/mobilesec-cd-gateway-service:latest 0.0s done
+#64 unpacking to docker.io/library/mobilesec-cd-gateway-service:latest 0.8s done
+#64 DONE 6.5s
+
+#29 [apk-scanner 5/6] RUN pip install --no-cache-dir -r requirements.txt
+#29 265.8   Building wheel for mutf8 (setup.py): finished with status 'done'
+#29 265.8   Created wheel for mutf8: filename=mutf8-1.0.6-cp310-cp310-linux_x86_64.whl size=18302 sha256=e188d7665d7707f4e7c6d3d70c1dd298b4bcfe0d37cb84e474aa3dc883d95796
+#29 265.8   Stored in directory: /tmp/pip-ephem-wheel-cache-fr4zz9x7/wheels/cc/fc/5f/b463e18595c8c91f595eb341460944a42dbf2075dca7e7a823
+#29 265.8 Successfully built mutf8
+#29 ...
+
+#66 [gateway-service] resolving provenance for metadata file
+#66 DONE 0.0s
+
+#67 [report-service] exporting to image
+#67 ...
+
+#68 [frontend internal] load build definition from Dockerfile
+#68 transferring dockerfile: 403B 0.0s done
+#68 DONE 0.1s
+
+#69 [frontend internal] load metadata for docker.io/library/nginx:alpine
+#69 ...
+
+#70 [frontend auth] library/nginx:pull token for registry-1.docker.io
+#70 DONE 0.0s
+
+#71 [frontend auth] library/node:pull token for registry-1.docker.io
+#71 DONE 0.0s
+
+#29 [apk-scanner 5/6] RUN pip install --no-cache-dir -r requirements.txt
+#29 267.9 Installing collected packages: pytz, pure-eval, ptyprocess, mutf8, banal, asn1crypto, wcwidth, tzdata, typing-extensions, traitlets, tomli, threadpoolctl, six, pyyaml, python-multipart, python-dotenv, pyparsing, pygments, pycparser, pyasn1, pillow, pexpect, parso, packaging, nvidia-nccl-cu12, numpy, networkx, MarkupSafe, lxml, loguru, kiwisolver, joblib, idna, h11, greenlet, fonttools, executing, decorator, cycler, colorama, click, asttokens, apkInspector, annotated-types, annotated-doc, aiofiles, uvicorn, typing-inspection, stack_data, sqlalchemy, scipy, rsa, python-dateutil, pydot, pydantic-core, prompt_toolkit, matplotlib-inline, Mako, jedi, frida, exceptiongroup, ecdsa, contourpy, cffi, xgboost, scikit-learn, python-jose, pydantic, pandas, matplotlib, ipython, cryptography, anyio, alembic, starlette, pydantic-settings, dataset, fastapi, androguard
+#29 ...
+
+#72 [frontend internal] load metadata for docker.io/library/node:18
+#72 DONE 3.1s
+
+#69 [frontend internal] load metadata for docker.io/library/nginx:alpine
+#69 DONE 3.2s
+
+#41 [network-inspector 4/5] RUN pip install --no-cache-dir -r requirements.txt
+#41 267.4 INFO: pip is looking at multiple versions of annotated-doc to determine which version is compatible with other requirements. This could take a while.
+#41 269.0   Downloading alembic-1.13.1-py3-none-any.whl (233 kB)
+#41 269.0      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 233.4/233.4 kB 9.5 MB/s eta 0:00:00
+#41 270.3 INFO: pip is looking at multiple versions of aioquic to determine which version is compatible with other requirements. This could take a while.
+#41 271.3   Downloading alembic-1.13.0-py3-none-any.whl (230 kB)
+#41 271.4      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 230.6/230.6 kB 11.8 MB/s eta 0:00:00
+#41 ...
+
+#73 [frontend internal] load .dockerignore
+#73 transferring context: 2B done
+#73 DONE 0.7s
+
+#74 [frontend internal] load build context
+#74 DONE 0.0s
+
+#75 [frontend build 1/6] FROM docker.io/library/node:18@sha256:c6ae79e38498325db67193d391e6ec1d224d96c693a8a4d943498556716d3783
+#75 resolve docker.io/library/node:18@sha256:c6ae79e38498325db67193d391e6ec1d224d96c693a8a4d943498556716d3783
+#75 resolve docker.io/library/node:18@sha256:c6ae79e38498325db67193d391e6ec1d224d96c693a8a4d943498556716d3783 0.2s done
+#75 ...
+
+#74 [frontend internal] load build context
+#74 transferring context: 921.94kB 0.1s done
+#74 DONE 0.5s
+
+#67 [report-service] exporting to image
+#67 exporting layers 6.2s done
+#67 exporting manifest sha256:38c379ffd0b236d44539dcbd0a8e3b99501395e895e24e397e6b491728d6aff7 0.4s done
+#67 exporting config sha256:90dd7c2efa8032afe4d810f024a30d9bbe70becf8e0b42d3466ae20c9e6e5729 0.1s done
+#67 exporting attestation manifest sha256:c45259819092c5aa4345eaa83104dcad42b096707aa1a945f6243d7a3194bdef 0.1s done
+#67 exporting manifest list sha256:eb875cfe8bd035fa15645ed53777d27142ac2627a16560bf812e7253063a3405 0.1s done
+#67 naming to docker.io/library/mobilesec-cd-report-service:latest 0.0s done
+#67 unpacking to docker.io/library/mobilesec-cd-report-service:latest
+#67 unpacking to docker.io/library/mobilesec-cd-report-service:latest 0.8s done
+#67 DONE 7.8s
+
+#76 [frontend stage-1 1/2] FROM docker.io/library/nginx:alpine@sha256:8491795299c8e739b7fcc6285d531d9812ce2666e07bd3dd8db00020ad132295
+#76 resolve docker.io/library/nginx:alpine@sha256:8491795299c8e739b7fcc6285d531d9812ce2666e07bd3dd8db00020ad132295 0.2s done
+#76 ...
+
+#75 [frontend build 1/6] FROM docker.io/library/node:18@sha256:c6ae79e38498325db67193d391e6ec1d224d96c693a8a4d943498556716d3783
+#75 DONE 1.6s
+
+#75 [frontend build 1/6] FROM docker.io/library/node:18@sha256:c6ae79e38498325db67193d391e6ec1d224d96c693a8a4d943498556716d3783
+#75 sha256:461077a72fb7fe40d34a37d6a1958c4d16772d0dd77f572ec50a1fdc41a3754d 0B / 446B 0.2s
+#75 sha256:3697be50c98b9d071df4637e1d3491d00e7b9f3a732768c876d82309b3c5a145 0B / 1.25MB 0.2s
+#75 sha256:c6b30c3f16966552af10ac00521f60355b1fcfd46ac1c20b1038587e28583ce7 0B / 45.68MB 0.2s
+#75 sha256:cda7f44f2bddcc4bb7514474024b3f3705de00ddb6355a33be5ac7808e5b7125 0B / 3.32kB 0.2s
+#75 sha256:461077a72fb7fe40d34a37d6a1958c4d16772d0dd77f572ec50a1fdc41a3754d 446B / 446B 0.4s done
+#75 sha256:e23f099911d692f62b851cf49a1e93294288a115f5cd2d014180e4d3684d34ab 0B / 211.36MB 0.2s
+#75 sha256:3697be50c98b9d071df4637e1d3491d00e7b9f3a732768c876d82309b3c5a145 1.25MB / 1.25MB 0.8s
+#75 sha256:3697be50c98b9d071df4637e1d3491d00e7b9f3a732768c876d82309b3c5a145 1.25MB / 1.25MB 0.8s done
+#75 sha256:cda7f44f2bddcc4bb7514474024b3f3705de00ddb6355a33be5ac7808e5b7125 3.32kB / 3.32kB 0.7s done
+#75 sha256:79b2f47ad4443652b9b5cc81a95ede249fd976310efdbee159f29638783778c0 0B / 64.40MB 0.2s
+#75 sha256:37927ed901b1b2608b72796c6881bf645480268eca4ac9a37b9219e050bb4d84 0B / 24.02MB 0.2s
+#75 ...
+
+#77 [report-service] resolving provenance for metadata file
+#77 DONE 0.0s
+
+#75 [frontend build 1/6] FROM docker.io/library/node:18@sha256:c6ae79e38498325db67193d391e6ec1d224d96c693a8a4d943498556716d3783
+#75 sha256:c6b30c3f16966552af10ac00521f60355b1fcfd46ac1c20b1038587e28583ce7 3.15MB / 45.68MB 1.2s
+#75 sha256:c6b30c3f16966552af10ac00521f60355b1fcfd46ac1c20b1038587e28583ce7 6.29MB / 45.68MB 2.1s
+#75 sha256:79b2f47ad4443652b9b5cc81a95ede249fd976310efdbee159f29638783778c0 4.07MB / 64.40MB 1.5s
+#75 sha256:c6b30c3f16966552af10ac00521f60355b1fcfd46ac1c20b1038587e28583ce7 8.84MB / 45.68MB 3.2s
+#75 sha256:79b2f47ad4443652b9b5cc81a95ede249fd976310efdbee159f29638783778c0 7.34MB / 64.40MB 2.6s
+#75 sha256:37927ed901b1b2608b72796c6881bf645480268eca4ac9a37b9219e050bb4d84 2.10MB / 24.02MB 2.6s
+#75 sha256:c6b30c3f16966552af10ac00521f60355b1fcfd46ac1c20b1038587e28583ce7 11.53MB / 45.68MB 3.6s
+#75 sha256:79b2f47ad4443652b9b5cc81a95ede249fd976310efdbee159f29638783778c0 11.53MB / 64.40MB 3.8s
+#75 sha256:37927ed901b1b2608b72796c6881bf645480268eca4ac9a37b9219e050bb4d84 4.19MB / 24.02MB 3.9s
+#75 sha256:c6b30c3f16966552af10ac00521f60355b1fcfd46ac1c20b1038587e28583ce7 14.68MB / 45.68MB 4.8s
+#75 sha256:79b2f47ad4443652b9b5cc81a95ede249fd976310efdbee159f29638783778c0 15.73MB / 64.40MB 4.8s
+#75 sha256:e23f099911d692f62b851cf49a1e93294288a115f5cd2d014180e4d3684d34ab 6.29MB / 211.36MB 5.3s
+#75 sha256:37927ed901b1b2608b72796c6881bf645480268eca4ac9a37b9219e050bb4d84 6.29MB / 24.02MB 5.1s
+#75 sha256:c6b30c3f16966552af10ac00521f60355b1fcfd46ac1c20b1038587e28583ce7 17.83MB / 45.68MB 6.0s
+#75 sha256:79b2f47ad4443652b9b5cc81a95ede249fd976310efdbee159f29638783778c0 19.92MB / 64.40MB 6.0s
+#75 sha256:37927ed901b1b2608b72796c6881bf645480268eca4ac9a37b9219e050bb4d84 8.39MB / 24.02MB 6.2s
+#75 sha256:c6b30c3f16966552af10ac00521f60355b1fcfd46ac1c20b1038587e28583ce7 20.50MB / 45.68MB 7.1s
+#75 sha256:c6b30c3f16966552af10ac00521f60355b1fcfd46ac1c20b1038587e28583ce7 23.07MB / 45.68MB 8.0s
+#75 sha256:79b2f47ad4443652b9b5cc81a95ede249fd976310efdbee159f29638783778c0 24.12MB / 64.40MB 7.4s
+#75 sha256:37927ed901b1b2608b72796c6881bf645480268eca4ac9a37b9219e050bb4d84 10.49MB / 24.02MB 7.5s
+#75 sha256:c6b30c3f16966552af10ac00521f60355b1fcfd46ac1c20b1038587e28583ce7 26.21MB / 45.68MB 9.3s
+#75 sha256:79b2f47ad4443652b9b5cc81a95ede249fd976310efdbee159f29638783778c0 28.31MB / 64.40MB 8.6s
+#75 sha256:37927ed901b1b2608b72796c6881bf645480268eca4ac9a37b9219e050bb4d84 12.58MB / 24.02MB 8.6s
+#75 sha256:37927ed901b1b2608b72796c6881bf645480268eca4ac9a37b9219e050bb4d84 14.52MB / 24.02MB 9.6s
+#75 ...
+
+#41 [network-inspector 4/5] RUN pip install --no-cache-dir -r requirements.txt
+#41 273.8 INFO: pip is looking at multiple versions of python-dotenv to determine which version is compatible with other requirements. This could take a while.
+#41 276.0   Downloading alembic-1.12.1-py3-none-any.whl (226 kB)
+#41 276.1      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 226.8/226.8 kB 2.3 MB/s eta 0:00:00
+#41 277.7 INFO: pip is looking at multiple versions of requests to determine which version is compatible with other requirements. This could take a while.
+#41 279.9 INFO: pip is looking at multiple versions of pydantic-settings to determine which version is compatible with other requirements. This could take a while.
+#41 279.9 Collecting pydantic-settings>=2.1.0
+#41 280.0   Downloading pydantic_settings-2.11.0-py3-none-any.whl (48 kB)
+#41 280.0      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 48.6/48.6 kB 2.1 MB/s eta 0:00:00
+#41 ...
+
+#76 [frontend stage-1 1/2] FROM docker.io/library/nginx:alpine@sha256:8491795299c8e739b7fcc6285d531d9812ce2666e07bd3dd8db00020ad132295
+#76 ...
+
+#75 [frontend build 1/6] FROM docker.io/library/node:18@sha256:c6ae79e38498325db67193d391e6ec1d224d96c693a8a4d943498556716d3783
+#75 sha256:c6b30c3f16966552af10ac00521f60355b1fcfd46ac1c20b1038587e28583ce7 29.36MB / 45.68MB 10.7s
+#75 sha256:e23f099911d692f62b851cf49a1e93294288a115f5cd2d014180e4d3684d34ab 15.73MB / 211.36MB 10.4s
+#75 sha256:79b2f47ad4443652b9b5cc81a95ede249fd976310efdbee159f29638783778c0 32.51MB / 64.40MB 10.2s
+#75 sha256:37927ed901b1b2608b72796c6881bf645480268eca4ac9a37b9219e050bb4d84 15.73MB / 24.02MB 10.4s
+#75 sha256:79b2f47ad4443652b9b5cc81a95ede249fd976310efdbee159f29638783778c0 36.70MB / 64.40MB 11.4s
+#75 sha256:c6b30c3f16966552af10ac00521f60355b1fcfd46ac1c20b1038587e28583ce7 32.51MB / 45.68MB 12.4s
+#75 sha256:37927ed901b1b2608b72796c6881bf645480268eca4ac9a37b9219e050bb4d84 17.83MB / 24.02MB 11.7s
+#75 sha256:37927ed901b1b2608b72796c6881bf645480268eca4ac9a37b9219e050bb4d84 19.92MB / 24.02MB 12.9s
+#75 sha256:79b2f47ad4443652b9b5cc81a95ede249fd976310efdbee159f29638783778c0 40.89MB / 64.40MB 13.0s
+#75 sha256:c6b30c3f16966552af10ac00521f60355b1fcfd46ac1c20b1038587e28583ce7 35.65MB / 45.68MB 14.1s
+#75 sha256:37927ed901b1b2608b72796c6881bf645480268eca4ac9a37b9219e050bb4d84 21.73MB / 24.02MB 14.1s
+#75 sha256:79b2f47ad4443652b9b5cc81a95ede249fd976310efdbee159f29638783778c0 45.09MB / 64.40MB 14.5s
+#75 sha256:37927ed901b1b2608b72796c6881bf645480268eca4ac9a37b9219e050bb4d84 23.07MB / 24.02MB 14.7s
+#75 sha256:c6b30c3f16966552af10ac00521f60355b1fcfd46ac1c20b1038587e28583ce7 38.80MB / 45.68MB 15.6s
+#75 sha256:e23f099911d692f62b851cf49a1e93294288a115f5cd2d014180e4d3684d34ab 24.99MB / 211.36MB 15.4s
+#75 sha256:37927ed901b1b2608b72796c6881bf645480268eca4ac9a37b9219e050bb4d84 24.02MB / 24.02MB 15.1s done
+#75 sha256:3e6b9d1a95114e19f12262a4e8a59ad1d1a10ca7b82108adcf0605a200294964 0B / 48.49MB 0.2s
+#75 sha256:c6b30c3f16966552af10ac00521f60355b1fcfd46ac1c20b1038587e28583ce7 41.94MB / 45.68MB 16.6s
+#75 sha256:79b2f47ad4443652b9b5cc81a95ede249fd976310efdbee159f29638783778c0 49.28MB / 64.40MB 15.9s
+#75 sha256:c6b30c3f16966552af10ac00521f60355b1fcfd46ac1c20b1038587e28583ce7 45.09MB / 45.68MB 17.8s
+#75 sha256:79b2f47ad4443652b9b5cc81a95ede249fd976310efdbee159f29638783778c0 53.48MB / 64.40MB 17.1s
+#75 sha256:c6b30c3f16966552af10ac00521f60355b1fcfd46ac1c20b1038587e28583ce7 45.68MB / 45.68MB 18.1s done
+#75 sha256:3e6b9d1a95114e19f12262a4e8a59ad1d1a10ca7b82108adcf0605a200294964 3.15MB / 48.49MB 2.3s
+#75 sha256:79b2f47ad4443652b9b5cc81a95ede249fd976310efdbee159f29638783778c0 57.67MB / 64.40MB 18.5s
+#75 sha256:3e6b9d1a95114e19f12262a4e8a59ad1d1a10ca7b82108adcf0605a200294964 6.29MB / 48.49MB 4.1s
+#75 sha256:e23f099911d692f62b851cf49a1e93294288a115f5cd2d014180e4d3684d34ab 35.65MB / 211.36MB 20.4s
+#75 sha256:79b2f47ad4443652b9b5cc81a95ede249fd976310efdbee159f29638783778c0 61.87MB / 64.40MB 20.1s
+#75 sha256:79b2f47ad4443652b9b5cc81a95ede249fd976310efdbee159f29638783778c0 64.40MB / 64.40MB 21.3s done
+#75 sha256:3e6b9d1a95114e19f12262a4e8a59ad1d1a10ca7b82108adcf0605a200294964 9.44MB / 48.49MB 6.3s
+#75 sha256:3e6b9d1a95114e19f12262a4e8a59ad1d1a10ca7b82108adcf0605a200294964 12.20MB / 48.49MB 7.5s
+#75 sha256:3e6b9d1a95114e19f12262a4e8a59ad1d1a10ca7b82108adcf0605a200294964 14.68MB / 48.49MB 8.3s
+#75 sha256:e23f099911d692f62b851cf49a1e93294288a115f5cd2d014180e4d3684d34ab 47.19MB / 211.36MB 24.6s
+#75 sha256:3e6b9d1a95114e19f12262a4e8a59ad1d1a10ca7b82108adcf0605a200294964 17.83MB / 48.49MB 10.1s
+#75 ...
+
+#76 [frontend stage-1 1/2] FROM docker.io/library/nginx:alpine@sha256:8491795299c8e739b7fcc6285d531d9812ce2666e07bd3dd8db00020ad132295
+#76 sha256:de54cb821236c86af111bf7a17c40e42b3a5ad0e08c1a5ec76fb654d35f58df8 17.26MB / 17.26MB 4.6s done
+#76 sha256:0abf9e5672665202e79f26f23ef5dbd12558e2ea51ac32807922ab76fdb24ab0 1.40kB / 1.40kB 0.8s done
+#76 sha256:085c5e5aaa8eb4b957ecf253c74f16a6a5551231de3fb7c3ac74814a6bf17e06 1.21kB / 1.21kB 0.4s done
+#76 sha256:33f95a0f3229b49e777082e801b882b13fcc5b4e389410ce8eb066f4d58c71b9 403B / 403B 0.4s done
+#76 sha256:da7c973d8b92a1555060972c8849a332c93bfe2608c11faeee2098c4cfbe8c3d 953B / 953B 0.4s done
+#76 sha256:567f84da6fbd4287d40a5837485469435c40a81f9a94e98395b6385d3600643a 626B / 626B 0.4s done
+#76 sha256:25f453064fd3e8a9754b6e51b86c637e13203cbfc748fcf73f3c8b2d10816ae3 1.86MB / 1.86MB 2.2s done
+#76 sha256:1074353eec0db2c1d81d5af2671e56e00cf5738486f5762609ea33d606f88612 3.86MB / 3.86MB 2.3s done
+#76 extracting sha256:1074353eec0db2c1d81d5af2671e56e00cf5738486f5762609ea33d606f88612 0.3s done
+#76 extracting sha256:25f453064fd3e8a9754b6e51b86c637e13203cbfc748fcf73f3c8b2d10816ae3 0.3s done
+#76 extracting sha256:567f84da6fbd4287d40a5837485469435c40a81f9a94e98395b6385d3600643a 0.1s done
+#76 DONE 28.3s
+
+#75 [frontend build 1/6] FROM docker.io/library/node:18@sha256:c6ae79e38498325db67193d391e6ec1d224d96c693a8a4d943498556716d3783
+#75 sha256:3e6b9d1a95114e19f12262a4e8a59ad1d1a10ca7b82108adcf0605a200294964 20.97MB / 48.49MB 11.0s
+#75 sha256:3e6b9d1a95114e19f12262a4e8a59ad1d1a10ca7b82108adcf0605a200294964 24.12MB / 48.49MB 11.7s
+#75 ...
+
+#76 [frontend stage-1 1/2] FROM docker.io/library/nginx:alpine@sha256:8491795299c8e739b7fcc6285d531d9812ce2666e07bd3dd8db00020ad132295
+#76 extracting sha256:da7c973d8b92a1555060972c8849a332c93bfe2608c11faeee2098c4cfbe8c3d 0.1s done
+#76 extracting sha256:33f95a0f3229b49e777082e801b882b13fcc5b4e389410ce8eb066f4d58c71b9 0.1s done
+#76 extracting sha256:085c5e5aaa8eb4b957ecf253c74f16a6a5551231de3fb7c3ac74814a6bf17e06 0.1s done
+#76 extracting sha256:0abf9e5672665202e79f26f23ef5dbd12558e2ea51ac32807922ab76fdb24ab0 0.1s done
+#76 extracting sha256:de54cb821236c86af111bf7a17c40e42b3a5ad0e08c1a5ec76fb654d35f58df8 1.1s done
+#76 DONE 29.8s
+
+#75 [frontend build 1/6] FROM docker.io/library/node:18@sha256:c6ae79e38498325db67193d391e6ec1d224d96c693a8a4d943498556716d3783
+#75 sha256:3e6b9d1a95114e19f12262a4e8a59ad1d1a10ca7b82108adcf0605a200294964 28.31MB / 48.49MB 12.5s
+#75 sha256:e23f099911d692f62b851cf49a1e93294288a115f5cd2d014180e4d3684d34ab 58.72MB / 211.36MB 28.0s
+#75 sha256:3e6b9d1a95114e19f12262a4e8a59ad1d1a10ca7b82108adcf0605a200294964 31.46MB / 48.49MB 13.2s
+#75 sha256:3e6b9d1a95114e19f12262a4e8a59ad1d1a10ca7b82108adcf0605a200294964 34.60MB / 48.49MB 13.8s
+#75 sha256:3e6b9d1a95114e19f12262a4e8a59ad1d1a10ca7b82108adcf0605a200294964 37.75MB / 48.49MB 14.4s
+#75 sha256:e23f099911d692f62b851cf49a1e93294288a115f5cd2d014180e4d3684d34ab 70.25MB / 211.36MB 30.6s
+#75 sha256:3e6b9d1a95114e19f12262a4e8a59ad1d1a10ca7b82108adcf0605a200294964 40.89MB / 48.49MB 15.2s
+#75 sha256:3e6b9d1a95114e19f12262a4e8a59ad1d1a10ca7b82108adcf0605a200294964 44.04MB / 48.49MB 15.8s
+#75 sha256:3e6b9d1a95114e19f12262a4e8a59ad1d1a10ca7b82108adcf0605a200294964 47.19MB / 48.49MB 16.4s
+#75 sha256:3e6b9d1a95114e19f12262a4e8a59ad1d1a10ca7b82108adcf0605a200294964 48.49MB / 48.49MB 16.7s done
+#75 extracting sha256:3e6b9d1a95114e19f12262a4e8a59ad1d1a10ca7b82108adcf0605a200294964
+#75 sha256:e23f099911d692f62b851cf49a1e93294288a115f5cd2d014180e4d3684d34ab 81.79MB / 211.36MB 32.8s
+#75 sha256:e23f099911d692f62b851cf49a1e93294288a115f5cd2d014180e4d3684d34ab 93.71MB / 211.36MB 34.7s
+#75 sha256:e23f099911d692f62b851cf49a1e93294288a115f5cd2d014180e4d3684d34ab 104.86MB / 211.36MB 36.0s
+#75 sha256:e23f099911d692f62b851cf49a1e93294288a115f5cd2d014180e4d3684d34ab 118.15MB / 211.36MB 37.8s
+#75 sha256:e23f099911d692f62b851cf49a1e93294288a115f5cd2d014180e4d3684d34ab 128.97MB / 211.36MB 38.5s
+#75 extracting sha256:3e6b9d1a95114e19f12262a4e8a59ad1d1a10ca7b82108adcf0605a200294964 6.7s done
+#75 extracting sha256:37927ed901b1b2608b72796c6881bf645480268eca4ac9a37b9219e050bb4d84
+#75 sha256:e23f099911d692f62b851cf49a1e93294288a115f5cd2d014180e4d3684d34ab 140.51MB / 211.36MB 39.7s
+#75 sha256:e23f099911d692f62b851cf49a1e93294288a115f5cd2d014180e4d3684d34ab 152.04MB / 211.36MB 42.3s
+#75 extracting sha256:37927ed901b1b2608b72796c6881bf645480268eca4ac9a37b9219e050bb4d84 3.6s done
+#75 extracting sha256:79b2f47ad4443652b9b5cc81a95ede249fd976310efdbee159f29638783778c0
+#75 sha256:e23f099911d692f62b851cf49a1e93294288a115f5cd2d014180e4d3684d34ab 163.58MB / 211.36MB 45.6s
+#75 sha256:e23f099911d692f62b851cf49a1e93294288a115f5cd2d014180e4d3684d34ab 175.11MB / 211.36MB 46.5s
+#75 sha256:e23f099911d692f62b851cf49a1e93294288a115f5cd2d014180e4d3684d34ab 186.65MB / 211.36MB 47.8s
+#75 sha256:e23f099911d692f62b851cf49a1e93294288a115f5cd2d014180e4d3684d34ab 198.18MB / 211.36MB 49.2s
+#75 sha256:e23f099911d692f62b851cf49a1e93294288a115f5cd2d014180e4d3684d34ab 209.72MB / 211.36MB 51.0s
+#75 sha256:e23f099911d692f62b851cf49a1e93294288a115f5cd2d014180e4d3684d34ab 211.36MB / 211.36MB 51.5s done
+#75 extracting sha256:79b2f47ad4443652b9b5cc81a95ede249fd976310efdbee159f29638783778c0 10.8s done
+#75 DONE 55.5s
+
+#41 [network-inspector 4/5] RUN pip install --no-cache-dir -r requirements.txt
+#41 ...
+
+#75 [frontend build 1/6] FROM docker.io/library/node:18@sha256:c6ae79e38498325db67193d391e6ec1d224d96c693a8a4d943498556716d3783
+#75 extracting sha256:e23f099911d692f62b851cf49a1e93294288a115f5cd2d014180e4d3684d34ab
+#75 ...
+
+#41 [network-inspector 4/5] RUN pip install --no-cache-dir -r requirements.txt
+#41 337.4 INFO: This is taking longer than usual. You might need to provide the dependency resolver with stricter constraints to reduce runtime. See https://pip.pypa.io/warnings/backtracking for guidance. If you want to abort this run, press Ctrl + C.
+#41 342.8 INFO: This is taking longer than usual. You might need to provide the dependency resolver with stricter constraints to reduce runtime. See https://pip.pypa.io/warnings/backtracking for guidance. If you want to abort this run, press Ctrl + C.
+#41 346.1   Downloading pydantic_settings-2.10.1-py3-none-any.whl (45 kB)
+#41 346.3      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 45.2/45.2 kB 21.5 MB/s eta 0:00:00
+#41 347.8 INFO: This is taking longer than usual. You might need to provide the dependency resolver with stricter constraints to reduce runtime. See https://pip.pypa.io/warnings/backtracking for guidance. If you want to abort this run, press Ctrl + C.
+#41 347.9   Downloading pydantic_settings-2.10.0-py3-none-any.whl (45 kB)
+#41 347.9      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 45.2/45.2 kB 5.9 MB/s eta 0:00:00
+#41 348.1   Downloading pydantic_settings-2.9.1-py3-none-any.whl (44 kB)
+#41 348.1      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 44.4/44.4 kB 12.4 MB/s eta 0:00:00
+#41 348.2   Downloading pydantic_settings-2.9.0-py3-none-any.whl (44 kB)
+#41 348.2      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 44.3/44.3 kB 5.5 MB/s eta 0:00:00
+#41 348.3   Downloading pydantic_settings-2.8.1-py3-none-any.whl (30 kB)
+#41 348.7 Collecting wcwidth
+#41 349.0   Downloading wcwidth-0.2.14-py2.py3-none-any.whl (37 kB)
+#41 350.5 Collecting MarkupSafe>=0.9.2
+#41 350.6   Downloading markupsafe-3.0.3-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (20 kB)
+#41 350.7 Collecting exceptiongroup>=1.0.2
+#41 350.8   Downloading exceptiongroup-1.3.1-py3-none-any.whl (16 kB)
+#41 351.0 Collecting pycparser
+#41 351.0   Downloading pycparser-2.23-py3-none-any.whl (118 kB)
+#41 351.1      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 118.1/118.1 kB 6.6 MB/s eta 0:00:00
+#41 351.4 Collecting pyasn1-modules
+#41 351.5   Downloading pyasn1_modules-0.4.2-py3-none-any.whl (181 kB)
+#41 351.5      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 181.3/181.3 kB 5.1 MB/s eta 0:00:00
+#41 351.6 Collecting attrs>=19.1.0
+#41 351.6   Downloading attrs-25.4.0-py3-none-any.whl (67 kB)
+#41 351.7      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 67.6/67.6 kB 5.8 MB/s eta 0:00:00
+#41 352.0 Building wheels for collected packages: pyperclip
+#41 352.1   Building wheel for pyperclip (setup.py): started
+#41 367.6   Building wheel for pyperclip (setup.py): finished with status 'done'
+#41 367.6   Created wheel for pyperclip: filename=pyperclip-1.9.0-py3-none-any.whl size=11103 sha256=4335a68cbeb99412409a9b46d9e596d6a721ea986111348f622190b1dac17912
+#41 367.6   Stored in directory: /tmp/pip-ephem-wheel-cache-zlqrydfy/wheels/cc/ae/36/ee17d1de094fcb61e24106cb329b5103861e819f94bef5e10a
+#41 368.0 Successfully built pyperclip
+#41 370.4 Installing collected packages: sortedcontainers, pyperclip, publicsuffix2, passlib, Brotli, zstandard, websockets, wcwidth, uvloop, urllib3, typing-extensions, tornado, ruamel.yaml.clib, pyyaml, python-dotenv, pyparsing, pylsqpack, pycparser, pyasn1, psycopg2-binary, msgpack, mitmproxy_rs, MarkupSafe, kaitaistruct, itsdangerous, idna, hyperframe, httptools, hpack, h11, greenlet, click, charset_normalizer, certifi, blinker, attrs, annotated-types, annotated-doc, wsproto, Werkzeug, uvicorn, urwid, sqlalchemy, ruamel.yaml, requests, pydantic-core, pyasn1-modules, Mako, ldap3, Jinja2, h2, exceptiongroup, cffi, asgiref, pydantic, flask, cryptography, anyio, alembic, watchfiles, starlette, service-identity, pyOpenSSL, pydantic-settings, fastapi, aioquic, mitmproxy
+#41 ...
+
+#75 [frontend build 1/6] FROM docker.io/library/node:18@sha256:c6ae79e38498325db67193d391e6ec1d224d96c693a8a4d943498556716d3783
+#75 extracting sha256:e23f099911d692f62b851cf49a1e93294288a115f5cd2d014180e4d3684d34ab 44.3s done
+#75 DONE 99.8s
+
+#75 [frontend build 1/6] FROM docker.io/library/node:18@sha256:c6ae79e38498325db67193d391e6ec1d224d96c693a8a4d943498556716d3783
+#75 extracting sha256:cda7f44f2bddcc4bb7514474024b3f3705de00ddb6355a33be5ac7808e5b7125
+#75 extracting sha256:cda7f44f2bddcc4bb7514474024b3f3705de00ddb6355a33be5ac7808e5b7125 0.2s done
+#75 DONE 100.0s
+
+#41 [network-inspector 4/5] RUN pip install --no-cache-dir -r requirements.txt
+#41 ...
+
+#75 [frontend build 1/6] FROM docker.io/library/node:18@sha256:c6ae79e38498325db67193d391e6ec1d224d96c693a8a4d943498556716d3783
+#75 extracting sha256:c6b30c3f16966552af10ac00521f60355b1fcfd46ac1c20b1038587e28583ce7
+#75 extracting sha256:c6b30c3f16966552af10ac00521f60355b1fcfd46ac1c20b1038587e28583ce7 7.7s done
+#75 DONE 107.6s
+
+#41 [network-inspector 4/5] RUN pip install --no-cache-dir -r requirements.txt
+#41 ...
+
+#75 [frontend build 1/6] FROM docker.io/library/node:18@sha256:c6ae79e38498325db67193d391e6ec1d224d96c693a8a4d943498556716d3783
+#75 extracting sha256:3697be50c98b9d071df4637e1d3491d00e7b9f3a732768c876d82309b3c5a145
+#75 extracting sha256:3697be50c98b9d071df4637e1d3491d00e7b9f3a732768c876d82309b3c5a145 0.3s done
+#75 DONE 107.9s
+
+#41 [network-inspector 4/5] RUN pip install --no-cache-dir -r requirements.txt
+#41 ...
+
+#75 [frontend build 1/6] FROM docker.io/library/node:18@sha256:c6ae79e38498325db67193d391e6ec1d224d96c693a8a4d943498556716d3783
+#75 extracting sha256:461077a72fb7fe40d34a37d6a1958c4d16772d0dd77f572ec50a1fdc41a3754d 0.1s done
+#75 DONE 108.0s
+
+#78 [frontend build 2/6] WORKDIR /app
+#78 DONE 28.5s
+
+#41 [network-inspector 4/5] RUN pip install --no-cache-dir -r requirements.txt
+#41 ...
+
+#79 [frontend build 3/6] COPY package.json package-lock.json ./
+#79 DONE 20.4s
+
+#41 [network-inspector 4/5] RUN pip install --no-cache-dir -r requirements.txt
+#41 ...
+
+#80 [frontend build 4/6] RUN npm ci --legacy-peer-deps
+#80 ...
+
+#29 [apk-scanner 5/6] RUN pip install --no-cache-dir -r requirements.txt
+#29 435.8 Successfully installed Mako-1.3.10 MarkupSafe-3.0.3 aiofiles-25.1.0 alembic-1.17.2 androguard-4.1.3 annotated-doc-0.0.4 annotated-types-0.7.0 anyio-4.12.0 apkInspector-1.3.6 asn1crypto-1.5.1 asttokens-3.0.1 banal-1.0.6 cffi-2.0.0 click-8.3.1 colorama-0.4.6 contourpy-1.3.2 cryptography-46.0.3 cycler-0.12.1 dataset-1.5.2 decorator-5.2.1 ecdsa-0.19.1 exceptiongroup-1.3.1 executing-2.2.1 fastapi-0.127.0 fonttools-4.61.1 frida-17.5.2 greenlet-3.3.0 h11-0.16.0 idna-3.11 ipython-8.37.0 jedi-0.19.2 joblib-1.5.3 kiwisolver-1.4.9 loguru-0.7.3 lxml-6.0.2 matplotlib-3.10.8 matplotlib-inline-0.2.1 mutf8-1.0.6 networkx-3.4.2 numpy-2.2.6 nvidia-nccl-cu12-2.28.9 packaging-25.0 pandas-2.3.3 parso-0.8.5 pexpect-4.9.0 pillow-12.0.0 prompt_toolkit-3.0.52 ptyprocess-0.7.0 pure-eval-0.2.3 pyasn1-0.6.1 pycparser-2.23 pydantic-2.12.5 pydantic-core-2.41.5 pydantic-settings-2.12.0 pydot-4.0.1 pygments-2.19.2 pyparsing-3.3.1 python-dateutil-2.9.0.post0 python-dotenv-1.2.1 python-jose-3.5.0 python-multipart-0.0.21 pytz-2025.2 pyyaml-6.0.3 rsa-4.9.1 scikit-learn-1.7.2 scipy-1.15.3 six-1.17.0 sqlalchemy-2.0.45 stack_data-0.6.3 starlette-0.50.0 threadpoolctl-3.6.0 tomli-2.3.0 traitlets-5.14.3 typing-extensions-4.15.0 typing-inspection-0.4.2 tzdata-2025.3 uvicorn-0.40.0 wcwidth-0.2.14 xgboost-3.1.2
+#29 436.0 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#29 438.4 
+#29 438.4 [notice] A new release of pip is available: 23.0.1 -> 25.3
+#29 438.4 [notice] To update, run: pip install --upgrade pip
+#29 ...
+
+#80 [frontend build 4/6] RUN npm ci --legacy-peer-deps
+#80 13.64 npm warn EBADENGINE Unsupported engine {
+#80 13.64 npm warn EBADENGINE   package: '@supabase/auth-js@2.89.0',
+#80 13.64 npm warn EBADENGINE   required: { node: '>=20.0.0' },
+#80 13.64 npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '10.8.2' }
+#80 13.64 npm warn EBADENGINE }
+#80 13.64 npm warn EBADENGINE Unsupported engine {
+#80 13.64 npm warn EBADENGINE   package: '@supabase/functions-js@2.89.0',
+#80 13.64 npm warn EBADENGINE   required: { node: '>=20.0.0' },
+#80 13.64 npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '10.8.2' }
+#80 13.64 npm warn EBADENGINE }
+#80 13.64 npm warn EBADENGINE Unsupported engine {
+#80 13.64 npm warn EBADENGINE   package: '@supabase/postgrest-js@2.89.0',
+#80 13.64 npm warn EBADENGINE   required: { node: '>=20.0.0' },
+#80 13.64 npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '10.8.2' }
+#80 13.64 npm warn EBADENGINE }
+#80 13.64 npm warn EBADENGINE Unsupported engine {
+#80 13.64 npm warn EBADENGINE   package: '@supabase/realtime-js@2.89.0',
+#80 13.64 npm warn EBADENGINE   required: { node: '>=20.0.0' },
+#80 13.64 npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '10.8.2' }
+#80 13.64 npm warn EBADENGINE }
+#80 13.64 npm warn EBADENGINE Unsupported engine {
+#80 13.64 npm warn EBADENGINE   package: '@supabase/storage-js@2.89.0',
+#80 13.64 npm warn EBADENGINE   required: { node: '>=20.0.0' },
+#80 13.64 npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '10.8.2' }
+#80 13.64 npm warn EBADENGINE }
+#80 13.64 npm warn EBADENGINE Unsupported engine {
+#80 13.64 npm warn EBADENGINE   package: '@supabase/supabase-js@2.89.0',
+#80 13.64 npm warn EBADENGINE   required: { node: '>=20.0.0' },
+#80 13.64 npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '10.8.2' }
+#80 13.64 npm warn EBADENGINE }
+#80 13.65 npm warn EBADENGINE Unsupported engine {
+#80 13.65 npm warn EBADENGINE   package: 'iceberg-js@0.8.1',
+#80 13.65 npm warn EBADENGINE   required: { node: '>=20.0.0' },
+#80 13.65 npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '10.8.2' }
+#80 13.65 npm warn EBADENGINE }
+#80 ...
+
+#29 [apk-scanner 5/6] RUN pip install --no-cache-dir -r requirements.txt
+#29 DONE 445.5s
+
+#81 [apk-scanner 6/6] COPY . .
+#81 ...
+
+#41 [network-inspector 4/5] RUN pip install --no-cache-dir -r requirements.txt
+#41 447.5 Successfully installed Brotli-1.1.0 Jinja2-3.1.6 Mako-1.3.10 MarkupSafe-3.0.3 Werkzeug-3.1.4 aioquic-1.2.0 alembic-1.14.1 annotated-doc-0.0.4 annotated-types-0.7.0 anyio-4.12.0 asgiref-3.8.1 attrs-25.4.0 blinker-1.9.0 certifi-2025.11.12 cffi-2.0.0 charset_normalizer-3.4.4 click-8.3.1 cryptography-44.0.3 exceptiongroup-1.3.1 fastapi-0.127.0 flask-3.1.0 greenlet-3.3.0 h11-0.14.0 h2-4.1.0 hpack-4.1.0 httptools-0.7.1 hyperframe-6.0.1 idna-3.11 itsdangerous-2.2.0 kaitaistruct-0.10 ldap3-2.9.1 mitmproxy-11.0.2 mitmproxy_rs-0.10.7 msgpack-1.1.0 passlib-1.7.4 psycopg2-binary-2.9.11 publicsuffix2-2.20191221 pyOpenSSL-24.3.0 pyasn1-0.6.1 pyasn1-modules-0.4.2 pycparser-2.23 pydantic-2.9.2 pydantic-core-2.23.4 pydantic-settings-2.8.1 pylsqpack-0.3.23 pyparsing-3.2.0 pyperclip-1.9.0 python-dotenv-1.2.1 pyyaml-6.0.3 requests-2.32.5 ruamel.yaml-0.18.6 ruamel.yaml.clib-0.2.15 service-identity-24.2.0 sortedcontainers-2.4.0 sqlalchemy-2.0.45 starlette-0.50.0 tornado-6.4.2 typing-extensions-4.11.0 urllib3-2.6.2 urwid-2.6.16 uvicorn-0.40.0 uvloop-0.22.1 watchfiles-1.1.1 wcwidth-0.2.14 websockets-15.0.1 wsproto-1.2.0 zstandard-0.23.0
+#41 447.5 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#41 447.8 
+#41 447.8 [notice] A new release of pip is available: 23.0.1 -> 25.3
+#41 447.8 [notice] To update, run: pip install --upgrade pip
+#41 ...
+
+#81 [apk-scanner 6/6] COPY . .
+#81 DONE 10.0s
+
+#82 [apk-scanner] exporting to image
+#82 exporting layers
+#82 ...
+
+#80 [frontend build 4/6] RUN npm ci --legacy-peer-deps
+#80 26.63 npm warn deprecated w3c-hr-time@1.0.2: Use your platform's native performance.now() and performance.timeOrigin.
+#80 27.59 npm warn deprecated stable@0.1.8: Modern JS already guarantees Array#sort() is a stable sort, so this library is deprecated. See the compatibility table on MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort#browser_compatibility
+#80 27.78 npm warn deprecated sourcemap-codec@1.4.8: Please use @jridgewell/sourcemap-codec instead
+#80 28.09 npm warn deprecated rollup-plugin-terser@7.0.2: This package has been deprecated and is no longer maintained. Please use @rollup/plugin-terser
+#80 28.19 npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+#80 29.20 npm warn deprecated q@1.5.1: You or someone you depend on is using Q, the JavaScript Promise library that gave JavaScript developers strong feelings about promises. They can almost certainly migrate to the native JavaScript promise now. Thank you literally everyone for joining me in this bet against the odds. Be excellent to each other.
+#80 29.20 npm warn deprecated
+#80 29.20 npm warn deprecated (For a CapTP with native promises, see @endo/eventual-send and @endo/captp)
+#80 30.12 npm warn deprecated workbox-cacheable-response@6.6.0: workbox-background-sync@6.6.0
+#80 31.06 npm warn deprecated workbox-google-analytics@6.6.0: It is not compatible with newer versions of GA starting with v4, as long as you are using GAv3 it should be ok, but the package is not longer being maintained
+#80 31.95 npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+#80 32.73 npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+#80 ...
+
+#41 [network-inspector 4/5] RUN pip install --no-cache-dir -r requirements.txt
+#41 DONE 466.9s
+
+#82 [apk-scanner] exporting to image
+#82 ...
+
+#80 [frontend build 4/6] RUN npm ci --legacy-peer-deps
+#80 38.10 npm warn deprecated domexception@2.0.1: Use your platform's native DOMException instead
+#80 43.56 npm warn deprecated abab@2.0.6: Use your platform's native atob() and btoa() methods instead
+#80 45.75 npm warn deprecated @humanwhocodes/config-array@0.13.0: Use @eslint/config-array instead
+#80 46.80 npm warn deprecated @humanwhocodes/object-schema@2.0.3: Use @eslint/object-schema instead
+#80 47.69 npm warn deprecated @babel/plugin-proposal-class-properties@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-class-properties instead.
+#80 47.69 npm warn deprecated @babel/plugin-proposal-numeric-separator@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-numeric-separator instead.
+#80 47.69 npm warn deprecated @babel/plugin-proposal-nullish-coalescing-operator@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-nullish-coalescing-operator instead.
+#80 47.69 npm warn deprecated @babel/plugin-proposal-private-methods@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-private-methods instead.
+#80 47.79 npm warn deprecated @babel/plugin-proposal-optional-chaining@7.21.0: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-optional-chaining instead.
+#80 ...
+
+#83 [network-inspector 5/5] COPY . .
+#83 ...
+
+#80 [frontend build 4/6] RUN npm ci --legacy-peer-deps
+#80 48.68 npm warn deprecated @babel/plugin-proposal-private-property-in-object@7.21.11: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-private-property-in-object instead.
+#80 49.15 npm warn deprecated svgo@1.3.2: This SVGO version is no longer supported. Upgrade to v2.x.x.
+#80 50.22 npm warn deprecated source-map@0.8.0-beta.0: The work that was done in this beta branch won't be included in future versions
+#80 77.15 npm warn deprecated eslint@8.57.1: This version is no longer supported. Please see https://eslint.org/version-support for other options.
+#80 ...
+
+#83 [network-inspector 5/5] COPY . .
+#83 DONE 49.1s
+
+#82 [apk-scanner] exporting to image
+#82 ...
+
+#84 [network-inspector] exporting to image
+#84 exporting layers
+#84 exporting layers 25.7s done
+#84 exporting manifest sha256:440d226abdfd00d790bf266eff3487f878ca359a05bfdd3a61bfd76e0a5211e7 0.1s done
+#84 exporting config sha256:d396f3471162b3817b046839a73360e636dfa48a087ba96e92fbcbf56f551ff2 0.1s done
+#84 exporting attestation manifest sha256:4edfd063f7106c63de6c8ca608aca1378c2b8a13a9db8f0db510a561a479eba1 0.1s done
+#84 exporting manifest list sha256:67bf40cda20bbdfda1c88062f85b46c9a1773bccd83a1bd4df143e1f697e2b34
+#84 exporting manifest list sha256:67bf40cda20bbdfda1c88062f85b46c9a1773bccd83a1bd4df143e1f697e2b34 0.1s done
+#84 naming to docker.io/library/mobilesec-cd-network-inspector:latest done
+#84 unpacking to docker.io/library/mobilesec-cd-network-inspector:latest
+#84 ...
+
+#80 [frontend build 4/6] RUN npm ci --legacy-peer-deps
+#80 117.9 
+#80 117.9 added 1436 packages, and audited 1437 packages in 2m
+#80 117.9 
+#80 117.9 281 packages are looking for funding
+#80 117.9   run `npm fund` for details
+#80 117.9 
+#80 117.9 10 vulnerabilities (3 moderate, 7 high)
+#80 117.9 
+#80 117.9 To address issues that do not require attention, run:
+#80 117.9   npm audit fix
+#80 117.9 
+#80 117.9 To address all issues (including breaking changes), run:
+#80 117.9   npm audit fix --force
+#80 117.9 
+#80 117.9 Run `npm audit` for details.
+#80 117.9 npm notice
+#80 117.9 npm notice New major version of npm available! 10.8.2 -> 11.7.0
+#80 117.9 npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.7.0
+#80 117.9 npm notice To update run: npm install -g npm@11.7.0
+#80 117.9 npm notice
+#80 ...
+
+#84 [network-inspector] exporting to image
+#84 unpacking to docker.io/library/mobilesec-cd-network-inspector:latest 18.5s done
+#84 DONE 44.6s
+
+#82 [apk-scanner] exporting to image
+#82 ...
+
+#80 [frontend build 4/6] RUN npm ci --legacy-peer-deps
+#80 DONE 158.9s
+
+#85 [frontend build 5/6] COPY . .
+#85 ...
+
+#86 [network-inspector] resolving provenance for metadata file
+#86 DONE 0.3s
+
+#82 [apk-scanner] exporting to image
+#82 ...
+
+#85 [frontend build 5/6] COPY . .
+#85 DONE 2.9s
+
+#87 [frontend build 6/6] RUN npm run build
+#87 10.56 
+#87 10.56 > mobilesec-react@0.1.0 build
+#87 10.56 > react-scripts build
+#87 10.56 
+#87 18.19 Creating an optimized production build...
+#87 ...
+
+#82 [apk-scanner] exporting to image
+#82 exporting layers 184.6s done
+#82 exporting manifest sha256:6786fc0b76d73a300866050e3fd2f4b85261dd51c8be0e038321a09f9f026d6d 0.1s done
+#82 exporting config sha256:9a2f14ea7664d553ba983f864a449c24e44926b54da7596da5fd675b440abce6 0.0s done
+#82 exporting attestation manifest sha256:54c6b1a0b442aed8bc6e341de5896215d27685dec783d7ca7367dc31412064c3
+#82 exporting attestation manifest sha256:54c6b1a0b442aed8bc6e341de5896215d27685dec783d7ca7367dc31412064c3 0.1s done
+#82 exporting manifest list sha256:0525ec3dfad847d61e5af05ee22c4d48637222fdfa1681c425a838b417e4045a 0.1s done
+#82 naming to docker.io/library/mobilesec-cd-apk-scanner:latest
+#82 naming to docker.io/library/mobilesec-cd-apk-scanner:latest done
+#82 unpacking to docker.io/library/mobilesec-cd-apk-scanner:latest
+#82 unpacking to docker.io/library/mobilesec-cd-apk-scanner:latest 50.9s done
+#82 DONE 235.8s
+
+#87 [frontend build 6/6] RUN npm run build
+#87 ...
+
+#88 [apk-scanner] resolving provenance for metadata file
+#88 DONE 0.2s
+
+#87 [frontend build 6/6] RUN npm run build
+#87 151.1 Compiled with warnings.
+#87 151.1 
+#87 151.1 [eslint] 
+#87 151.1 src/components/Layout.js
+#87 151.1   Line 25:11:  'theme' is assigned a value but never used  no-unused-vars
+#87 151.1 
+#87 151.1 src/pages/CIIntegrationPage.js
+#87 151.1   Line 8:5:    'Divider' is defined but never used         no-unused-vars
+#87 151.1   Line 9:5:    'Grid' is defined but never used            no-unused-vars
+#87 151.1   Line 24:10:  'motion' is defined but never used          no-unused-vars
+#87 151.1   Line 43:11:  'theme' is assigned a value but never used  no-unused-vars
+#87 151.1 
+#87 151.1 src/pages/DashboardPage.js
+#87 151.1   Line 8:5:  'IconButton' is defined but never used  no-unused-vars
+#87 151.1 
+#87 151.1 src/pages/NetworkPage.js
+#87 151.1   Line 14:5:  'Box' is defined but never used                                                                                  no-unused-vars
+#87 151.1   Line 91:8:  React Hook useEffect has a missing dependency: 'fetchResults'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+#87 151.1 
+#87 151.1 src/pages/ReportPage.js
+#87 151.1   Line 27:5:    'Fade' is defined but never used                                                                                       no-unused-vars
+#87 151.1   Line 33:8:    'CheckCircleIcon' is defined but never used                                                                            no-unused-vars
+#87 151.1   Line 34:8:    'WarningIcon' is defined but never used                                                                                no-unused-vars
+#87 151.1   Line 36:8:    'SecurityIcon' is defined but never used                                                                               no-unused-vars
+#87 151.1   Line 38:8:    'DownloadIcon' is defined but never used                                                                               no-unused-vars
+#87 151.1   Line 53:52:   'scanDate' is assigned a value but never used                                                                          no-unused-vars
+#87 151.1   Line 90:8:    React Hook useEffect has a missing dependency: 'ensureReportExists'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+#87 151.1   Line 130:12:  'loadingFix' is assigned a value but never used                                                                        no-unused-vars
+#87 151.1   Line 190:11:  'totalIssues' is assigned a value but never used                                                                       no-unused-vars
+#87 151.1   Line 516:10:  'RiskCard' is defined but never used                                                                                   no-unused-vars
+#87 151.1 
+#87 151.1 src/pages/ResultsPage.js
+#87 151.1   Line 6:3:   'CardContent' is defined but never used                                                                          no-unused-vars
+#87 151.1   Line 9:3:   'Container' is defined but never used                                                                            no-unused-vars
+#87 151.1   Line 11:3:  'Paper' is defined but never used                                                                                no-unused-vars
+#87 151.1   Line 72:6:  React Hook useEffect has a missing dependency: 'fetchResults'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+#87 151.1 
+#87 151.1 src/pages/UploadPage.js
+#87 151.1   Line 6:3:    'Card' is defined but never used               no-unused-vars
+#87 151.1   Line 7:3:    'CardContent' is defined but never used        no-unused-vars
+#87 151.1   Line 9:3:    'IconButton' is defined but never used         no-unused-vars
+#87 151.1   Line 16:3:   'List' is defined but never used               no-unused-vars
+#87 151.1   Line 23:8:   'CloudUploadIcon' is defined but never used    no-unused-vars
+#87 151.1   Line 24:8:   'DeleteOutlineIcon' is defined but never used  no-unused-vars
+#87 151.1   Line 27:8:   'ErrorOutlineIcon' is defined but never used   no-unused-vars
+#87 151.1   Line 28:8:   'WarningAmberIcon' is defined but never used   no-unused-vars
+#87 151.1   Line 30:18:  'AnimatePresence' is defined but never used    no-unused-vars
+#87 151.1 
+#87 151.1 Search for the keywords to learn more about each warning.
+#87 151.1 To ignore, add // eslint-disable-next-line to the line before.
+#87 151.1 
+#87 151.1 File sizes after gzip:
+#87 151.1 
+#87 151.2   402.37 kB  build/static/js/main.088492b4.js
+#87 151.2   1.77 kB    build/static/js/453.8b4e8c95.chunk.js
+#87 151.2   513 B      build/static/css/main.f855e6bc.css
+#87 151.2 
+#87 151.2 The project was built assuming it is hosted at /.
+#87 151.2 You can control this with the homepage field in your package.json.
+#87 151.2 
+#87 151.2 The build folder is ready to be deployed.
+#87 151.2 You may serve it with a static server:
+#87 151.2 
+#87 151.2   npm install -g serve
+#87 151.2   serve -s build
+#87 151.2 
+#87 151.2 Find out more about deployment here:
+#87 151.2 
+#87 151.2   https://cra.link/deployment
+#87 151.2 
+#87 DONE 151.8s
+
+#89 [frontend stage-1 2/2] COPY --from=build /app/build /usr/share/nginx/html
+#89 DONE 0.4s
+
+#90 [frontend] exporting to image
+#90 exporting layers
+#90 exporting layers 3.1s done
+#90 exporting manifest sha256:eefdbcb71625a3b79cabc9e9451f3af659f3c92f5e4d7272059dfb1654688e19 0.1s done
+#90 exporting config sha256:85fd8d4267dfdb6cbc02d117c43bf743d853f271bb9c3ee229a589c837fc8776 0.1s done
+#90 exporting attestation manifest sha256:1a857905d7c1463068e4043707f76933591b33e3b38f0e55af485d52db66923c
+#90 exporting attestation manifest sha256:1a857905d7c1463068e4043707f76933591b33e3b38f0e55af485d52db66923c 0.1s done
+#90 exporting manifest list sha256:b5c166bee0fb6f97ae4a0e7e0c30ae28108f9bb1bd4628eaa614a61172574ecb
+#90 exporting manifest list sha256:b5c166bee0fb6f97ae4a0e7e0c30ae28108f9bb1bd4628eaa614a61172574ecb 0.1s done
+#90 naming to docker.io/library/mobilesec-cd-frontend:latest done
+#90 unpacking to docker.io/library/mobilesec-cd-frontend:latest 0.1s done
+#90 DONE 3.6s
+
+#91 [frontend] resolving provenance for metadata file
+#91 DONE 0.0s
+ apk-scanner  Built
+ crypto-check  Built
+ fix-suggest  Built
+ frontend  Built
+ gateway-service  Built
+ network-inspector  Built
+ report-service  Built
+ secret-hunter  Built
+ Network mobilesec-cd_mobilesec-net  Creating
+ Network mobilesec-cd_mobilesec-net  Created
+ Container mobilesec-cd-network-inspector-1  Creating
+ Container mobilesec-cd-report-service-1  Creating
+ Container mobilesec-cd-secret-hunter-1  Creating
+ Container mobilesec-cd-crypto-check-1  Creating
+ Container mobilesec-cd-fix-suggest-1  Creating
+ Container mobilesec-cd-apk-scanner-1  Creating
+ Container mobilesec-cd-gateway-service-1  Creating
+ Container mobilesec-cd-gateway-service-1  Created
+ Container mobilesec-cd-fix-suggest-1  Created
+ Container mobilesec-cd-frontend-1  Creating
+ Container mobilesec-cd-report-service-1  Created
+ Container mobilesec-cd-secret-hunter-1  Created
+ Container mobilesec-cd-apk-scanner-1  Created
+ Container mobilesec-cd-network-inspector-1  Created
+ Container mobilesec-cd-crypto-check-1  Created
+ Container mobilesec-cd-frontend-1  Created
+ Container mobilesec-cd-fix-suggest-1  Starting
+ Container mobilesec-cd-network-inspector-1  Starting
+ Container mobilesec-cd-secret-hunter-1  Starting
+ Container mobilesec-cd-apk-scanner-1  Starting
+ Container mobilesec-cd-gateway-service-1  Starting
+ Container mobilesec-cd-crypto-check-1  Starting
+ Container mobilesec-cd-report-service-1  Starting
+ Container mobilesec-cd-fix-suggest-1  Started
+ Container mobilesec-cd-network-inspector-1  Started
+ Container mobilesec-cd-secret-hunter-1  Started
+ Container mobilesec-cd-report-service-1  Started
+ Container mobilesec-cd-apk-scanner-1  Started
+ Container mobilesec-cd-crypto-check-1  Started
+ Container mobilesec-cd-gateway-service-1  Started
+ Container mobilesec-cd-frontend-1  Starting
+Error response from daemon: Ports are not available: exposing port TCP 0.0.0.0:3000 -> 127.0.0.1:0: listen tcp 0.0.0.0:3000: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted.
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Health Check)
+Stage "Health Check" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] echo
+Pipeline completed.
+[Pipeline] echo
+Pipeline Failed.
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+ERROR: script returned exit code 1
+Finished: FAILURE

@@ -17,9 +17,9 @@ pipeline {
 
         stage('Cleanup') {
             steps {
-                // Windows Batch command to clean up
-                // "call" is used to prevent the script from exiting early if one command fails
-                bat "call ${DOCKER_COMPOSE_CMD} down --volumes --remove-orphans || echo No containers to remove"
+                // Run the robust cleanup script
+                // using "powershell" directly if available, or bat calling powershell
+                bat 'powershell -ExecutionPolicy Bypass -File scripts/ci_cleanup.ps1'
             }
         }
 
@@ -31,8 +31,8 @@ pipeline {
                     javaServices.each { service ->
                         dir(service) {
                             echo "Building ${service}..."
-                            // Assuming 'mvn' is in system PATH as per guide
-                            bat 'mvn clean package -DskipTests'
+                            // Added -B for batch mode (less logs) and suppressed transfer progress
+                            bat 'mvn -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn clean package -DskipTests'
                         }
                     }
                 }
