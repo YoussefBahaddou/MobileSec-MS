@@ -1,0 +1,789 @@
+Started by user admin
+Obtained Jenkinsfile from git https://github.com/YoussefBahaddou/MobileSec-MS.git
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+The recommended git tool is: git.exe
+No credentials specified
+ > git.exe rev-parse --resolve-git-dir C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\.git # timeout=10
+Fetching changes from the remote Git repository
+ > git.exe config remote.origin.url https://github.com/YoussefBahaddou/MobileSec-MS.git # timeout=10
+Fetching upstream changes from https://github.com/YoussefBahaddou/MobileSec-MS.git
+ > git.exe --version # timeout=10
+ > git --version # 'git version 2.42.0.windows.2'
+ > git.exe fetch --tags --force --progress -- https://github.com/YoussefBahaddou/MobileSec-MS.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git.exe rev-parse "refs/remotes/origin/CI-CD-Pipleline^{commit}" # timeout=10
+Checking out Revision de05db17e8415089a9f0427526fff27f222a0090 (refs/remotes/origin/CI-CD-Pipleline)
+ > git.exe config core.sparsecheckout # timeout=10
+ > git.exe checkout -f de05db17e8415089a9f0427526fff27f222a0090 # timeout=10
+Commit message: "Enhance cleanup to kill local processes on conflict ports"
+ > git.exe rev-list --no-walk 1c1750920c9a871d19133c9dbf1e0f7b1a6e43fc # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Checkout)
+[Pipeline] git
+The recommended git tool is: git.exe
+No credentials specified
+ > git.exe rev-parse --resolve-git-dir C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\.git # timeout=10
+Fetching changes from the remote Git repository
+ > git.exe config remote.origin.url https://github.com/YoussefBahaddou/MobileSec-MS # timeout=10
+Fetching upstream changes from https://github.com/YoussefBahaddou/MobileSec-MS
+ > git.exe --version # timeout=10
+ > git --version # 'git version 2.42.0.windows.2'
+ > git.exe fetch --tags --force --progress -- https://github.com/YoussefBahaddou/MobileSec-MS +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git.exe rev-parse "refs/remotes/origin/CI-CD-Pipleline^{commit}" # timeout=10
+Checking out Revision de05db17e8415089a9f0427526fff27f222a0090 (refs/remotes/origin/CI-CD-Pipleline)
+ > git.exe config core.sparsecheckout # timeout=10
+ > git.exe checkout -f de05db17e8415089a9f0427526fff27f222a0090 # timeout=10
+ > git.exe branch -a -v --no-abbrev # timeout=10
+ > git.exe branch -D CI-CD-Pipleline # timeout=10
+ > git.exe checkout -b CI-CD-Pipleline de05db17e8415089a9f0427526fff27f222a0090 # timeout=10
+Commit message: "Enhance cleanup to kill local processes on conflict ports"
+[Pipeline] echo
+Checked out CI-CD-Pipleline successfully!
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Cleanup)
+[Pipeline] bat
+
+C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD>powershell -ExecutionPolicy Bypass -File scripts/ci_cleanup.ps1 
+--- Starting CI Port Cleanup ---
+Cleaning port 3000...
+Cleaning port 8083...
+Found Docker container (501b48480d46) using port 8083. Stopping...
+Successfully removed container (501b48480d46).
+Found local process 'wslrelay' (PID: 49448) listening on port 8083. Killing...
+Successfully stopped process ID 49448.
+Cleaning port 8088...
+Found Docker container (9a38523a3609) using port 8088. Stopping...
+Successfully removed container (9a38523a3609).
+Cleaning port 8089...
+Found Docker container (bb3a96a231ae) using port 8089. Stopping...
+Successfully removed container (bb3a96a231ae).
+Cleaning port 8087...
+Found Docker container (1cc917b3b8c7) using port 8087. Stopping...
+Successfully removed container (1cc917b3b8c7).
+Cleaning port 8080...
+Found Docker container (e48cc4217141) using port 8080. Stopping...
+Successfully removed container (e48cc4217141).
+Found local process 'httpd' (PID: 7208) listening on port 8080. Killing...
+Successfully stopped process ID 7208.
+Cleaning port 8081...
+Found Docker container (2a7303a67702) using port 8081. Stopping...
+Successfully removed container (2a7303a67702).
+Cleaning port 8085...
+Found Docker container (2e70e0f6e578) using port 8085. Stopping...
+Successfully removed container (2e70e0f6e578).
+Ensuring standard docker-compose down logic...
+--- CI Cleanup Complete ---
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build & Test Backend (Java))
+[Pipeline] script
+[Pipeline] {
+[Pipeline] dir
+Running in C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\gateway-service
+[Pipeline] {
+[Pipeline] echo
+Building backend/gateway-service...
+[Pipeline] bat
+
+C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\gateway-service>mvn -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn clean package -DskipTests 
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------------< com.mobilesec:getaway-service >--------------------
+[INFO] Building com.getaway.service 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.4.1:clean (default-clean) @ getaway-service ---
+[INFO] Deleting C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\gateway-service\target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ getaway-service ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ getaway-service ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 5 source files with javac [debug parameters release 21] to target\classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ getaway-service ---
+[INFO] skip non existing resourceDirectory C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\gateway-service\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ getaway-service ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 1 source file with javac [debug parameters release 21] to target\test-classes
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ getaway-service ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ getaway-service ---
+[INFO] Building jar: C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\gateway-service\target\getaway-service-0.0.1-SNAPSHOT.jar
+[INFO] 
+[INFO] --- spring-boot:3.5.7:repackage (repackage) @ getaway-service ---
+[INFO] Replacing main artifact C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\gateway-service\target\getaway-service-0.0.1-SNAPSHOT.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\gateway-service\target\getaway-service-0.0.1-SNAPSHOT.jar.original
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  7.260 s
+[INFO] Finished at: 2025-12-25T20:33:16+01:00
+[INFO] ------------------------------------------------------------------------
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] dir
+Running in C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\crypto-check
+[Pipeline] {
+[Pipeline] echo
+Building backend/crypto-check...
+[Pipeline] bat
+
+C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\crypto-check>mvn -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn clean package -DskipTests 
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------< com.mobilesec:crypto-check >---------------------
+[INFO] Building crypto-check 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.4.1:clean (default-clean) @ crypto-check ---
+[INFO] Deleting C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\crypto-check\target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ crypto-check ---
+[INFO] Copying 2 resources from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ crypto-check ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 4 source files with javac [debug parameters release 21] to target\classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ crypto-check ---
+[INFO] skip non existing resourceDirectory C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\crypto-check\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ crypto-check ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 1 source file with javac [debug parameters release 21] to target\test-classes
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ crypto-check ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ crypto-check ---
+[INFO] Building jar: C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\crypto-check\target\crypto-check-0.0.1-SNAPSHOT.jar
+[INFO] 
+[INFO] --- spring-boot:3.5.8:repackage (repackage) @ crypto-check ---
+[INFO] Replacing main artifact C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\crypto-check\target\crypto-check-0.0.1-SNAPSHOT.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\crypto-check\target\crypto-check-0.0.1-SNAPSHOT.jar.original
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  10.175 s
+[INFO] Finished at: 2025-12-25T20:33:29+01:00
+[INFO] ------------------------------------------------------------------------
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] dir
+Running in C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\ReportGen
+[Pipeline] {
+[Pipeline] echo
+Building backend/ReportGen...
+[Pipeline] bat
+
+C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\ReportGen>mvn -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn clean package -DskipTests 
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------------< com.mobilesec:reportgen >-----------------------
+[INFO] Building reportgen 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.4.1:clean (default-clean) @ reportgen ---
+[INFO] Deleting C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\ReportGen\target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ reportgen ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ reportgen ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 13 source files with javac [debug parameters release 21] to target\classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ reportgen ---
+[INFO] skip non existing resourceDirectory C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\ReportGen\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ reportgen ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 1 source file with javac [debug parameters release 21] to target\test-classes
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ reportgen ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ reportgen ---
+[INFO] Building jar: C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\ReportGen\target\reportgen-0.0.1-SNAPSHOT.jar
+[INFO] 
+[INFO] --- spring-boot:3.5.8:repackage (repackage) @ reportgen ---
+[INFO] Replacing main artifact C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\ReportGen\target\reportgen-0.0.1-SNAPSHOT.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\ReportGen\target\reportgen-0.0.1-SNAPSHOT.jar.original
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  12.042 s
+[INFO] Finished at: 2025-12-25T20:33:45+01:00
+[INFO] ------------------------------------------------------------------------
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] dir
+Running in C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\fix-suggest
+[Pipeline] {
+[Pipeline] echo
+Building backend/fix-suggest...
+[Pipeline] bat
+
+C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\fix-suggest>mvn -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn clean package -DskipTests 
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------< com.mobilesec:fix-suggest >----------------------
+[INFO] Building fix-suggest 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.4.1:clean (default-clean) @ fix-suggest ---
+[INFO] Deleting C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\fix-suggest\target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ fix-suggest ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ fix-suggest ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 9 source files with javac [debug parameters release 21] to target\classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ fix-suggest ---
+[INFO] skip non existing resourceDirectory C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\fix-suggest\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ fix-suggest ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 1 source file with javac [debug parameters release 21] to target\test-classes
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ fix-suggest ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ fix-suggest ---
+[INFO] Building jar: C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\fix-suggest\target\fix-suggest-0.0.1-SNAPSHOT.jar
+[INFO] 
+[INFO] --- spring-boot:3.5.8:repackage (repackage) @ fix-suggest ---
+[INFO] Replacing main artifact C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\fix-suggest\target\fix-suggest-0.0.1-SNAPSHOT.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\fix-suggest\target\fix-suggest-0.0.1-SNAPSHOT.jar.original
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  11.040 s
+[INFO] Finished at: 2025-12-25T20:33:59+01:00
+[INFO] ------------------------------------------------------------------------
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Docker Build & Deploy)
+[Pipeline] echo
+Building and Starting Docker Containers...
+[Pipeline] bat
+
+C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD>docker-compose up -d --build 
+time="2025-12-25T20:34:00+01:00" level=warning msg="C:\\Users\\Youssef\\AppData\\Local\\Jenkins\\.jenkins\\workspace\\MobileSec-CD\\docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+Compose can now delegate builds to bake for better performance.
+ To do so, set COMPOSE_BAKE=true.
+2025/12/25 20:34:00 http2: server: error reading preface from client //./pipe/dockerDesktopLinuxEngine: file has already been closed
+2025/12/25 20:34:00 http2: server: error reading preface from client //./pipe/dockerDesktopLinuxEngine: file has already been closed
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [secret-hunter internal] load build definition from Dockerfile
+#1 transferring dockerfile: 392B 0.0s done
+#1 DONE 0.0s
+
+#2 [gateway-service internal] load build definition from Dockerfile
+#2 transferring dockerfile: 343B 0.0s done
+#2 DONE 0.1s
+
+#3 [fix-suggest internal] load build definition from Dockerfile
+#3 transferring dockerfile: 389B 0.0s done
+#3 DONE 0.1s
+
+#4 [apk-scanner internal] load build definition from Dockerfile
+#4 transferring dockerfile: 727B 0.0s done
+#4 DONE 0.1s
+
+#5 [crypto-check internal] load build definition from Dockerfile
+#5 transferring dockerfile: 342B 0.0s done
+#5 DONE 0.1s
+
+#6 [report-service internal] load build definition from Dockerfile
+#6 transferring dockerfile: 407B 0.0s done
+#6 DONE 0.1s
+
+#7 [crypto-check internal] load metadata for docker.io/library/maven:3.9-eclipse-temurin-21
+#7 ...
+
+#8 [network-inspector internal] load build definition from Dockerfile
+#8 transferring dockerfile: 392B 0.0s done
+#8 DONE 0.1s
+
+#7 [report-service internal] load metadata for docker.io/library/maven:3.9-eclipse-temurin-21
+#7 ...
+
+#9 [gateway-service auth] library/maven:pull token for registry-1.docker.io
+#9 DONE 0.0s
+
+#10 [gateway-service auth] library/eclipse-temurin:pull token for registry-1.docker.io
+#10 DONE 0.0s
+
+#11 [secret-hunter auth] library/python:pull token for registry-1.docker.io
+#11 DONE 0.0s
+
+#12 [report-service internal] load metadata for docker.io/library/eclipse-temurin:21-jre-alpine
+#12 DONE 1.2s
+
+#7 [crypto-check internal] load metadata for docker.io/library/maven:3.9-eclipse-temurin-21
+#7 DONE 1.2s
+
+#13 [secret-hunter internal] load metadata for docker.io/library/python:3.10-slim
+#13 DONE 1.2s
+
+#14 [secret-hunter internal] load .dockerignore
+#14 transferring context: 2B done
+#14 DONE 0.0s
+
+#15 [network-inspector internal] load .dockerignore
+#15 transferring context: 2B done
+#15 DONE 0.0s
+
+#16 [apk-scanner internal] load .dockerignore
+#16 transferring context: 2B done
+#16 DONE 0.0s
+
+#17 [crypto-check internal] load .dockerignore
+#17 transferring context: 2B done
+#17 DONE 0.0s
+
+#18 [secret-hunter 1/5] FROM docker.io/library/python:3.10-slim@sha256:fb1feae978f1729094eb0405e5f9564e55b2b3b24db3261d30ba4f22c5001a8a
+#18 resolve docker.io/library/python:3.10-slim@sha256:fb1feae978f1729094eb0405e5f9564e55b2b3b24db3261d30ba4f22c5001a8a 0.0s done
+#18 DONE 0.1s
+
+#19 [report-service internal] load .dockerignore
+#19 transferring context: 2B done
+#19 DONE 0.0s
+
+#20 [network-inspector internal] load build context
+#20 transferring context: 669B 0.0s done
+#20 DONE 0.1s
+
+#21 [fix-suggest internal] load .dockerignore
+#21 transferring context: 2B done
+#21 DONE 0.1s
+
+#22 [gateway-service internal] load .dockerignore
+#22 transferring context: 2B done
+#22 DONE 0.1s
+
+#23 [fix-suggest internal] load build context
+#23 DONE 0.0s
+
+#24 [network-inspector 2/5] WORKDIR /app
+#24 CACHED
+
+#25 [network-inspector 4/5] RUN pip install --no-cache-dir -r requirements.txt
+#25 CACHED
+
+#26 [network-inspector 3/5] COPY requirements.txt .
+#26 CACHED
+
+#27 [network-inspector 5/5] COPY . .
+#27 CACHED
+
+#28 [crypto-check internal] load build context
+#28 DONE 0.0s
+
+#29 [gateway-service internal] load build context
+#29 DONE 0.0s
+
+#30 [report-service internal] load build context
+#30 DONE 0.0s
+
+#31 [network-inspector] exporting to image
+#31 exporting layers 0.0s done
+#31 exporting manifest sha256:440d226abdfd00d790bf266eff3487f878ca359a05bfdd3a61bfd76e0a5211e7 0.0s done
+#31 exporting config sha256:d396f3471162b3817b046839a73360e636dfa48a087ba96e92fbcbf56f551ff2 done
+#31 ...
+
+#32 [secret-hunter internal] load build context
+#32 transferring context: 99.03kB 0.1s done
+#32 DONE 0.2s
+
+#33 [gateway-service stage-1 1/3] FROM docker.io/library/eclipse-temurin:21-jre-alpine@sha256:326837fba06a8ff5482a17bafbd65319e64a6e997febb7c85ebe7e3f73c12b11
+#33 resolve docker.io/library/eclipse-temurin:21-jre-alpine@sha256:326837fba06a8ff5482a17bafbd65319e64a6e997febb7c85ebe7e3f73c12b11 0.1s done
+#33 DONE 0.1s
+
+#34 [secret-hunter 4/5] RUN pip install --no-cache-dir -r requirements.txt
+#34 CACHED
+
+#35 [secret-hunter 3/5] COPY requirements.txt .
+#35 CACHED
+
+#24 [secret-hunter 2/5] WORKDIR /app
+#24 CACHED
+
+#36 [secret-hunter 5/5] COPY . .
+#36 CACHED
+
+#37 [crypto-check build 1/5] FROM docker.io/library/maven:3.9-eclipse-temurin-21@sha256:5ab44df1a8d34911d649713c1f451efc0b7ddea3305f09eb7070fdbb188c51ba
+#37 resolve docker.io/library/maven:3.9-eclipse-temurin-21@sha256:5ab44df1a8d34911d649713c1f451efc0b7ddea3305f09eb7070fdbb188c51ba 0.1s done
+#37 DONE 0.1s
+
+#38 [apk-scanner internal] load build context
+#38 transferring context: 100.19kB 0.1s done
+#38 DONE 0.2s
+
+#39 [apk-scanner 5/6] RUN pip install --no-cache-dir -r requirements.txt
+#39 CACHED
+
+#40 [apk-scanner 3/6] WORKDIR /app
+#40 CACHED
+
+#41 [apk-scanner 2/6] RUN apt-get update && apt-get install -y     gcc     libgomp1     && rm -rf /var/lib/apt/lists/*
+#41 CACHED
+
+#42 [apk-scanner 4/6] COPY requirements.txt .
+#42 CACHED
+
+#29 [gateway-service internal] load build context
+#29 transferring context: 1.32kB 0.0s done
+#29 DONE 0.0s
+
+#43 [apk-scanner 6/6] COPY . .
+#43 CACHED
+
+#23 [fix-suggest internal] load build context
+#23 transferring context: 1.71kB 0.0s done
+#23 DONE 0.1s
+
+#28 [crypto-check internal] load build context
+#28 transferring context: 1.26kB 0.0s done
+#28 DONE 0.1s
+
+#30 [report-service internal] load build context
+#30 transferring context: 2.27kB 0.0s done
+#30 DONE 0.1s
+
+#31 [network-inspector] exporting to image
+#31 exporting attestation manifest sha256:c39ba26cc4ab7ecdddadda65a1bfe4b81c3a53821c9df5936d3aa198adf9e9e5 0.1s done
+#31 exporting manifest list sha256:7bfeae64b67ca0d4294d09d8c017ed02cdabb79fbd8a51323c56e106ed391927
+#31 exporting manifest list sha256:7bfeae64b67ca0d4294d09d8c017ed02cdabb79fbd8a51323c56e106ed391927 0.0s done
+#31 naming to docker.io/library/mobilesec-cd-network-inspector:latest 0.0s done
+#31 unpacking to docker.io/library/mobilesec-cd-network-inspector:latest 0.0s done
+#31 DONE 0.2s
+
+#44 [gateway-service build 4/5] COPY src ./src
+#44 CACHED
+
+#45 [gateway-service build 5/5] RUN mvn clean package -DskipTests
+#45 CACHED
+
+#46 [gateway-service build 3/5] COPY pom.xml .
+#46 CACHED
+
+#47 [gateway-service stage-1 3/3] COPY --from=build /app/target/*.jar app.jar
+#47 CACHED
+
+#48 [fix-suggest build 3/5] COPY pom.xml .
+#48 CACHED
+
+#49 [fix-suggest build 4/5] COPY src ./src
+#49 CACHED
+
+#50 [fix-suggest build 5/5] RUN mvn clean package -DskipTests
+#50 CACHED
+
+#51 [fix-suggest stage-1 3/3] COPY --from=build /app/target/*.jar app.jar
+#51 CACHED
+
+#52 [report-service build 4/5] COPY src ./src
+#52 CACHED
+
+#53 [report-service build 5/5] RUN mvn clean package -DskipTests
+#53 CACHED
+
+#54 [report-service build 3/5] COPY pom.xml .
+#54 CACHED
+
+#55 [crypto-check stage-1 2/3] WORKDIR /app
+#55 CACHED
+
+#56 [crypto-check build 5/5] RUN mvn clean package -DskipTests
+#56 CACHED
+
+#57 [crypto-check build 2/5] WORKDIR /app
+#57 CACHED
+
+#58 [crypto-check build 4/5] COPY src ./src
+#58 CACHED
+
+#59 [crypto-check build 3/5] COPY pom.xml .
+#59 CACHED
+
+#60 [crypto-check stage-1 3/3] COPY --from=build /app/target/*.jar app.jar
+#60 CACHED
+
+#61 [report-service stage-1 3/3] COPY --from=build /app/target/*.jar app.jar
+#61 CACHED
+
+#62 [crypto-check] exporting to image
+#62 exporting layers done
+#62 exporting manifest sha256:e22abf6b4522f894080c235c75803ecfc737f03c19050d5c56f8cae8012e9bac 0.1s done
+#62 exporting config sha256:33f3eff8d0eb1786292ecf5f5137cd52b2ca9656b3dcd3aa4d722b25ce09aee5
+#62 exporting config sha256:33f3eff8d0eb1786292ecf5f5137cd52b2ca9656b3dcd3aa4d722b25ce09aee5 0.1s done
+#62 ...
+
+#63 [secret-hunter] exporting to image
+#63 exporting layers done
+#63 exporting manifest sha256:321df19cabfe7ac8abba716d2fa88eeeedcfeb11920ef5b3e730f23606920831 done
+#63 exporting config sha256:6ea8313d1c38bbc7ed9e3473e3cea29d6851703d14b00188a8c089dc64af0160 0.0s done
+#63 exporting attestation manifest sha256:5532f2008061291a47fda4fe86cd4df582e51df5464e0d6c9e2490a6a889a49f 0.1s done
+#63 exporting manifest list sha256:0b2c9df14823bbc6d1705cc295192eda716e28d1c12285b870a3623ff715bff1 0.1s done
+#63 naming to docker.io/library/mobilesec-cd-secret-hunter:latest 0.1s done
+#63 unpacking to docker.io/library/mobilesec-cd-secret-hunter:latest 0.1s done
+#63 DONE 0.4s
+
+#62 [crypto-check] exporting to image
+#62 exporting attestation manifest sha256:646327d4dea0da5b38be2b8cf5faa2b331ab5025815f7286b55d7e83c7b33c2f
+#62 ...
+
+#64 [apk-scanner] exporting to image
+#64 exporting layers done
+#64 exporting manifest sha256:6786fc0b76d73a300866050e3fd2f4b85261dd51c8be0e038321a09f9f026d6d done
+#64 exporting config sha256:9a2f14ea7664d553ba983f864a449c24e44926b54da7596da5fd675b440abce6 0.0s done
+#64 exporting attestation manifest sha256:18ee08c4fcc59a26f5b179805652a8582740bf8aa19f02a4b4b03cab873f64df 0.2s done
+#64 exporting manifest list sha256:73566d12b11c6d0d7fedcc013775378536a288c02fc8a795894d32f2a1b0a0e7 0.1s done
+#64 naming to docker.io/library/mobilesec-cd-apk-scanner:latest 0.0s done
+#64 unpacking to docker.io/library/mobilesec-cd-apk-scanner:latest 0.1s done
+#64 DONE 0.5s
+
+#62 [crypto-check] exporting to image
+#62 exporting attestation manifest sha256:646327d4dea0da5b38be2b8cf5faa2b331ab5025815f7286b55d7e83c7b33c2f 0.2s done
+#62 exporting manifest list sha256:c9def0e8914236c08e06587f147566b9311a2456269d9ec421d8b6d0b02c4240
+#62 ...
+
+#65 [gateway-service] exporting to image
+#65 exporting layers done
+#65 exporting manifest sha256:89d3482b6888e151953e963c9d59faf9eae0817cb471fe7773c91ef5e8c3c5f3 done
+#65 exporting config sha256:53826ff2f5c2d3ed389a7f2a77990968e7603acd6dfcf01f22bbc4c95f7df53a 0.0s done
+#65 exporting attestation manifest sha256:10acc7d56b00ce5c0ab7c8991e1297bf7f5ce6f0eaca20dd220ec8315b6fc305 0.2s done
+#65 exporting manifest list sha256:9508c87976c5060e271db89ce0947cdcd4344d7711590b454fc306186ff15cc7 0.1s done
+#65 naming to docker.io/library/mobilesec-cd-gateway-service:latest 0.0s done
+#65 unpacking to docker.io/library/mobilesec-cd-gateway-service:latest 0.0s done
+#65 DONE 0.6s
+
+#62 [crypto-check] exporting to image
+#62 exporting manifest list sha256:c9def0e8914236c08e06587f147566b9311a2456269d9ec421d8b6d0b02c4240 0.1s done
+#62 naming to docker.io/library/mobilesec-cd-crypto-check:latest 0.0s done
+#62 unpacking to docker.io/library/mobilesec-cd-crypto-check:latest
+#62 unpacking to docker.io/library/mobilesec-cd-crypto-check:latest 0.0s done
+#62 DONE 0.6s
+
+#66 [fix-suggest] exporting to image
+#66 exporting layers done
+#66 exporting manifest sha256:183bada1b7786ef8811ca425d85ea22af170a77f76488baeb3cbdd505c3ce7b4 0.0s done
+#66 exporting config sha256:3d15ed1b5c56ea204483beca6dd2b05244bb795b0c3a660db7a8b8fc9e39c368 0.1s done
+#66 exporting attestation manifest sha256:6e676c92b95d5d6fab3a47c94c7c271a6e08128daa43eed6dec0c0dea9cf78ab 0.2s done
+#66 exporting manifest list sha256:4c140cfcfcbb5c05c123c7518863bbc652d030c7e0af454284b8d81b73920223 0.1s done
+#66 naming to docker.io/library/mobilesec-cd-fix-suggest:latest 0.0s done
+#66 unpacking to docker.io/library/mobilesec-cd-fix-suggest:latest 0.0s done
+#66 DONE 0.6s
+
+#67 [report-service] exporting to image
+#67 exporting layers done
+#67 exporting manifest sha256:38c379ffd0b236d44539dcbd0a8e3b99501395e895e24e397e6b491728d6aff7 0.1s done
+#67 exporting config sha256:90dd7c2efa8032afe4d810f024a30d9bbe70becf8e0b42d3466ae20c9e6e5729 0.1s done
+#67 exporting attestation manifest sha256:e3d06c04264dec9c231235d8af19d95ee4980dfeb538ebc3417c6bcb145a121b 0.2s done
+#67 exporting manifest list sha256:90fcd1c4431fc5df52b1fc9455dd5c607c6e99d595b355672e7b81842dad860e 0.1s done
+#67 naming to docker.io/library/mobilesec-cd-report-service:latest 0.0s done
+#67 unpacking to docker.io/library/mobilesec-cd-report-service:latest 0.0s done
+#67 DONE 0.6s
+
+#68 [network-inspector] resolving provenance for metadata file
+#68 DONE 0.0s
+
+#69 [gateway-service] resolving provenance for metadata file
+#69 DONE 0.0s
+
+#70 [crypto-check] resolving provenance for metadata file
+#70 DONE 0.0s
+
+#71 [fix-suggest] resolving provenance for metadata file
+#71 DONE 0.0s
+
+#72 [apk-scanner] resolving provenance for metadata file
+#72 DONE 0.0s
+
+#73 [secret-hunter] resolving provenance for metadata file
+#73 DONE 0.0s
+
+#74 [report-service] resolving provenance for metadata file
+#74 DONE 0.0s
+
+#75 [frontend internal] load build definition from Dockerfile
+#75 transferring dockerfile: 403B done
+#75 DONE 0.0s
+
+#76 [frontend auth] library/node:pull token for registry-1.docker.io
+#76 DONE 0.0s
+
+#77 [frontend auth] library/nginx:pull token for registry-1.docker.io
+#77 DONE 0.0s
+
+#78 [frontend internal] load metadata for docker.io/library/nginx:alpine
+#78 ...
+
+#79 [frontend internal] load metadata for docker.io/library/node:18
+#79 DONE 0.7s
+
+#78 [frontend internal] load metadata for docker.io/library/nginx:alpine
+#78 DONE 0.7s
+
+#80 [frontend internal] load .dockerignore
+#80 transferring context: 2B done
+#80 DONE 0.0s
+
+#81 [frontend stage-1 1/2] FROM docker.io/library/nginx:alpine@sha256:8491795299c8e739b7fcc6285d531d9812ce2666e07bd3dd8db00020ad132295
+#81 resolve docker.io/library/nginx:alpine@sha256:8491795299c8e739b7fcc6285d531d9812ce2666e07bd3dd8db00020ad132295 0.0s done
+#81 DONE 0.0s
+
+#82 [frontend build 1/6] FROM docker.io/library/node:18@sha256:c6ae79e38498325db67193d391e6ec1d224d96c693a8a4d943498556716d3783
+#82 resolve docker.io/library/node:18@sha256:c6ae79e38498325db67193d391e6ec1d224d96c693a8a4d943498556716d3783 0.0s done
+#82 DONE 0.0s
+
+#83 [frontend internal] load build context
+#83 transferring context: 2.19kB done
+#83 DONE 0.0s
+
+#84 [frontend build 3/6] COPY package.json package-lock.json ./
+#84 CACHED
+
+#85 [frontend build 5/6] COPY . .
+#85 CACHED
+
+#86 [frontend build 4/6] RUN npm ci --legacy-peer-deps
+#86 CACHED
+
+#87 [frontend build 2/6] WORKDIR /app
+#87 CACHED
+
+#88 [frontend build 6/6] RUN npm run build
+#88 CACHED
+
+#89 [frontend stage-1 2/2] COPY --from=build /app/build /usr/share/nginx/html
+#89 CACHED
+
+#90 [frontend] exporting to image
+#90 exporting layers done
+#90 exporting manifest sha256:eefdbcb71625a3b79cabc9e9451f3af659f3c92f5e4d7272059dfb1654688e19 done
+#90 exporting config sha256:85fd8d4267dfdb6cbc02d117c43bf743d853f271bb9c3ee229a589c837fc8776 done
+#90 exporting attestation manifest sha256:edb08c03b4e1d7f574f4839b8dee1cfec2a067474610cebaf3b717808a532ff2 0.0s done
+#90 exporting manifest list sha256:ed0d772cf6ba2a4aabe6b642625c36c58756d8ef318883ba5805631cfe7ae64a 0.0s done
+#90 naming to docker.io/library/mobilesec-cd-frontend:latest done
+#90 unpacking to docker.io/library/mobilesec-cd-frontend:latest 0.0s done
+#90 DONE 0.1s
+
+#91 [frontend] resolving provenance for metadata file
+#91 DONE 0.0s
+ apk-scanner  Built
+ crypto-check  Built
+ fix-suggest  Built
+ frontend  Built
+ gateway-service  Built
+ network-inspector  Built
+ report-service  Built
+ secret-hunter  Built
+ Network mobilesec-cd_mobilesec-net  Creating
+ Network mobilesec-cd_mobilesec-net  Created
+ Container mobilesec-cd-report-service-1  Creating
+ Container mobilesec-cd-fix-suggest-1  Creating
+ Container mobilesec-cd-gateway-service-1  Creating
+ Container mobilesec-cd-network-inspector-1  Creating
+ Container mobilesec-cd-apk-scanner-1  Creating
+ Container mobilesec-cd-secret-hunter-1  Creating
+ Container mobilesec-cd-crypto-check-1  Creating
+ Container mobilesec-cd-gateway-service-1  Created
+ Container mobilesec-cd-frontend-1  Creating
+ Container mobilesec-cd-fix-suggest-1  Created
+ Container mobilesec-cd-report-service-1  Created
+ Container mobilesec-cd-secret-hunter-1  Created
+ Container mobilesec-cd-network-inspector-1  Created
+ Container mobilesec-cd-crypto-check-1  Created
+ Container mobilesec-cd-apk-scanner-1  Created
+ Container mobilesec-cd-frontend-1  Created
+ Container mobilesec-cd-apk-scanner-1  Starting
+ Container mobilesec-cd-network-inspector-1  Starting
+ Container mobilesec-cd-crypto-check-1  Starting
+ Container mobilesec-cd-report-service-1  Starting
+ Container mobilesec-cd-secret-hunter-1  Starting
+ Container mobilesec-cd-fix-suggest-1  Starting
+ Container mobilesec-cd-gateway-service-1  Starting
+ Container mobilesec-cd-crypto-check-1  Started
+ Container mobilesec-cd-network-inspector-1  Started
+ Container mobilesec-cd-gateway-service-1  Started
+ Container mobilesec-cd-frontend-1  Starting
+ Container mobilesec-cd-secret-hunter-1  Started
+ Container mobilesec-cd-fix-suggest-1  Started
+ Container mobilesec-cd-report-service-1  Started
+ Container mobilesec-cd-apk-scanner-1  Started
+ Container mobilesec-cd-frontend-1  Started
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Health Check)
+[Pipeline] sleep
+Sleeping for 30 sec
+[Pipeline] bat
+
+C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD>docker-compose ps 
+time="2025-12-25T20:34:38+01:00" level=warning msg="C:\\Users\\Youssef\\AppData\\Local\\Jenkins\\.jenkins\\workspace\\MobileSec-CD\\docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+NAME                               IMAGE                            COMMAND                  SERVICE             CREATED          STATUS          PORTS
+mobilesec-cd-apk-scanner-1         mobilesec-cd-apk-scanner         "uvicorn app.main:ap…"   apk-scanner         33 seconds ago   Up 32 seconds   0.0.0.0:8088->8088/tcp
+mobilesec-cd-crypto-check-1        mobilesec-cd-crypto-check        "java -jar app.jar"      crypto-check        33 seconds ago   Up 32 seconds   0.0.0.0:8080->8080/tcp
+mobilesec-cd-fix-suggest-1         mobilesec-cd-fix-suggest         "java -jar app.jar"      fix-suggest         33 seconds ago   Up 32 seconds   0.0.0.0:8085->8085/tcp
+mobilesec-cd-frontend-1            mobilesec-cd-frontend            "/docker-entrypoint.…"   frontend            33 seconds ago   Up 31 seconds   0.0.0.0:3000->80/tcp
+mobilesec-cd-gateway-service-1     mobilesec-cd-gateway-service     "java -jar app.jar"      gateway-service     33 seconds ago   Up 32 seconds   0.0.0.0:8083->8083/tcp
+mobilesec-cd-network-inspector-1   mobilesec-cd-network-inspector   "uvicorn app.main:ap…"   network-inspector   33 seconds ago   Up 32 seconds   0.0.0.0:8087->8087/tcp
+mobilesec-cd-report-service-1      mobilesec-cd-report-service      "java -jar app.jar"      report-service      33 seconds ago   Up 32 seconds   0.0.0.0:8081->8081/tcp
+mobilesec-cd-secret-hunter-1       mobilesec-cd-secret-hunter       "uvicorn app.main:ap…"   secret-hunter       33 seconds ago   Up 32 seconds   0.0.0.0:8089->8089/tcp
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] echo
+Pipeline completed.
+[Pipeline] echo
+Deployment Successful! Access Frontend at http://localhost:3000
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
