@@ -10,6 +10,7 @@ class APKMetadata(Base):
     file_name = Column(String)
     package_name = Column(String)
     version_code = Column(String)
+    version_name = Column(String)
     
     # Store lists as JSON
     permissions = Column(JSON) 

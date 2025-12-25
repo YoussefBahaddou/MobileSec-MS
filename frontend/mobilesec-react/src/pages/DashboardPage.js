@@ -252,7 +252,7 @@ const DashboardPage = () => {
                                         <Paper
                                             key={scan.id}
                                             elevation={0}
-                                            onClick={() => navigate(`/results/${scan.id}`)}
+                                            onClick={() => navigate(`/report/${scan.id}`)}
                                             sx={{
                                                 p: 2,
                                                 bgcolor: 'grey.50',

@@ -35,7 +35,7 @@ function App() {
                   <Route path="/results/:id" element={<PrivateRoute><DetailPage /></PrivateRoute>} />
                   <Route path="/ci-integration" element={<PrivateRoute><CIIntegrationPage /></PrivateRoute>} />
                   <Route path="/network" element={<PrivateRoute><NetworkPage /></PrivateRoute>} />
-                  <Route path="/report" element={<PrivateRoute><ReportPage /></PrivateRoute>} />
+                  <Route path="/report/:scanId?" element={<PrivateRoute><ReportPage /></PrivateRoute>} />
                 </Routes>
               </Layout>
             }

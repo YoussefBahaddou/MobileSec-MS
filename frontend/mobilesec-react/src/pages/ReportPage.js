@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useMemo, useRef } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import {
     Box,
     Button,
@@ -19,13 +19,8 @@ import {
     Card,
     CardContent,
     CircularProgress,
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogActions,
     IconButton,
-    Fade,
-    Slide
+    Popover
 } from '@mui/material';
 import PrintIcon from '@mui/icons-material/Print';
 import CodeIcon from '@mui/icons-material/Code';
@@ -41,7 +36,7 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
-import { createReport, downloadReportById, getFixSuggestion } from '../services/api';
+import { createReport, downloadReportById, getFixSuggestion, getStoredReportById } from '../services/api';
 import { useSnackbar } from 'notistack';
 
 export default function ReportPage() {
@@ -50,9 +45,24 @@ export default function ReportPage() {
     const theme = useTheme();
     const { enqueueSnackbar } = useSnackbar();
 
-    const { apkResult, secretResult, cryptoResult, scanDate } = location.state || {};
-    const [scanId] = useState(apkResult?.scan_id || null);
+    const locationState = location.state || {};
+    const {
+        apkResult: initialApkResult,
+        secretResult: initialSecretResult,
+        cryptoResult: initialCryptoResult,
+        scanDate
+    } = locationState;
+    const { scanId: routeScanId } = useParams();
+    const [scanId, setScanId] = useState(initialApkResult?.scan_id || routeScanId || locationState.scanId || null);
+    const [activeApkResult, setActiveApkResult] = useState(initialApkResult ?? null);
+    const [activeSecretResult, setActiveSecretResult] = useState(initialSecretResult ?? null);
+    const [activeCryptoResult, setActiveCryptoResult] = useState(initialCryptoResult ?? null);
+    const [loadingStoredReport, setLoadingStoredReport] = useState(false);
     const hasSavedRef = useRef(false);
+
+    const apkResult = activeApkResult ?? initialApkResult;
+    const secretResult = activeSecretResult ?? initialSecretResult;
+    const cryptoResult = activeCryptoResult ?? initialCryptoResult;
 
     const secretFindings = useMemo(() =>
         Array.isArray(secretResult) ? secretResult : (secretResult?.findings || []),
@@ -63,10 +73,11 @@ export default function ReportPage() {
         [cryptoResult]);
 
     const ensureReportExists = async () => {
+        if (!activeApkResult) return false;
         try {
             const payload = {
-                scanId: apkResult.scan_id,
-                manifest: apkResult.manifest,
+                scanId: scanId || activeApkResult.scan_id,
+                manifest: activeApkResult.manifest,
                 secrets: { findings: secretFindings },
                 crypto: { findings: cryptoFindings }
             };
@@ -79,7 +90,7 @@ export default function ReportPage() {
     };
 
     useEffect(() => {
-        if (apkResult && scanId && !hasSavedRef.current) {
+        if (activeApkResult && scanId && !hasSavedRef.current && !loadingStoredReport) {
             hasSavedRef.current = true;
             ensureReportExists()
                 .then(success => {
@@ -87,7 +98,30 @@ export default function ReportPage() {
                     else enqueueSnackbar('Failed to save report to backend', { variant: 'error' });
                 });
         }
-    }, [scanId, apkResult, secretFindings, cryptoFindings, enqueueSnackbar]);
+    }, [scanId, activeApkResult, secretFindings, cryptoFindings, enqueueSnackbar, loadingStoredReport]);
+
+    useEffect(() => {
+        if (!activeApkResult && routeScanId && !loadingStoredReport) {
+            setLoadingStoredReport(true);
+            getStoredReportById(routeScanId)
+                .then((report) => {
+                    const reportScanId = report.scanId;
+                    setScanId(reportScanId);
+                    setActiveApkResult({
+                        scan_id: reportScanId,
+                        manifest: report.manifest ?? {}
+                    });
+                    setActiveSecretResult(report.secrets?.findings || []);
+                    setActiveCryptoResult(report.crypto?.findings || []);
+                    hasSavedRef.current = true;
+                })
+                .catch((error) => {
+                    console.error('Failed to load stored report', error);
+                    enqueueSnackbar('Unable to load stored Security Assessment Report.', { variant: 'error' });
+                })
+                .finally(() => setLoadingStoredReport(false));
+        }
+    }, [routeScanId, activeApkResult, enqueueSnackbar, loadingStoredReport]);
 
     const handleDownload = async (format) => {
         try {
@@ -125,18 +159,12 @@ export default function ReportPage() {
     const handleDownloadPdf = () => handleDownload('PDF');
     const handleDownloadSarif = () => handleDownload('SARIF');
 
-    const [fixModalOpen, setFixModalOpen] = useState(false);
+    const [fixAnchorEl, setFixAnchorEl] = useState(null);
     const [currentFix, setCurrentFix] = useState(null);
     const [loadingFix, setLoadingFix] = useState(false);
+    const fixPopoverOpen = Boolean(fixAnchorEl);
 
-    // Slide Transition
-    const Transition = React.forwardRef(function Transition(props, ref) {
-        return <Slide direction="up" ref={ref} {...props} />;
-    });
-
-    const handleGetFix = async (checkName, status) => {
-        setLoadingFix(true);
-        // Map check name to Issue ID
+    const handleGetFix = async (event, checkName) => {
         const issueMap = {
             'Debuggable': 'ANDROID_DEBUGGABLE',
             'Allow Backup': 'ANDROID_ALLOW_BACKUP',
@@ -144,16 +172,22 @@ export default function ReportPage() {
         };
 
         const issueId = issueMap[checkName] || 'UNKNOWN_ISSUE';
+        setFixAnchorEl(event.currentTarget);
+        setLoadingFix(true);
 
         try {
             const fix = await getFixSuggestion(issueId, `Fix issue: ${checkName}`);
             setCurrentFix(fix);
-            setFixModalOpen(true);
         } catch (e) {
             enqueueSnackbar("Failed to get suggestion.", { variant: 'error' });
         } finally {
             setLoadingFix(false);
         }
+    };
+
+    const closeFixPopover = () => {
+        setFixAnchorEl(null);
+        setCurrentFix(null);
     };
 
     const handleCopyCode = () => {
@@ -162,6 +196,15 @@ export default function ReportPage() {
             enqueueSnackbar("Code copied to clipboard!", { variant: 'success' });
         }
     };
+
+    if (loadingStoredReport) {
+        return (
+            <Container sx={{ mt: 4, textAlign: 'center' }}>
+                <Typography variant="h5" color="text.secondary">Loading Security Assessment Report...</Typography>
+                <CircularProgress style={{ marginTop: "20px" }} />
+            </Container>
+        );
+    }
 
     if (!apkResult) {
         return (
@@ -380,7 +423,7 @@ export default function ReportPage() {
                                                                 variant="outlined"
                                                                 size="small"
                                                                 color="primary"
-                                                                onClick={() => handleGetFix(row.label, 'FAIL')}
+                                                                onClick={(event) => handleGetFix(event, row.label)}
                                                             >
                                                                 ⚡ Fix It
                                                             </Button>
@@ -430,83 +473,80 @@ export default function ReportPage() {
                 </Grid>
             </Grid>
 
-            {/* FIX SUGGESTION MODAL */}
-            <Dialog
-                open={fixModalOpen}
-                TransitionComponent={Transition}
-                keepMounted
-                onClose={() => setFixModalOpen(false)}
-                aria-describedby="fix-dialog-slide-description"
-                maxWidth="md"
-                fullWidth
+            {/* FIX SUGGESTION POPOVER */}
+            <Popover
+                open={fixPopoverOpen}
+                anchorEl={fixAnchorEl}
+                onClose={closeFixPopover}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                disableScrollLock
             >
-                <DialogTitle sx={{
-                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                    color: 'white',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 1
-                }}>
-                    <AutoFixHighIcon />
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontWeight: 'bold' }}>
-                        {currentFix?.title || "Smart Fix Suggestion"}
-                    </Typography>
-                    <IconButton onClick={() => setFixModalOpen(false)} sx={{ color: 'white' }}>
-                        <CloseIcon />
-                    </IconButton>
-                </DialogTitle>
-                <DialogContent sx={{ mt: 2 }}>
-                    <Box sx={{ my: 2 }}>
-                        <Typography variant="subtitle1" fontWeight="bold" gutterBottom color="primary">
-                            Analysis & Recommendation
+                <Box sx={{ width: 360, maxWidth: '90vw', p: 2, bgcolor: 'background.paper' }}>
+                    <Stack direction="row" alignItems="center" justifyContent="space-between" mb={1}>
+                        <Typography variant="h6" fontWeight="bold">
+                            {currentFix?.title || "Smart Fix Suggestion"}
                         </Typography>
-                        <Typography variant="body1" color="text.secondary" paragraph>
-                            {currentFix?.explanation}
-                        </Typography>
+                        <IconButton size="small" onClick={closeFixPopover}>
+                            <CloseIcon fontSize="small" />
+                        </IconButton>
+                    </Stack>
 
-                        <Typography variant="subtitle1" fontWeight="bold" gutterBottom color="primary" sx={{ mt: 3 }}>
-                            Recommended Fix
-                        </Typography>
-                        <Paper variant="outlined" sx={{
-                            p: 2,
-                            bgcolor: '#1e1e1e',
-                            color: '#d4d4d4',
-                            fontFamily: 'monospace',
-                            borderRadius: 2,
-                            position: 'relative',
-                            overflow: 'auto'
-                        }}>
-                            <pre style={{ margin: 0 }}>
-                                {currentFix?.codeFix}
+                    <Typography variant="caption" color="text.secondary" display="block" mb={1}>
+                        {currentFix?.explanation || "Loading fix explanation..."}
+                    </Typography>
+
+                    <Paper variant="outlined" sx={{
+                        position: 'relative',
+                        bgcolor: '#1e1e1e',
+                        color: '#d4d4d4',
+                        fontFamily: 'monospace',
+                        borderRadius: 2,
+                        height: 150,
+                        overflowY: 'auto',
+                        p: 1
+                    }}>
+                        {loadingFix ? (
+                            <Stack direction="row" alignItems="center" justifyContent="center" spacing={1} sx={{ height: '100%' }}>
+                                <CircularProgress size={24} color="inherit" />
+                                <Typography variant="body2">Generating fix...</Typography>
+                            </Stack>
+                        ) : (
+                            <pre style={{ margin: 0, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
+                                {currentFix?.codeFix || 'Fix code will appear here.'}
                             </pre>
-                            <Box sx={{ position: 'absolute', top: 8, right: 8 }}>
-                                <Chip
-                                    label={currentFix?.type === 'STATIC_RULE' ? "Verified Rule" : "AI Generated"}
-                                    color={currentFix?.type === 'STATIC_RULE' ? "success" : "warning"}
-                                    size="small"
-                                    sx={{ mr: 1, opacity: 0.8 }}
-                                />
-                            </Box>
-                        </Paper>
-                    </Box>
-                </DialogContent>
-                <DialogActions sx={{ p: 2, bgcolor: '#f5f5f5' }}>
-                    <Button
-                        startIcon={<ContentCopyIcon />}
-                        onClick={handleCopyCode}
-                        variant="outlined"
-                    >
-                        Copy Code
-                    </Button>
-                    <Button
-                        onClick={() => setFixModalOpen(false)}
-                        variant="contained"
-                        color="primary"
-                    >
-                        Review & Apply
-                    </Button>
-                </DialogActions>
-            </Dialog>
+                        )}
+                        {currentFix && (
+                            <Chip
+                                label={currentFix?.type === 'STATIC_RULE' ? "Verified Rule" : "AI Generated"}
+                                color={currentFix?.type === 'STATIC_RULE' ? "success" : "warning"}
+                                size="small"
+                                sx={{ position: 'absolute', top: 8, right: 8, opacity: 0.85 }}
+                            />
+                        )}
+                    </Paper>
+
+                    <Stack direction="row" justifyContent="flex-end" spacing={1} mt={2}>
+                        <Button
+                            startIcon={<ContentCopyIcon />}
+                            onClick={handleCopyCode}
+                            variant="outlined"
+                            size="small"
+                            disabled={!currentFix?.codeFix}
+                        >
+                            Copy Code
+                        </Button>
+                        <Button
+                            onClick={closeFixPopover}
+                            variant="contained"
+                            color="primary"
+                            size="small"
+                        >
+                            Done
+                        </Button>
+                    </Stack>
+                </Box>
+            </Popover>
 
         </Container>
     );

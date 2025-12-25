@@ -15,6 +15,7 @@ class APKScannerService:
             # 1. Basic Info
             package_name = a.get_package()
             version_code = a.get_androidversion_code()
+            version_name = a.get_androidversion_name()
             
             # 2. Permissions
             permissions = a.get_permissions() # Returns list of strings
@@ -63,6 +64,7 @@ class APKScannerService:
             return {
                 "package_name": package_name,
                 "version_code": str(version_code),
+                "version_name": str(version_name) if version_name is not None else str(version_code),
                 "permissions": permissions,
                 "exported_activities": exported_activities,
                 "exported_services": exported_services,

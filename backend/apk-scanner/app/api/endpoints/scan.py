@@ -1,106 +1,115 @@
 
-from sqlalchemy.orm import Session
-from app.db.session import get_db
-from app.services.scanner import APKScannerService
-from app.models.metadata import APKMetadata
-import shutil
 import os
 import uuid
-import aiofiles # Added for async file operations
-from fastapi import APIRouter, UploadFile, File, Depends, HTTPException
-from app.api.deps import get_current_user
-from datetime import datetime # Added for scan_date
-import logging # Added for logging
+import aiofiles
+import logging
+from datetime import datetime, timezone
 
-# Initialize logger
-logger = logging.getLogger(__name__)
+from fastapi import APIRouter, UploadFile, File, Depends, HTTPException
+
+from app.api.deps import get_current_user
+from app.services.scanner import APKScannerService
+from app.services.firestore_storage import (
+    FirebaseError,
+    get_report,
+    list_recent_reports,
+    upload_report,
+)
 
 router = APIRouter()
+logger = logging.getLogger(__name__)
 
 
 @router.get("/recents")
-def get_recent_scans(limit: int = 10, db: Session = Depends(get_db), user_id: str = Depends(get_current_user)):
+def get_recent_scans(limit: int = 10, user_id: str = Depends(get_current_user)):
     """
-    Returns the most recent scans for the logged-in user.
+    Returns the most recent scans for the logged-in user stored in Firebase Storage.
     """
-    scans = db.query(APKMetadata).filter(APKMetadata.user_id == user_id).order_by(APKMetadata.created_at.desc()).limit(limit).all()
-    # Serialize manually if needed, or rely on Pydantic/ORM mode
+    try:
+        reports = list_recent_reports(limit=limit, user_id=user_id)
+    except FirebaseError as exc:
+        logger.error("Failed to list recent reports from Firebase: %s", exc)
+        raise HTTPException(status_code=500, detail="Unable to fetch recent scans") from exc
+
     return [
         {
-            "scan_id": s.scan_id,
-            "package_name": s.package_name,
-            "version_code": s.version_code,
-            "created_at": s.created_at,
-            "is_debuggable": s.is_debuggable,
-            "allow_backup": s.allow_backup,
-            "uses_cleartext_traffic": s.uses_cleartext_traffic
+            "scan_id": report.get("scan_id"),
+            "package_name": report.get("package_name"),
+            "version_code": report.get("version_code"),
+            "created_at": report.get("created_at"),
+            "is_debuggable": report.get("is_debuggable"),
+            "allow_backup": report.get("allow_backup"),
+            "uses_cleartext_traffic": report.get("uses_cleartext_traffic"),
         }
-        for s in scans
+        for report in reports
     ]
 
 @router.post("/analyze")
 async def analyze_apk(
     file: UploadFile = File(...),
-    db: Session = Depends(get_db),
-    user_id: str = Depends(get_current_user)
+    user_id: str = Depends(get_current_user),
 ):
-    # 1. Save uploaded file temporarily
     scan_id = str(uuid.uuid4())
     temp_file = f"temp_{scan_id}.apk"
-    
+
     try:
-        # Use aiofiles for async file write
         contents = await file.read()
         async with aiofiles.open(temp_file, "wb") as buffer:
             await buffer.write(contents)
-            
-        # 2. Analyze
-        # Pass file.filename to enable simulation checks logic
+
         results = APKScannerService.analyze_apk(temp_file, original_filename=file.filename)
-        
-        # 3. Save to DB
-        metadata = APKMetadata(
-            scan_id=scan_id,
-            user_id=user_id,
-            file_name=file.filename,
-            package_name=results["package_name"],
-            version_code=results["version_code"],
-            permissions=results["permissions"],
-            exported_activities=results.get("exported_activities", []),
-            exported_services=results.get("exported_services", []),
-            exported_receivers=results.get("exported_receivers", []),
-            exported_providers=results.get("exported_providers", []),
-            is_debuggable=results["is_debuggable"],
-            allow_backup=results["allow_backup"],
-            uses_cleartext_traffic=results["uses_cleartext_traffic"],
-            created_at=datetime.utcnow()
-        )
-        db.add(metadata)
-        db.commit()
-        db.refresh(metadata)
-        
-        # Match frontend expected format: { scan_id, manifest: { ... } }
+
+        payload = {
+            "scan_id": scan_id,
+            "user_id": user_id,
+            "file_name": file.filename,
+            "package_name": results["package_name"],
+            "version_code": results["version_code"],
+            "version_name": results.get("version_name", results["version_code"]),
+            "permissions": results.get("permissions"),
+            "exported_activities": results.get("exported_activities", []),
+            "exported_services": results.get("exported_services", []),
+            "exported_receivers": results.get("exported_receivers", []),
+            "exported_providers": results.get("exported_providers", []),
+            "is_debuggable": results.get("is_debuggable", False),
+            "allow_backup": results.get("allow_backup", True),
+            "uses_cleartext_traffic": results.get("uses_cleartext_traffic", False),
+            "created_at": datetime.now(timezone.utc).isoformat(),
+            "manifest": results,
+        }
+        upload_report(scan_id, payload)
+
         return {
             "scan_id": scan_id,
             "status": "completed",
-            "manifest": results
+            "manifest": results,
         }
-    except Exception as e:
+    except FirebaseError as exc:
+        logger.error("Failed to persist scan metadata to Firebase: %s", exc)
+        raise HTTPException(status_code=500, detail="Unable to store scan metadata") from exc
+    except Exception as exc:
         import traceback
-        logger.error(f"Analysis Failed: {str(e)}")
+
+        logger.error(f"Analysis Failed: {str(exc)}")
         logger.error(traceback.format_exc())
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(exc))
     finally:
-        # Cleanup
         if os.path.exists(temp_file):
             os.remove(temp_file)
 
 @router.get("/{scan_id}")
-def get_results(scan_id: str, db: Session = Depends(get_db), user_id: str = Depends(get_current_user)):
-    result = db.query(APKMetadata).filter(APKMetadata.scan_id == scan_id, APKMetadata.user_id == user_id).first()
-    if not result:
+def get_results(scan_id: str, user_id: str = Depends(get_current_user)):
+    try:
+        report = get_report(scan_id, user_id=user_id)
+    except FileNotFoundError:
         raise HTTPException(status_code=404, detail="Scan not found")
-    return result
+    except PermissionError:
+        raise HTTPException(status_code=403, detail="Not authorized to view this scan")
+    except FirebaseError as exc:
+        logger.error("Failed to retrieve scan metadata from Firebase: %s", exc)
+        raise HTTPException(status_code=500, detail="Unable to retrieve scan metadata") from exc
+
+    return report
 
 @router.post("/extract-strings")
 async def extract_strings(

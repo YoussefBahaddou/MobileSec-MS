@@ -135,7 +135,7 @@ function ResultsPage() {
                           '&:last-child td, &:last-child th': { border: 0 },
                           transition: 'background-color 0.2s'
                         }}
-                        onClick={() => navigate(`/results/${row.id}`)}
+                        onClick={() => navigate(`/report/${row.id}`)}
                       >
                         <TableCell sx={{ color: 'text.secondary' }}>#{row.id}</TableCell>
                         <TableCell>
@@ -164,7 +164,7 @@ function ResultsPage() {
                               color="primary"
                               onClick={(e) => {
                                 e.stopPropagation();
-                                navigate(`/results/${row.id}`);
+                                navigate(`/report/${row.id}`);
                               }}
                             >
                               <VisibilityIcon />

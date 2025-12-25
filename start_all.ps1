@@ -2,11 +2,10 @@
 # Ensures all 6 microservices + Frontend are running.
 
 $services = @(
-    @{ Name="1. Gateway Service (8083)"; Path="backend/gateway-service"; Command="mvn spring-boot:run" },
-    @{ Name="2. Analysis Service (Legacy/Dashboard) (8082)"; Path="backend/analysis-service/analysis-service"; Command="mvn spring-boot:run" },
+    @{ Name="1. Gateway Service (8083)"; Path="backend/gateway-service"; Command="./mvnw spring-boot:run" },
     @{ Name="3. APK Scanner (8088)"; Path="backend/apk-scanner"; Command="uvicorn app.main:app --port 8088 --reload" },
     @{ Name="4. Secret Hunter (8089)"; Path="backend/secret-hunter"; Command="uvicorn app.main:app --port 8089 --reload" },
-    @{ Name="5. Crypto Check (8090)"; Path="backend/crypto-check"; Command="mvn spring-boot:run" },
+    @{ Name="5. Crypto Check (8090)"; Path="backend/crypto-check"; Command="./mvnw spring-boot:run" },
     @{ Name="6. Network Inspector (8087)"; Path="backend/network-inspector"; Command="uvicorn app.main:app --port 8087 --reload" },
     @{ Name="7. Frontend (3000)"; Path="frontend/mobilesec-react"; Command="npm start" }
 )

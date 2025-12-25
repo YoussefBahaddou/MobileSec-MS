@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Box,
@@ -28,7 +28,8 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import { useSnackbar } from 'notistack';
 import { motion, AnimatePresence } from 'framer-motion';
-import { uploadApk, extractStrings, scanSecrets, scanCrypto } from '../services/api';
+import { uploadApk, extractStrings, scanSecrets, scanCrypto, listResults } from '../services/api';
+import { startAndroidSandbox, startNetworkScan } from '../services/networkInspector';
 
 function UploadPage() {
   const { enqueueSnackbar } = useSnackbar();
@@ -67,12 +68,70 @@ function UploadPage() {
     resetData();
   }, [enqueueSnackbar]);
 
+  const [recentScans, setRecentScans] = useState([]);
+  const [selectedRecentScan, setSelectedRecentScan] = useState(null);
+  const [networkScanId, setNetworkScanId] = useState(null);
+  const [networkLoading, setNetworkLoading] = useState(false);
+  const [networkMessage, setNetworkMessage] = useState('');
+
   const resetData = () => {
     setApkResult(null);
     setSecretResult(null);
     setCryptoResult(null);
     setActiveStep(0);
   }
+
+  const reloadRecentScans = useCallback(async () => {
+    try {
+      const data = await listResults(0, 6);
+      let items = [];
+      if (data && Array.isArray(data.content)) {
+        items = data.content;
+      } else if (Array.isArray(data)) {
+        items = data;
+      }
+      setRecentScans(items);
+    } catch (error) {
+      enqueueSnackbar('Failed to load recent scans for network inspector.', { variant: 'warning' });
+    }
+  }, [enqueueSnackbar]);
+
+  useEffect(() => {
+    reloadRecentScans();
+  }, [reloadRecentScans]);
+
+  const startNetworkInspection = async (hintScanId = null) => {
+    if (networkLoading) return;
+    setNetworkLoading(true);
+    setNetworkMessage('Provisioning Android sandbox...');
+    try {
+      await startAndroidSandbox();
+      const response = await startNetworkScan(hintScanId);
+      setNetworkScanId(response.scan_id);
+      setNetworkMessage('Proxy ready — configure your emulator/device to use it.');
+      enqueueSnackbar(`Network inspector running (session ${response.scan_id}).`, { variant: 'success' });
+    } catch (error) {
+      console.error('Network inspector failed', error);
+      enqueueSnackbar('Failed to start network inspector. Check console for details.', { variant: 'error' });
+      setNetworkMessage('');
+    } finally {
+      setNetworkLoading(false);
+    }
+  };
+
+  const handleInspectSelectedFile = () => {
+    if (!selectedFile) {
+      enqueueSnackbar('Drag or select an APK before launching network inspection.', { variant: 'warning' });
+      return;
+    }
+    const hint = selectedFile.name.replace(/[^a-zA-Z0-9-_]/g, '-');
+    startNetworkInspection(hint);
+  };
+
+  const handleInspectRecent = (scan) => {
+    setSelectedRecentScan(scan);
+    startNetworkInspection(scan.id);
+  };
 
   const handleDrop = useCallback((event) => {
     event.preventDefault();
@@ -284,6 +343,84 @@ function UploadPage() {
               </Stack>
             </Paper>
           )}
+
+          {/* NETWORK INSPECTION */}
+          <Paper elevation={2} sx={{ p: 4, borderRadius: 3 }}>
+            <Stack spacing={2}>
+              <Typography variant="h5" fontWeight="bold">Automated Network Inspector</Typography>
+              <Typography variant="body2" color="text.secondary">
+                Launch mitmproxy + Android sandbox once, then connect the APK traffic (recent scan or local file) to capture HTTPS/TLS leaks.
+              </Typography>
+
+              <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleInspectSelectedFile}
+                  disabled={networkLoading}
+                >
+                  Inspect Dragged APK
+                </Button>
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  onClick={() => selectedRecentScan && handleInspectRecent(selectedRecentScan)}
+                  disabled={networkLoading || !selectedRecentScan}
+                >
+                  Inspect Recent Scan
+                </Button>
+                <Button
+                  variant="text"
+                  onClick={reloadRecentScans}
+                  disabled={networkLoading}
+                >
+                  Refresh Recent Scans
+                </Button>
+              </Stack>
+
+              <Stack spacing={1}>
+                {recentScans.map((scan) => (
+                  <Paper
+                    key={scan.id}
+                    variant="outlined"
+                    sx={{ p: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+                  >
+                    <Box>
+                      <Typography variant="subtitle2" fontWeight="bold">{scan.packageName}</Typography>
+                      <Typography variant="caption" color="text.secondary">
+                        {new Date(scan.createdAt).toLocaleString()} • {scan.versionName ?? 'v?'}
+                      </Typography>
+                    </Box>
+                    <Button
+                      size="small"
+                      onClick={() => handleInspectRecent(scan)}
+                      disabled={networkLoading}
+                    >
+                      Inspect
+                    </Button>
+                  </Paper>
+                ))}
+                {recentScans.length === 0 && (
+                  <Typography variant="body2" color="text.secondary">
+                    No recent scans available.
+                  </Typography>
+                )}
+              </Stack>
+
+              <Box>
+                <Typography variant="caption" color="text.secondary">Active network inspection session</Typography>
+                <Chip
+                  label={networkScanId ? `Session ${networkScanId}` : 'Idle'}
+                  color={networkScanId ? 'success' : 'default'}
+                />
+                {networkMessage && (
+                  <Typography variant="caption" color="text.secondary" display="block" mt={1}>
+                    {networkMessage} Connect your device/emulator to 127.0.0.1:{process.env.REACT_APP_NETWORK_PROXY_PORT || 8085}
+                  </Typography>
+                )}
+              </Box>
+            </Stack>
+          </Paper>
 
         </Stack>
       </Grid>

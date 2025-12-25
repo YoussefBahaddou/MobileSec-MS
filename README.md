@@ -1,6 +1,17 @@
+### Firestore Migration (APK Scanner & ReportGen)
+Both the Python-based APK Scanner and Java ReportGen services now persist scan metadata to the shared `apk_reports` Firestore collection. Make sure these environment variables are available before each service starts:
+
+```env
+FIREBASE_PROJECT_ID=<your_project>
+FIREBASE_CREDENTIALS_PATH=<absolute_path_to_service_account.json>
+FIRESTORE_COLLECTION=apk_reports
+```
+
+ReportGen also reads `GOOGLE_APPLICATION_CREDENTIALS` if `FIRESTORE_CREDENTIALS_PATH` is unset, so the Spring Boot service can bootstrap the Cloud Firestore client on startup. The APK Scanner payload now includes `versionName`, `versionCode`, and `createdAt` so results/dashboards show the file version and the most recent scan timestamp.
+
 # MobileSec-MS Feature User Auth
 
-MobileSec-MS is an automated mobile penetration testing funnel that blends a polished React/Supabase frontend with a Spring Cloud Gateway and several focused backend microservices (APK Scanner, Secret Hunter, Crypto Check, Network Inspector, ReportGen, FixSuggest, etc.). The platform streamlines upload-to-report workflows, keeps user data isolated through Supabase JWTs, and centralizes findings in Dashboard/Report services.
+MobileSec-MS is an automated mobile penetration testing funnel that blends a polished React/Supabase frontend with a Spring Cloud Gateway and several focused backend microservices (APK Scanner, Secret Hunter, Crypto Check, Network Inspector, ReportGen, FixSuggest, etc.). The platform streamlines upload-to-report workflows, keeps user data isolated through Supabase JWTs, and centralizes findings in Firestore-backed Dashboard/Report services.
 
 ## Architecture & Workflow
 
@@ -48,10 +59,10 @@ The frontend consumes `REACT_APP_API_URL` (default `http://localhost:8083/api`) 
 
 ## Backend Services Description
 1. **Gateway (Spring Cloud Gateway)** – routes `/api/scan`, `/api/secrets`, `/api/crypto`, `/api/dashboard`, etc., while applying CORS and StripPrefix filters.
-2. **APK Scanner (FastAPI)** – saves uploads (SQLite), runs manifest/string analysis, persists user-specific metadata, exposes `/api/scan/analyze` and `/api/dashboard/stats`.
+2. **APK Scanner (FastAPI)** – analyzes uploads (Androguard), stores scan manifests/flags in Firestore, exposes `/api/scan/analyze`, paginated `/analysis/results`, `/dashboard/stats`, and `/scan/recents`. The service now ensures each report carries `versionName`, `versionCode`, and `createdAt` for frontend tables.
 3. **Secret Hunter (FastAPI)** – evaluates extracted strings/files for leaked secrets using GitLeak-style logic.
 4. **Crypto Check (Spring Boot)** – enforces cryptographic hygiene rules (CWE-based) through `/api/crypto/analyze`.
-5. **ReportGen (Spring Boot)** – collates findings into multi-format reports.
+5. **ReportGen (Spring Boot)** – collates findings into Firestore-backed multi-format reports via `/api/reports`.
 6. **Network Inspector (FastAPI + mitmproxy)** – inspects TLS/HTTP traffic from sandboxed Android sessions.
 7. **FixSuggest & CIConnector** – optional add-ons for remediation guidance and CI automation.
 

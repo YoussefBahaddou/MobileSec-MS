@@ -82,6 +82,9 @@ export const getResultById = (id) =>
 export const getDashboardStats = () =>
   analysisClient.get('/dashboard/stats').then((response) => response.data);
 
+export const getStoredReportById = (scanId) =>
+  reportClient.get(`/api/reports/${scanId}`).then((response) => response.data);
+
 export const createReport = (reportData) =>
   reportClient.post('/api/reports', reportData).then((response) => response.data);
 

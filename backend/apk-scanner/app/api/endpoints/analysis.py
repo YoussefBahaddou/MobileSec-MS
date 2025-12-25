@@ -1,65 +1,69 @@
 
-from fastapi import APIRouter, Depends, Query, HTTPException
-from sqlalchemy.orm import Session
-from app.db.session import get_db
-from app.models.metadata import APKMetadata
-from app.api.deps import get_current_user
 import math
+from typing import List, Dict
+from fastapi import APIRouter, Depends, HTTPException
+from app.api.deps import get_current_user
+from app.services.firestore_storage import list_reports, FirebaseError
 
 router = APIRouter()
+
+
+def _score_report(report: Dict[str, any]) -> int:
+    score = 100
+    if report.get("is_debuggable"):
+        score -= 20
+    if report.get("allow_backup"):
+        score -= 20
+    if report.get("uses_cleartext_traffic"):
+        score -= 20
+    return max(0, score)
+
+
+def _calculate_pagination(reports: List[Dict[str, any]], page: int, size: int) -> List[Dict[str, any]]:
+    if size <= 0:
+        return reports
+    start = page * size
+    end = start + size
+    return reports[start:end]
+
 
 @router.get("/results")
 def list_analysis_results(
     page: int = 0,
     size: int = 10,
-    db: Session = Depends(get_db),
-    user_id: str = Depends(get_current_user)
+    user_id: str = Depends(get_current_user),
 ):
     """
     Paginated list of analysis results for the current user.
-    Mimics Spring Data Page interface for frontend compatibility.
     """
-    offset = page * size
-    
-    # Query for total count (for filtering)
-    query = db.query(APKMetadata).filter(APKMetadata.user_id == user_id)
-    total_elements = query.count()
-    
-    # Calculate pages
-    total_pages = math.ceil(total_elements / size) if size > 0 else 0
-    
-    # Query for content
-    results = query.order_by(APKMetadata.created_at.desc()).offset(offset).limit(size).all()
-    
-    # Map to frontend model (if needed, or return raw)
-    # The frontend uses fields like: id, fileName, scanDate, score, etc.
-    # APKMetadata cols: scan_id, file_name, created_at, etc.
-    # We might need to map keys to match what 'ResultsPage.js' expects from the old 'Analysis Service'.
-    # Old AnalysisResult.java had: id, fileName, fileHash, uploadedAt, securityScore, etc.
-    # Frontend props: result.id, result.fileName, result.securityScore
-    
+    try:
+        reports = list_reports(user_id=user_id)
+    except FirebaseError as exc:
+        raise HTTPException(status_code=500, detail="Unable to load analysis results") from exc
+
+    total_elements = len(reports)
+    paged_reports = _calculate_pagination(reports, page, size)
+
     content = []
-    for r in results:
-        # Calculate a score if not present (simple placeholder logic)
-        # Using the same logic as dashboard:
-        score = 100
-        if r.is_debuggable: score -= 20
-        if r.allow_backup: score -= 20
-        if r.uses_cleartext_traffic: score -= 20
-        if score < 0: score = 0
-        
+    for report in paged_reports:
+        score = _score_report(report)
         content.append({
-            "id": r.scan_id, # Frontend expects 'id'
-            "scan_id": r.scan_id,
-            "fileName": r.file_name, # Frontend expects camelCase
-            "file_name": r.file_name,
-            "package_name": r.package_name,
-            "uploadedAt": r.created_at.isoformat(), # Frontend expects 'uploadedAt'
-            "created_at": r.created_at,
-            "securityScore": score, # Frontend expects 'securityScore'
+            "id": report.get("scan_id"),
+            "scan_id": report.get("scan_id"),
+            "fileName": report.get("file_name") or report.get("fileName"),
+            "file_name": report.get("file_name") or report.get("fileName"),
+            "package_name": report.get("package_name"),
+            "uploadedAt": report.get("created_at") or report.get("createdAt"),
+            "created_at": report.get("created_at") or report.get("createdAt"),
+            "createdAt": report.get("created_at") or report.get("createdAt"),
+            "versionName": report.get("version_name") or report.get("versionName"),
+            "versionCode": report.get("version_code") or report.get("versionCode"),
+            "securityScore": score,
             "riskLevel": "HIGH" if score < 60 else ("MEDIUM" if score < 80 else "LOW"),
             "status": "COMPLETED"
         })
+
+    total_pages = math.ceil(total_elements / size) if size > 0 else 0
 
     return {
         "content": content,
@@ -70,5 +74,5 @@ def list_analysis_results(
         "numberOfElements": len(content),
         "first": page == 0,
         "last": page >= total_pages - 1 if total_pages > 0 else True,
-        "empty": len(content) == 0
+        "empty": len(content) == 0,
     }
