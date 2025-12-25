@@ -1,0 +1,358 @@
+Started by user admin
+Obtained Jenkinsfile from git https://github.com/YoussefBahaddou/MobileSec-MS.git
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+The recommended git tool is: git.exe
+No credentials specified
+ > git.exe rev-parse --resolve-git-dir C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\.git # timeout=10
+Fetching changes from the remote Git repository
+ > git.exe config remote.origin.url https://github.com/YoussefBahaddou/MobileSec-MS.git # timeout=10
+Fetching upstream changes from https://github.com/YoussefBahaddou/MobileSec-MS.git
+ > git.exe --version # timeout=10
+ > git --version # 'git version 2.42.0.windows.2'
+ > git.exe fetch --tags --force --progress -- https://github.com/YoussefBahaddou/MobileSec-MS.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git.exe rev-parse "refs/remotes/origin/CI-CD-Pipleline^{commit}" # timeout=10
+Checking out Revision 86ea24d2624dd6e3fcf083d25d89f6d0dc40bf30 (refs/remotes/origin/CI-CD-Pipleline)
+ > git.exe config core.sparsecheckout # timeout=10
+ > git.exe checkout -f 86ea24d2624dd6e3fcf083d25d89f6d0dc40bf30 # timeout=10
+Commit message: "Fix compilation error in crypto-check service"
+ > git.exe rev-list --no-walk ead8c20f5bbc1a377b40564edade6c40a583b2e4 # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Checkout)
+[Pipeline] git
+The recommended git tool is: git.exe
+No credentials specified
+ > git.exe rev-parse --resolve-git-dir C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\.git # timeout=10
+Fetching changes from the remote Git repository
+ > git.exe config remote.origin.url https://github.com/YoussefBahaddou/MobileSec-MS # timeout=10
+Fetching upstream changes from https://github.com/YoussefBahaddou/MobileSec-MS
+ > git.exe --version # timeout=10
+ > git --version # 'git version 2.42.0.windows.2'
+ > git.exe fetch --tags --force --progress -- https://github.com/YoussefBahaddou/MobileSec-MS +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git.exe rev-parse "refs/remotes/origin/CI-CD-Pipleline^{commit}" # timeout=10
+Checking out Revision 86ea24d2624dd6e3fcf083d25d89f6d0dc40bf30 (refs/remotes/origin/CI-CD-Pipleline)
+ > git.exe config core.sparsecheckout # timeout=10
+ > git.exe checkout -f 86ea24d2624dd6e3fcf083d25d89f6d0dc40bf30 # timeout=10
+ > git.exe branch -a -v --no-abbrev # timeout=10
+ > git.exe branch -D CI-CD-Pipleline # timeout=10
+ > git.exe checkout -b CI-CD-Pipleline 86ea24d2624dd6e3fcf083d25d89f6d0dc40bf30 # timeout=10
+Commit message: "Fix compilation error in crypto-check service"
+[Pipeline] echo
+Checked out CI-CD-Pipleline successfully!
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Cleanup)
+[Pipeline] bat
+
+C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD>call docker-compose down --volumes --remove-orphans   || echo No containers to remove 
+time="2025-12-25T19:28:51+01:00" level=warning msg="C:\\Users\\Youssef\\AppData\\Local\\Jenkins\\.jenkins\\workspace\\MobileSec-CD\\docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build & Test Backend (Java))
+[Pipeline] script
+[Pipeline] {
+[Pipeline] dir
+Running in C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\gateway-service
+[Pipeline] {
+[Pipeline] echo
+Building backend/gateway-service...
+[Pipeline] bat
+
+C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\gateway-service>mvn clean package -DskipTests 
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------------< com.mobilesec:getaway-service >--------------------
+[INFO] Building com.getaway.service 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.4.1:clean (default-clean) @ getaway-service ---
+[INFO] Deleting C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\gateway-service\target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ getaway-service ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ getaway-service ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 5 source files with javac [debug parameters release 21] to target\classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ getaway-service ---
+[INFO] skip non existing resourceDirectory C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\gateway-service\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ getaway-service ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 1 source file with javac [debug parameters release 21] to target\test-classes
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ getaway-service ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ getaway-service ---
+[INFO] Building jar: C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\gateway-service\target\getaway-service-0.0.1-SNAPSHOT.jar
+[INFO] 
+[INFO] --- spring-boot:3.5.7:repackage (repackage) @ getaway-service ---
+[INFO] Replacing main artifact C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\gateway-service\target\getaway-service-0.0.1-SNAPSHOT.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\gateway-service\target\getaway-service-0.0.1-SNAPSHOT.jar.original
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  8.781 s
+[INFO] Finished at: 2025-12-25T19:29:02+01:00
+[INFO] ------------------------------------------------------------------------
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] dir
+Running in C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\crypto-check
+[Pipeline] {
+[Pipeline] echo
+Building backend/crypto-check...
+[Pipeline] bat
+
+C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\crypto-check>mvn clean package -DskipTests 
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------< com.mobilesec:crypto-check >---------------------
+[INFO] Building crypto-check 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.4.1:clean (default-clean) @ crypto-check ---
+[INFO] Deleting C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\crypto-check\target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ crypto-check ---
+[INFO] Copying 2 resources from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ crypto-check ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 4 source files with javac [debug parameters release 21] to target\classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ crypto-check ---
+[INFO] skip non existing resourceDirectory C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\crypto-check\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ crypto-check ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 1 source file with javac [debug parameters release 21] to target\test-classes
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ crypto-check ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ crypto-check ---
+[INFO] Building jar: C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\crypto-check\target\crypto-check-0.0.1-SNAPSHOT.jar
+[INFO] 
+[INFO] --- spring-boot:3.5.8:repackage (repackage) @ crypto-check ---
+[INFO] Replacing main artifact C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\crypto-check\target\crypto-check-0.0.1-SNAPSHOT.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\crypto-check\target\crypto-check-0.0.1-SNAPSHOT.jar.original
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  12.077 s
+[INFO] Finished at: 2025-12-25T19:29:18+01:00
+[INFO] ------------------------------------------------------------------------
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] dir
+Running in C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\ReportGen
+[Pipeline] {
+[Pipeline] echo
+Building backend/ReportGen...
+[Pipeline] bat
+
+C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\ReportGen>mvn clean package -DskipTests 
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------------< com.mobilesec:reportgen >-----------------------
+[INFO] Building reportgen 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.4.1:clean (default-clean) @ reportgen ---
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ reportgen ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ reportgen ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 13 source files with javac [debug parameters release 21] to target\classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ reportgen ---
+[INFO] skip non existing resourceDirectory C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\ReportGen\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ reportgen ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 1 source file with javac [debug parameters release 21] to target\test-classes
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ reportgen ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ reportgen ---
+[INFO] Building jar: C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\ReportGen\target\reportgen-0.0.1-SNAPSHOT.jar
+[INFO] 
+[INFO] --- spring-boot:3.5.8:repackage (repackage) @ reportgen ---
+[INFO] Replacing main artifact C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\ReportGen\target\reportgen-0.0.1-SNAPSHOT.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\ReportGen\target\reportgen-0.0.1-SNAPSHOT.jar.original
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  13.663 s
+[INFO] Finished at: 2025-12-25T19:29:35+01:00
+[INFO] ------------------------------------------------------------------------
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] dir
+Running in C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\fix-suggest
+[Pipeline] {
+[Pipeline] echo
+Building backend/fix-suggest...
+[Pipeline] bat
+
+C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\fix-suggest>mvn clean package -DskipTests 
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------< com.mobilesec:fix-suggest >----------------------
+[INFO] Building fix-suggest 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.4.1:clean (default-clean) @ fix-suggest ---
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ fix-suggest ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ fix-suggest ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 9 source files with javac [debug parameters release 21] to target\classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ fix-suggest ---
+[INFO] skip non existing resourceDirectory C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\fix-suggest\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ fix-suggest ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 1 source file with javac [debug parameters release 21] to target\test-classes
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ fix-suggest ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ fix-suggest ---
+[INFO] Building jar: C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\fix-suggest\target\fix-suggest-0.0.1-SNAPSHOT.jar
+[INFO] 
+[INFO] --- spring-boot:3.5.8:repackage (repackage) @ fix-suggest ---
+[INFO] Replacing main artifact C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\fix-suggest\target\fix-suggest-0.0.1-SNAPSHOT.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\fix-suggest\target\fix-suggest-0.0.1-SNAPSHOT.jar.original
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  12.115 s
+[INFO] Finished at: 2025-12-25T19:29:51+01:00
+[INFO] ------------------------------------------------------------------------
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Docker Build & Deploy)
+[Pipeline] echo
+Building and Starting Docker Containers...
+[Pipeline] bat
+
+C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD>docker-compose up -d --build 
+time="2025-12-25T19:29:51+01:00" level=warning msg="C:\\Users\\Youssef\\AppData\\Local\\Jenkins\\.jenkins\\workspace\\MobileSec-CD\\docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+Compose can now delegate builds to bake for better performance.
+ To do so, set COMPOSE_BAKE=true.
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [apk-scanner internal] load build definition from Dockerfile
+#1 transferring dockerfile:
+#1 transferring dockerfile: 727B 0.0s done
+#1 DONE 0.2s
+
+#2 [report-service internal] load build definition from Dockerfile
+#2 transferring dockerfile: 385B 0.0s done
+#2 DONE 0.2s
+
+#3 [crypto-check internal] load build definition from Dockerfile
+#3 transferring dockerfile: 320B 0.0s done
+#3 DONE 0.2s
+
+#4 [fix-suggest internal] load build definition from Dockerfile
+#4 transferring dockerfile: 367B 0.0s done
+#4 DONE 0.2s
+
+#5 [secret-hunter internal] load build definition from Dockerfile
+#5 transferring dockerfile: 392B 0.0s done
+#5 DONE 0.2s
+
+#6 [network-inspector internal] load build definition from Dockerfile
+#6 transferring dockerfile: 392B 0.0s done
+#6 DONE 0.2s
+
+#7 [gateway-service internal] load build definition from Dockerfile
+#7 transferring dockerfile: 321B done
+#7 DONE 0.3s
+
+#8 [gateway-service internal] load metadata for docker.io/library/maven:3.8-openjdk-17
+#8 ...
+
+#9 [report-service auth] library/maven:pull token for registry-1.docker.io
+#9 DONE 0.0s
+
+#10 [report-service auth] library/openjdk:pull token for registry-1.docker.io
+#10 DONE 0.0s
+
+#11 [apk-scanner auth] library/python:pull token for registry-1.docker.io
+#11 DONE 0.0s
+
+#12 [gateway-service internal] load metadata for docker.io/library/openjdk:17-slim
+#12 ERROR: docker.io/library/openjdk:17-slim: not found
+
+#8 [gateway-service internal] load metadata for docker.io/library/maven:3.8-openjdk-17
+#8 CANCELED
+
+#13 [network-inspector internal] load metadata for docker.io/library/python:3.10-slim
+#13 CANCELED
+------
+ > [crypto-check internal] load metadata for docker.io/library/openjdk:17-slim:
+------
+failed to solve: openjdk:17-slim: failed to resolve source metadata for docker.io/library/openjdk:17-slim: docker.io/library/openjdk:17-slim: not found
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Health Check)
+Stage "Health Check" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] echo
+Pipeline completed.
+[Pipeline] echo
+Pipeline Failed.
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+ERROR: script returned exit code 1
+Finished: FAILURE
