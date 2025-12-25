@@ -32,7 +32,12 @@ function Stop-ContainerOnPort {
 Stop-ContainerOnPort -Port 3000  # Frontend
 Stop-ContainerOnPort -Port 8083  # Gateway
 Stop-ContainerOnPort -Port 8088  # APK Scanner
-# Add others if necessary, but 3000 is the main conflict
+Stop-ContainerOnPort -Port 8089  # Secret Hunter (Failed last time)
+Stop-ContainerOnPort -Port 8087  # Network Inspector
+Stop-ContainerOnPort -Port 8080  # Crypto Check
+Stop-ContainerOnPort -Port 8081  # Report Service
+Stop-ContainerOnPort -Port 8085  # Fix Suggest
+
 
 # Double check strictly for "mobilesec-cd" stack just in case
 Write-Host "Ensuring standard docker-compose down logic..."
