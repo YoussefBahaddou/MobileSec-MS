@@ -3,43 +3,62 @@
 
 Write-Host "--- Starting CI Port Cleanup ---"
 
-# Function to stop container by port
+# 1. Function to stop Docker container by port
 function Stop-ContainerOnPort {
     param (
         [int]$Port
     )
-    Write-Host "Checking for containers on port $Port..."
-    
-    # Get container ID for the specific published port
-    # Format: 0.0.0.0:3000->80/tcp or similar. We look for the port mapping.
     $containerId = docker ps -q --filter "publish=$Port"
-    
     if ($containerId) {
-        Write-Host "Found container ($containerId) using port $Port. Stopping..."
-        docker rm -f $containerId
-        if ($?) {
-            Write-Host "Successfully removed container ($containerId)."
-        } else {
-            Write-Error "Failed to remove container ($containerId)."
-            exit 1
-        }
-    } else {
-        Write-Host "No containers found on port $Port."
+        Write-Host "Found Docker container ($containerId) using port $Port. Stopping..."
+        docker rm -f $containerId | Out-Null
+        Write-Host "Successfully removed container ($containerId)."
     }
 }
 
-# Clean specific ports used by MobileSec-MS
-Stop-ContainerOnPort -Port 3000  # Frontend
-Stop-ContainerOnPort -Port 8083  # Gateway
-Stop-ContainerOnPort -Port 8088  # APK Scanner
-Stop-ContainerOnPort -Port 8089  # Secret Hunter (Failed last time)
-Stop-ContainerOnPort -Port 8087  # Network Inspector
-Stop-ContainerOnPort -Port 8080  # Crypto Check
-Stop-ContainerOnPort -Port 8081  # Report Service
-Stop-ContainerOnPort -Port 8085  # Fix Suggest
+# 2. Function to stop local Windows process by port
+function Stop-ProcessOnPort {
+    param (
+        [int]$Port
+    )
+    # Find TCP connections on the port that are in 'Listen' state
+    $connections = Get-NetTCPConnection -LocalPort $Port -State Listen -ErrorAction SilentlyContinue
+    
+    foreach ($conn in $connections) {
+        $pidVal = $conn.OwningProcess
+        if ($pidVal -and $pidVal -gt 0) {
+            try {
+                $proc = Get-Process -Id $pidVal -ErrorAction Stop
+                Write-Host "Found local process '$($proc.ProcessName)' (PID: $pidVal) listening on port $Port. Killing..."
+                Stop-Process -Id $pidVal -Force -ErrorAction Continue
+                Write-Host "Successfully stopped process ID $pidVal."
+            } catch {
+                Write-Host "Warning: Found PID $pidVal on port $Port but could not stop it. Access denied or process already gone."
+            }
+        }
+    }
+}
 
+# List of critical ports used by MobileSec-MS
+$CriticalPorts = @(
+    3000,  # Frontend (React)
+    8083,  # Gateway Service
+    8088,  # APK Scanner
+    8089,  # Secret Hunter
+    8087,  # Network Inspector
+    8080,  # Crypto Check
+    8081,  # Report Service
+    8085   # Fix Suggest
+)
 
-# Double check strictly for "mobilesec-cd" stack just in case
+# Execute cleanup
+foreach ($port in $CriticalPorts) {
+    Write-Host "Cleaning port $port..."
+    Stop-ContainerOnPort -Port $port
+    Stop-ProcessOnPort -Port $port
+}
+
+# Standard Docker Compose Cleanup
 Write-Host "Ensuring standard docker-compose down logic..."
 docker-compose down --volumes --remove-orphans 2>$null
 
