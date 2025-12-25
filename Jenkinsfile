@@ -9,8 +9,9 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                checkout scm
-                echo 'Code Checked Out successfully!'
+                // Checkout code from the new branch
+                git branch: 'CI-CD-Pipleline', url: 'https://github.com/YoussefBahaddou/MobileSec-MS'
+                echo 'Checked out CI-CD-Pipleline successfully!'
             }
         }
 
