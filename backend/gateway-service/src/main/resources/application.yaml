@@ -4,8 +4,14 @@ server:
 spring:
   application:
     name: gateway-service
+  http:
+    codecs:
+      max-in-memory-size: 700MB
   cloud:
     gateway:
+      httpclient:
+        connect-timeout: 300000
+        response-timeout: 300s
       server:
         webflux:
           default-filters:
@@ -17,16 +23,22 @@ spring:
               predicates:
                 - Path=/api/scan/**
                 - Method=GET,POST,OPTIONS
+              filters:
+                - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_FIRST
             - id: secret-hunter-route
               uri: http://localhost:8089
               predicates:
                 - Path=/api/secrets/**
                 - Method=GET,POST,OPTIONS
+              filters:
+                - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_FIRST
             - id: crypto-check-route
               uri: http://localhost:8090
               predicates:
                 - Path=/api/crypto/**
                 - Method=GET,POST,OPTIONS
+              filters:
+                - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_FIRST
             # Dashboard (Keep pointing to 8082 for now if it aggregates, or 8088 if we moved it?)
             # The dashboard stats were likely in analysis-service. 
             # If we kill analysis-service, dashboard breaks. 
@@ -39,6 +51,7 @@ spring:
                 - Method=GET,OPTIONS
               filters:
                 - StripPrefix=0
+                - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_FIRST
             # Consolidating Analysis Service into APK Scanner (Port 8088)
             - id: analysis-route
               uri: http://localhost:8088
@@ -47,6 +60,7 @@ spring:
                 - Method=GET,POST,OPTIONS
               filters:
                 - StripPrefix=0
+                - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_FIRST
             - id: report-service-route
               uri: http://localhost:8084
               predicates:

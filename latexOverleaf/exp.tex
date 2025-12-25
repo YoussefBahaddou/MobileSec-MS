@@ -1,0 +1,774 @@
+\documentclass{ijceds} % Uses our custom ijceds.cls
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{xurl}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage[none]{hyphenat}
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{multicol} % Added missing package for multicols
+\usepackage{ragged2e} % Added missing package for justifying
+\sloppy
+
+\newcommand{\secref}[1]{Section~\ref{#1}}
+\newcommand{\equref}[1]{Eq.~(\ref{#1})} % Command for referencing equations
+
+\begin{document}
+\setcounter{page}{1}
+
+\begin{center}
+\Large\textbf{Smart Factory: A Real-Time Predictive Maintenance Platform Based on\\Microservices Architecture and Deep Learning}\\[1em]
+\large \textbf{Mohammed Kazaz$^{1}$, Youssef Zaia$^{2}$, Baba Mohammed$^{3}$}\\[0.5em]
+\small
+$^{1}$IIR, Moroccan School of Engineering Sciences, Department of Computer and Network Engineering, Marrakesh, Morocco\\
+% $^{2}$LAMIGEP Laboratory, Moroccan School of Engineering Sciences, Marrakesh, Morocco\\
+% E-mail: \href{mailto:Mohamed.kazaz@emsi-edu.ma}{Mohamed.kazaz@emsi-edu.ma}, \href{mailto:Y.Safsouf@emsi.ma}{Y.Safsouf@emsi.ma}\\
+[0.5em]
+\end{center}
+
+\vspace{0.5em}
+\hrule
+\vspace{0.2em}
+\hrule
+\vspace{1em}
+
+\noindent
+\begin{tabular}{@{}p{0.3\textwidth}@{}p{0.7\textwidth}@{}}
+\begin{minipage}[t]{\linewidth}
+\raggedright
+\textbf{\textit{Article history}} \\
+\rule{\linewidth}{0.4pt} \\[0.3em]
+Received Apr 27, 2025 \\[0.2em]
+Revised May 24, 2025 \\[0.2em]
+Accepted Jun 15, 2025 \\[0.2em]
+Published Jun 30, 2025
+\end{minipage}
+&
+\begin{minipage}[t]{\linewidth}
+\textbf{ABSTRACT} \\
+\rule{\linewidth}{0.4pt} \\[0.3em]
+\small
+\justifying
+
+Industrial equipment failures lead to significant production losses and safety hazards. Traditional maintenance strategies—reactive and preventive—are either too late or unnecessarily costly. This work addresses the challenge of implementing real-time predictive maintenance in smart factories through a distributed microservices architecture integrated with custom deep learning models. We present Smart Factory, a comprehensive platform that combines IIoT data ingestion, signal processing, feature extraction, anomaly detection, and Remaining Useful Life (RUL) prediction into a unified, scalable system. The platform uses seven interconnected microservices communicating via Apache Kafka, with custom LSTM, GRU, and TCN models trained on the NASA C-MAPSS turbofan degradation dataset. Preliminary experiments demonstrate RUL prediction accuracy with MAE below 15 cycles and anomaly detection with F1-scores exceeding 0.85. The main contributions include: (1) a fully containerized microservices architecture for industrial predictive maintenance, (2) custom deep learning models for RUL prediction and anomaly detection, and (3) an end-to-end real-time data pipeline from sensor to decision support dashboard.
+
+\vspace{0.8em}
+\textbf{Keywords:} \textit{Predictive maintenance, Deep learning, Microservices architecture, Remaining Useful Life, Anomaly detection, IIoT, Smart manufacturing}
+
+\end{minipage}
+\end{tabular}
+
+\vspace{1em}
+\hrule
+\vspace{0.2em}
+\hrule
+\vspace{1em}
+
+\textbf{Code metadata}
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{p{6.5cm} p{10cm}}
+\hline
+Current code version & v0.8.0 \\
+Permanent link to code/repository & \url{https://github.com/Kazaz-Mohammed/usines_intelligentes} \\
+Legal Code License & MIT License \\
+Code versioning system used & Git \\
+Software code languages, tools, and services used & Java 17, Python 3.11, TypeScript, Spring Boot 3.2, FastAPI, PyTorch, React.js, Apache Kafka, PostgreSQL, TimescaleDB, Docker, Kubernetes \\
+Compilation requirements, operating environments \& dependencies & Docker \& Docker Compose, JDK 17+, Python 3.9+, Node.js 18+ \\
+Link to developer documentation/manual & \url{https://github.com/Kazaz-Mohammed/usines_intelligentes/blob/main/README.md} \\
+Support email for questions & \texttt{Mohamed.kazaz@emsi-edu.ma} \\
+\hline
+\end{tabular}
+\label{codeMetadata}
+\end{center}
+\end{table}
+
+\begin{multicols}{2}
+
+\section{Introduction}
+
+Manufacturing industries face significant challenges with equipment failures, leading to unplanned downtime, production losses, and safety risks. The global cost of unplanned downtime is estimated at \$50 billion annually~\cite{deloitte2017predictive}. Traditional maintenance approaches—reactive maintenance (fixing after failure) and preventive maintenance (scheduled interventions)—are either too late or economically inefficient.
+
+Predictive maintenance leverages real-time sensor data and machine learning to predict equipment failures before they occur, enabling optimized intervention scheduling. The emergence of Industry 4.0 and the Industrial Internet of Things (IIoT) has created opportunities for sophisticated predictive maintenance systems that process vast amounts of sensor data in real-time~\cite{susto2015survey}.
+
+However, implementing effective predictive maintenance systems presents several challenges: (1) integrating heterogeneous industrial protocols (OPC UA, Modbus, MQTT), (2) processing high-frequency sensor data with low latency, (3) building accurate degradation models that generalize across equipment types, and (4) deploying scalable, fault-tolerant architectures suitable for industrial environments.
+
+This work presents Smart Factory, a comprehensive real-time predictive maintenance platform that addresses these challenges through a microservices architecture combined with custom deep learning models. The platform integrates seven specialized services: IIoT data ingestion, signal preprocessing, feature extraction, anomaly detection, RUL prediction, maintenance orchestration, and a visualization dashboard.
+
+The key research questions addressed are: \textit{Can a microservices architecture provide the scalability and reliability needed for industrial predictive maintenance?} and \textit{Can custom deep learning models trained on public datasets generalize to real-time industrial sensor data?}
+
+The main contributions of this work are:
+\begin{itemize}
+    \item A fully containerized microservices architecture for industrial predictive maintenance with event-driven communication via Apache Kafka.
+    \item Custom LSTM, GRU, and TCN deep learning models for RUL prediction, with transfer learning capabilities.
+    \item A multi-model anomaly detection system combining Isolation Forest, One-Class SVM, and LSTM Autoencoders.
+    \item An end-to-end real-time data pipeline from OPC UA/Modbus sensors to a decision support dashboard with GIS visualization.
+\end{itemize}
+
+Following this introduction, \secref{sec:relatedwork} reviews related work, \secref{sec:methods} presents the methodology, \secref{sec:software-architecture} details the software architecture, and subsequent sections discuss experimental evaluation, impact, and conclusions.
+
+\section{Related Work}
+\label{sec:relatedwork}
+
+\subsection{Predictive Maintenance Approaches}
+
+Predictive maintenance has evolved from statistical methods to sophisticated machine learning approaches. Early work by Wang et al.\cite{wang2002support} applied Support Vector Machines to bearing fault diagnosis. Subsequent research explored ensemble methods\cite{zhang2017ensemble}, Gaussian processes~\cite{liu2013gaussian}, and various degradation modeling approaches~\cite{si2011remaining}.
+
+Deep learning has emerged as a powerful tool for predictive maintenance. Li et al.\cite{li2018remaining} demonstrated that LSTM networks outperform traditional methods for RUL prediction on turbofan engine data. Zheng et al.\cite{zheng2017long} explored multi-scale convolutional LSTM architectures, while temporal convolutional networks (TCNs) have shown promising results due to their ability to capture long-range dependencies without the vanishing gradient problem~\cite{bai2018empirical}.
+
+\subsection{Anomaly Detection in Industrial Systems}
+
+Anomaly detection in manufacturing has traditionally relied on statistical process control. Modern approaches leverage machine learning: Isolation Forest~\cite{liu2008isolation} provides efficient outlier detection for high-dimensional data, while One-Class SVM~\cite{scholkopf2001estimating} offers robust performance when only normal data is available for training.
+
+Autoencoder-based methods have gained popularity for their ability to learn complex normal behavior patterns. LSTM autoencoders~\cite{malhotra2016lstm} are particularly effective for sequential sensor data, learning to reconstruct normal patterns and flagging deviations as anomalies.
+
+\subsection{Industrial IoT and Microservices}
+
+The adoption of microservices architectures in industrial settings has been studied by various researchers. Thramboulidis et al.\cite{thramboulidis2018cyberphysical} explored microservices for cyber-physical systems, while Petrolo et al.\cite{petrolo2017towards} discussed edge computing integration. Event-driven architectures using Apache Kafka have been shown to provide the reliability and scalability needed for industrial applications~\cite{confluent2021kafka}.
+
+\subsection{Gap Analysis}
+
+While significant progress has been made in individual components—RUL prediction, anomaly detection, and industrial architectures—few works present integrated, end-to-end systems that combine all elements. Table~\ref{tab:comparison} summarizes the comparison between existing solutions and our proposed Smart Factory platform.
+
+\begin{table*}[t]
+\centering
+\caption{Comparison between Smart Factory and existing predictive maintenance solutions.}
+\label{tab:comparison}
+\scriptsize
+\begin{tabular}{|p{4.5cm}|c|c|c|c|c|}
+\hline
+\textbf{Feature} & \textbf{Smart Factory} & \textbf{Azure PM\footnotemark[1]} & \textbf{AWS IoT\footnotemark[2]} & \textbf{SIMATIC\footnotemark[3]} & \textbf{Academic Systems} \\ \hline
+Microservices Architecture & Yes & Yes & Yes & Partial & Rare \\ \hline
+Custom DL Models & Yes & Pre-built & Pre-built & Pre-built & Yes \\ \hline
+Multi-Protocol IIoT (OPC UA, Modbus) & Yes & Limited & Limited & Yes & Limited \\ \hline
+Real-time Kafka Streaming & Yes & Event Hubs & Kinesis & No & Rare \\ \hline
+RUL Prediction (LSTM/GRU/TCN) & Yes & Yes & Yes & Yes & Yes \\ \hline
+Multi-Model Anomaly Detection & Yes & Single & Single & Single & Partial \\ \hline
+Transfer Learning Support & Yes & Limited & Limited & No & Partial \\ \hline
+Open Source & Yes & No & No & No & Varies \\ \hline
+GIS Visualization & Yes & No & No & Partial & Rare \\ \hline
+Kubernetes Deployment & Yes & Yes & Yes & Partial & Rare \\ \hline
+\end{tabular}
+\end{table*}
+
+\footnotetext[1]{\url{https://azure.microsoft.com/predictive-maintenance}}
+\footnotetext[2]{\url{https://aws.amazon.com/iot}}
+\footnotetext[3]{\url{https://www.siemens.com/simatic}}
+
+
+\section{Methods}
+\label{sec:methods}
+
+\subsection{Methodology Overview}
+
+The primary objective of this research is to develop and evaluate a scalable, real-time predictive maintenance platform that integrates IIoT data collection, signal processing, and deep learning-based prediction. The working hypothesis is that a microservices architecture combined with custom deep learning models can provide accurate, timely predictions suitable for industrial deployment.
+
+\subsection{System Architecture Overview}
+
+Smart Factory employs a layered microservices architecture consisting of seven specialized services:
+
+\begin{itemize}
+    \item \textbf{Ingestion-IIoT}: Collects sensor data via OPC UA, Modbus, and MQTT protocols.
+    \item \textbf{Preprocessing}: Cleans, normalizes, and windows raw sensor data.
+    \item \textbf{Feature Extraction}: Computes temporal, frequency, and wavelet features.
+    \item \textbf{Anomaly Detection}: Detects equipment anomalies using ensemble ML models.
+    \item \textbf{RUL Prediction}: Estimates remaining useful life using deep learning.
+    \item \textbf{Maintenance Orchestrator}: Schedules interventions using business rules.
+    \item \textbf{Dashboard}: Provides real-time visualization and GIS mapping.
+\end{itemize}
+
+Communication between services is primarily asynchronous via Apache Kafka, ensuring decoupling, fault tolerance, and horizontal scalability.
+
+\subsection{Dataset}
+
+The platform is trained and validated using the NASA Commercial Modular Aero-Propulsion System Simulation (C-MAPSS) dataset~\cite{saxena2008turbofan}, which contains run-to-failure data for turbofan engines under various operating conditions:
+
+\begin{itemize}
+    \item 21 sensor measurements (temperatures, pressures, speeds)
+    \item 3 operational settings
+    \item 4 sub-datasets with different fault modes
+    \item Total of 708 training and 709 test engine trajectories
+\end{itemize}
+
+
+\subsection{Data Preprocessing and Feature Engineering}
+\label{sec:preprocessing}
+
+Before model training, raw sensor data undergoes systematic preprocessing to enhance model performance and convergence. The preprocessing pipeline implements four key stages:
+
+\subsubsection{RUL Target Calculation}
+
+The Remaining Useful Life target is calculated from run-to-failure trajectories as:
+
+\begin{equation}
+    \text{RUL}t = \min(\text{cycle}{\text{fail}} - t, 125)
+    \label{eq:rul-calc}
+\end{equation}
+
+where $t$ is the current operational cycle and $\text{cycle}_{\text{fail}}$ is extracted from the dataset. The 125-cycle threshold clips RUL values to focus model learning on the critical degradation phase, improving prediction accuracy in the practically important range. Cycles with RUL $> 125$ represent normal operation without imminent failure risk.
+
+\subsubsection{Sensor Selection and Normalization}
+
+The NASA C-MAPSS dataset contains 21 sensor channels and 3 operational settings. Variance-based feature selection identifies constant sensors with variance $< 10^{-4}$. Analysis reveals sensor\_16 provides no discriminative information, resulting in retention of 20 sensor channels.
+
+All retained features undergo StandardScaler normalization:
+
+\begin{equation}
+    x_{\text{norm}} = \frac{x - \mu}{\sigma}
+    \label{eq:standardscaler}
+\end{equation}
+
+where $\mu$ is the feature mean and $\sigma$ is the standard deviation computed on training data. This zero-mean, unit-variance normalization ensures:
+
+\begin{itemize}
+    \item Consistent scaling across heterogeneous sensor types
+    \item Faster convergence during neural network training
+    \item Prevention of high-variance features dominating gradients
+    \item Reproducibility via saved scaler objects for inference
+\end{itemize}
+
+\subsubsection{Sliding Window Sequences}
+
+Temporal models require sequential input. Sliding windows of length 30 timesteps are extracted with stride 1:
+
+\begin{equation}
+    \mathbf{X}i = [x{i}, x_{i+1}, \ldots, x_{i+29}], \quad \mathbf{Y}i = \text{RUL}{i+29}
+    \label{eq:sliding-window}
+\end{equation}
+
+This sequence length of 30 cycles is empirically chosen to balance temporal dependency capture without excessive memory overhead.
+
+\subsubsection{Data Cleaning and Denoising}
+
+\begin{itemize}
+    \item \textbf{Outlier Detection}: Isolation Forest with contamination = 0.1 identifies anomalous sensor readings
+    \item \textbf{Missing Value Imputation}: Linear interpolation for sparse missing values (typically $< 0.5\%$)
+    \item \textbf{Low-pass Filtering}: Butterworth filter (cutoff frequency 10 Hz) reduces sensor noise
+    \item \textbf{Wavelet Denoising}: Daubechies wavelets (db4, level 3) for additional noise suppression
+\end{itemize}
+
+The resulting preprocessed dataset contains 160,359 training samples and 79,248 test samples across the four C-MAPSS sub-datasets.
+
+
+
+
+\subsection{RUL Prediction Models}
+
+\subsubsection{LSTM Model}
+
+The LSTM model captures long-term dependencies in sensor sequences as shown in \equref{eq:lstm}:
+
+\begin{equation}
+    \mathbf{h}t = \text{LSTM}(\mathbf{x}_t, \mathbf{h}{t-1}, \mathbf{c}_{t-1})
+    \label{eq:lstm}
+\end{equation}
+
+where $\mathbf{x}_t$ is the input feature vector at time $t$, and $\mathbf{h}_t$, $\mathbf{c}_t$ are the hidden and cell states. The architecture consists of:
+
+\begin{itemize}
+    \item 2 LSTM layers with 64 hidden units
+    \item Dropout rate of 0.2 for regularization
+    \item Dense layers: $64 \rightarrow 32 \rightarrow 1$
+    \item ReLU activation to ensure positive RUL output
+\end{itemize}
+
+\subsubsection{GRU Model}
+
+The GRU model offers computational efficiency with similar performance, described by \equref{eq:gru}:
+
+\begin{equation}
+    \mathbf{h}t = \text{GRU}(\mathbf{x}_t, \mathbf{h}{t-1})
+    \label{eq:gru}
+\end{equation}
+
+The architecture mirrors the LSTM model but uses GRU cells, reducing parameters by approximately 25\%.
+
+\subsubsection{TCN Model}
+
+The Temporal Convolutional Network uses dilated causal convolutions, as defined in \equref{eq:tcn}:
+
+\begin{equation}
+    \mathbf{y}t = \sum{k=0}^{K-1} w_k \cdot \mathbf{x}_{t - d \cdot k}
+    \label{eq:tcn}
+\end{equation}
+
+where $d$ is the dilation factor and $K$ is the kernel size. TCN advantages include parallelizable training and explicit control over receptive field size.
+
+\subsubsection{Ensemble Prediction}
+
+Final RUL prediction combines all models as shown in \equref{eq:ensemble}:
+
+\begin{equation}
+    \text{RUL}{\text{final}} = \alpha \cdot \text{RUL}{\text{LSTM}} + \beta \cdot \text{RUL}{\text{GRU}} + \gamma \cdot \text{RUL}{\text{TCN}}
+    \label{eq:ensemble}
+\end{equation}
+
+where weights $\alpha$, $\beta$, $\gamma$ are determined via validation performance.
+
+\subsection{Anomaly Detection Models}
+
+\subsubsection{Isolation Forest}
+
+Isolation Forest isolates anomalies by randomly selecting features and split values, using the path length metric in \equref{eq:iforest}:
+
+\begin{equation}
+    s(x, n) = 2^{-\frac{E[h(x)]}{c(n)}}
+    \label{eq:iforest}
+\end{equation}
+
+where $E[h(x)]$ is the average path length and $c(n)$ is the normalization factor.
+
+\subsubsection{LSTM Autoencoder}
+
+The LSTM autoencoder learns to reconstruct normal sequences by minimizing the reconstruction loss in \equref{eq:autoencoder}:
+
+\begin{equation}
+    \mathcal{L}_{\text{recon}} = ||\mathbf{x} - \hat{\mathbf{x}}||^2
+    \label{eq:autoencoder}
+\end{equation}
+
+Architecture: Encoder [64, 32, 16] $\rightarrow$ Latent space $\rightarrow$ Decoder [16, 32, 64]. Anomalies are detected when reconstruction error exceeds the 95th percentile threshold.
+
+\subsubsection{Ensemble Scoring}
+
+Final anomaly score aggregates multiple models as calculated in \equref{eq:score}:
+
+\begin{equation}
+    \text{Score}{\text{final}} = \sum{i=1}^{N} w_i \cdot \text{Score}_i
+    \label{eq:score}
+\end{equation}
+
+with criticality levels: Low ($<0.3$), Medium ($0.3$--$0.6$), High ($0.6$--$0.8$), Critical ($>0.8$).
+
+\subsection{Evaluation Metrics}
+
+\textbf{RUL Prediction:}
+\begin{itemize}
+    \item Mean Absolute Error (MAE): $\frac{1}{n}\sum|y_i - \hat{y}_i|$
+    \item Root Mean Square Error (RMSE): $\sqrt{\frac{1}{n}\sum(y_i - \hat{y}_i)^2}$
+    \item NASA Scoring Function: Asymmetric penalty for late predictions
+\end{itemize}
+
+\textbf{Anomaly Detection:}
+\begin{itemize}
+    \item Precision, Recall, F1-Score
+    \item False Positive Rate per hour
+    \item Detection latency
+\end{itemize}
+
+
+\section{Software Architecture}
+\label{sec:software-architecture}
+
+Smart Factory follows a modular microservices architecture designed for industrial scalability and fault tolerance. Figure~\ref{fig:architecture} presents the overall system architecture.
+
+\subsection{Ingestion-IIoT Service}
+
+The Ingestion-IIoT service, built with Spring Boot and Eclipse Milo, collects data from industrial equipment:
+
+\begin{itemize}
+    \item \textbf{Protocol Support}: OPC UA, Modbus TCP, MQTT
+    \item \textbf{Data Normalization}: Unified timestamp format, unit conversion
+    \item \textbf{Output}: Publishes to Kafka topic \texttt{sensor-data}
+    \item \textbf{Storage}: TimescaleDB for time-series, MinIO for raw archives
+    \item \textbf{Port}: 8081
+\end{itemize}
+
+\subsection{Preprocessing Service}
+
+The Preprocessing service (Python/FastAPI) prepares raw data for analysis:
+
+\begin{itemize}
+    \item \textbf{Cleaning}: Outlier detection, missing value imputation
+    \item \textbf{Resampling}: Uniform time intervals (configurable frequency)
+    \item \textbf{Denoising}: Low-pass filtering, wavelet denoising
+    \item \textbf{Windowing}: Sliding windows for ML input
+    \item \textbf{Kafka}: Consumes \texttt{sensor-data}, produces \texttt{preprocessed-data}
+    \item \textbf{Port}: 8082
+\end{itemize}
+
+\subsection{Feature Extraction Service}
+
+Computes domain-specific features using tsfresh and custom algorithms:
+
+\begin{itemize}
+    \item \textbf{Temporal}: RMS, kurtosis, skewness, crest factor
+    \item \textbf{Frequency}: FFT bands, spectral centroid, spectral entropy
+    \item \textbf{Wavelet}: PyWavelets decomposition coefficients
+    \item \textbf{Feature Store}: Feast for standardized feature serving
+    \item \textbf{Port}: 8083
+\end{itemize}
+
+\subsection{Anomaly Detection Service}
+
+The Anomaly Detection service orchestrates three ML models:
+
+\begin{itemize}
+    \item \textbf{Isolation Forest}: 100 estimators, 0.2 contamination
+    \item \textbf{One-Class SVM}: RBF kernel, $\nu = 0.2$
+    \item \textbf{LSTM Autoencoder}: PyTorch, sequence length 10
+    \item \textbf{Ensemble}: Weighted average scoring
+    \item \textbf{MLflow}: Model versioning and experiment tracking
+    \item \textbf{Port}: 8084
+\end{itemize}
+
+\subsection{RUL Prediction Service}
+
+The RUL Prediction service implements custom deep learning models:
+
+\begin{itemize}
+    \item \textbf{LSTM}: 2 layers, 64 hidden units, sequence length 30
+    \item \textbf{GRU}: 2 layers, 64 hidden units, sequence length 30
+    \item \textbf{TCN}: 3 blocks, kernel size 3, dilation [1, 2, 4]
+    \item \textbf{XGBoost}: Baseline ensemble model
+    \item \textbf{Calibration}: Confidence intervals via dropout sampling
+    \item \textbf{Transfer Learning}: Pre-trained on NASA C-MAPSS
+    \item \textbf{Port}: 8085
+\end{itemize}
+
+\subsection{Maintenance Orchestrator Service}
+
+Spring Boot service with Drools rules engine and OR-Tools optimization:
+
+\begin{itemize}
+    \item \textbf{Business Rules}: Priority assignment, escalation logic
+    \item \textbf{Optimization}: Technician scheduling, resource allocation
+    \item \textbf{Work Orders}: Automatic generation based on RUL/anomalies
+    \item \textbf{Integration}: CMMS/ERP connectors
+    \item \textbf{Port}: 8087
+\end{itemize}
+
+\subsection{Dashboard-Usine Service}
+
+React.js frontend with real-time visualization:
+
+\begin{itemize}
+    \item \textbf{Real-time Charts}: Plotly/Recharts for sensor trends
+    \item \textbf{GIS Mapping}: Leaflet/PostGIS for asset location
+    \item \textbf{KPIs}: MTBF, MTTR, OEE calculations
+    \item \textbf{WebSocket}: Live updates from monitoring service
+    \item \textbf{Port}: 3000 (dev), 80/443 (prod)
+\end{itemize}
+
+\subsection{Infrastructure Components}
+
+\begin{itemize}
+    \item \textbf{Apache Kafka}: Event streaming (7 topics)
+    \item \textbf{PostgreSQL + TimescaleDB}: Time-series storage
+    \item \textbf{MinIO}: S3-compatible object storage
+    \item \textbf{Redis}: Distributed caching
+    \item \textbf{MLflow}: ML lifecycle management
+    \item \textbf{Prometheus + Grafana}: Monitoring and alerting
+\end{itemize}
+
+\begin{figure*}[hbt!]
+\centering
+\includegraphics[width=0.85\textwidth]{images/rchitecture Microservices - Maintenance Prédictive.PNG}
+\caption{Smart Factory microservices architecture showing data flow from IIoT sensors through processing services to dashboard visualization.}
+\label{fig:architecture}
+\end{figure*}
+
+\subsection{Communication Patterns}
+
+The system employs multiple communication patterns:
+
+\begin{itemize}
+    \item \textbf{Event-Driven}: Kafka for asynchronous data flow
+    \item \textbf{REST APIs}: Synchronous queries and commands
+    \item \textbf{WebSocket}: Real-time dashboard updates
+    \item \textbf{gRPC}: High-performance inter-service calls (planned)
+\end{itemize}
+
+Table~\ref{tab:kafka-topics} summarizes the Kafka topics used for inter-service communication.
+
+\begin{table}[H]
+\centering
+\caption{Kafka topics for inter-service communication.}
+\label{tab:kafka-topics}
+\scriptsize
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Topic} & \textbf{Producer} & \textbf{Consumer} \\ \hline
+sensor-data & Ingestion-IIoT & Preprocessing \\ \hline
+preprocessed-data & Preprocessing & Feature Extraction \\ \hline
+extracted-features & Feature Extraction & Anomaly, RUL \\ \hline
+anomalies-detected & Anomaly Detection & Orchestrator \\ \hline
+rul-predictions & RUL Prediction & Orchestrator \\ \hline
+work-orders & Orchestrator & Dashboard \\ \hline
+maintenance-plans & Orchestrator & Dashboard \\ \hline
+\end{tabular}
+\end{table}
+
+
+
+
+\section{Dashboard Interface and Visualization}
+\label{sec:dashboard}
+
+The Smart Factory platform provides a web-based dashboard for real-time monitoring and decision support. Screenshots in this section illustrate the main views used by operators, planners, and maintenance engineers.
+
+\subsection{Main Dashboard Overview}
+
+The main dashboard provides an overview of key performance indicators (KPIs), asset status, anomaly trends, and active interventions. It aggregates MTBF, MTTR, OEE, and Availability metrics, while displaying recent anomalies and ongoing maintenance work orders.
+
+\begin{figure*}[hbt!]
+\centering
+\includegraphics[height=0.38\textheight,keepaspectratio]{images/dashboard.png}
+\caption{Main Smart Factory dashboard showing real-time KPIs, asset status overview, anomaly trends, and active interventions.}
+\label{fig:dashboard-main}
+\end{figure*}
+
+\subsection{RUL Predictions View}
+
+The RUL Predictions page focuses on Remaining Useful Life estimation for each asset. A time-series chart shows the RUL trend for a selected asset, while a table summarizes predicted RUL values, confidence intervals, and criticality status for the full asset fleet.
+
+\begin{figure*}[hbt!]
+\centering
+\includegraphics[height=0.38\textheight,keepaspectratio]{images/dashboard-rul.png}
+\caption{RUL Predictions view displaying RUL trend for a selected turbofan engine and tabular predictions with confidence intervals and criticality flags.}
+\label{fig:dashboard-rul}
+\end{figure*}
+
+\subsection{Interventions Management}
+
+The Interventions interface manages maintenance work orders and their execution status. Summary cards show counts of total, planned, in-progress, completed, and overdue interventions, while a detailed table lists individual work orders with asset, priority, schedule, assignee, and status.
+
+\begin{figure*}[hbt!]
+\centering
+\includegraphics[height=0.36\textheight,keepaspectratio]{images/dashboard-interventions.png}
+\caption{Interventions management view summarizing work orders and showing detailed information for predictive, preventive, and corrective maintenance tasks.}
+\label{fig:dashboard-interventions}
+\end{figure*}
+
+\subsection{GIS-based Asset Map}
+
+The map view uses GIS visualization to display the geographic location of monitored assets. It supports spatial reasoning for maintenance planning and technician routing by overlaying asset status on a factory-level map.
+
+\begin{figure*}[hbt!]
+\centering
+\includegraphics[height=0.36\textheight,keepaspectratio]{images/dashboard-map.png}
+\caption{GIS-based asset map showing the geographic location and operational status of turbofan engine units on the factory layout.}
+\label{fig:dashboard-map}
+\end{figure*}
+
+
+
+
+
+
+
+
+
+
+
+\section{Illustrative Examples}
+\label{sec:examples}
+
+\subsection{Scenario 1: Real-time Equipment Monitoring}
+
+Plant manager Marie monitors the factory's CNC machines through the Smart Factory dashboard. The main interface displays real-time sensor readings, RUL predictions, and anomaly alerts. When Machine CNC-07 shows elevated vibration patterns, the system automatically:
+
+\begin{enumerate}
+    \item Detects anomaly (score: 0.72, criticality: High)
+    \item Updates RUL prediction (from 450 to 180 hours)
+    \item Generates work order with priority escalation
+    \item Notifies maintenance team via dashboard alert
+\end{enumerate}
+
+\subsection{Scenario 2: Predictive Maintenance Planning}
+
+Maintenance coordinator Ahmed uses the orchestrator interface to optimize weekly interventions. The system considers:
+
+\begin{itemize}
+    \item Current RUL predictions for all assets
+    \item Technician availability and skills
+    \item Spare parts inventory
+    \item Production schedule constraints
+\end{itemize}
+
+The optimization algorithm generates an optimal schedule that minimizes downtime while ensuring critical equipment is serviced before predicted failure.
+
+\subsection{Scenario 3: GIS-based Asset Management}
+
+Using the GIS visualization, operations staff can see equipment health status overlaid on the factory floor plan. Color-coded markers indicate:
+
+\begin{itemize}
+    \item \textbf{Green}: Normal operation
+    \item \textbf{Yellow}: Early warning (RUL $<$ 500h)
+    \item \textbf{Orange}: Attention required (RUL $<$ 200h)
+    \item \textbf{Red}: Critical (RUL $<$ 50h or anomaly detected)
+\end{itemize}
+
+This spatial visualization enables rapid identification of problem areas and efficient maintenance routing.
+
+
+\section{Experimental Evaluation}
+\label{sec:experimental-evaluation}
+
+\subsection{Experimental Setup}
+
+Experiments were conducted using the NASA C-MAPSS dataset with the following configuration:
+
+\begin{itemize}
+    \item \textbf{Hardware}: Intel Xeon E5-2680, 32GB RAM, NVIDIA GTX 1080
+    \item \textbf{Software}: Python 3.11, PyTorch 2.0, Docker 24.0
+    \item \textbf{Data Split}: 80\% training, 20\% validation
+    \item \textbf{Sequence Length}: 30 time steps
+    \item \textbf{Training}: 100 epochs, Adam optimizer, learning rate 0.001
+\end{itemize}
+
+\subsection{RUL Prediction Results}
+
+Table~\ref{tab:rul-results} summarizes RUL prediction performance on the C-MAPSS test set (FD001).
+
+\begin{table}[H]
+\centering
+\caption{RUL prediction performance comparison.}
+\label{tab:rul-results}
+\scriptsize
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{Model} & \textbf{MAE} & \textbf{RMSE} & \textbf{Score} \\ \hline
+LSTM & 13.2 & 17.8 & 312 \\ \hline
+GRU & 13.8 & 18.4 & 328 \\ \hline
+TCN & 12.9 & 17.2 & 298 \\ \hline
+XGBoost & 15.6 & 21.3 & 412 \\ \hline
+Ensemble & \textbf{12.1} & \textbf{16.4} & \textbf{275} \\ \hline
+\end{tabular}
+\end{table}
+
+The ensemble model achieves the best performance with MAE of 12.1 cycles, representing a 8.3\% improvement over the best single model (TCN).
+
+\subsection{Anomaly Detection Results}
+
+Table~\ref{tab:anomaly-results} presents anomaly detection performance.
+
+\begin{table}[H]
+\centering
+\caption{Anomaly detection performance comparison.}
+\label{tab:anomaly-results}
+\scriptsize
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Model} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} & \textbf{FP/hour} \\ \hline
+Isolation Forest & 0.82 & 0.88 & 0.85 & 2.8 \\ \hline
+One-Class SVM & 0.79 & 0.85 & 0.82 & 3.4 \\ \hline
+LSTM Autoencoder & 0.86 & 0.84 & 0.85 & 2.2 \\ \hline
+Ensemble & \textbf{0.87} & \textbf{0.89} & \textbf{0.88} & \textbf{1.9} \\ \hline
+\end{tabular}
+\end{table}
+
+The ensemble approach reduces false positives by 32\% compared to Isolation Forest alone.
+
+\subsection{System Performance}
+
+End-to-end latency measurements (95th percentile):
+
+\begin{itemize}
+    \item Sensor to Kafka: 45 ms
+    \item Preprocessing: 82 ms
+    \item Feature extraction: 125 ms
+    \item Anomaly detection: 38 ms
+    \item RUL prediction: 67 ms
+    \item \textbf{Total pipeline}: 357 ms
+\end{itemize}
+
+Throughput under load: 2,500 sensor readings/second with 3 replicas per service.
+
+\subsection{Limitations}
+
+This evaluation uses simulation data; real industrial validation is pending. The C-MAPSS dataset, while standard for benchmarking, represents only turbofan engines. Generalization to other equipment types requires transfer learning and domain adaptation, which are areas for future work.
+
+
+\section{Impact}
+\label{sec:impact}
+
+\subsection{Industrial Impact}
+
+Smart Factory addresses several industrial needs:
+
+\begin{itemize}
+    \item \textbf{Reduced Downtime}: Early failure prediction enables proactive maintenance
+    \item \textbf{Cost Optimization}: Avoid unnecessary preventive maintenance
+    \item \textbf{Safety}: Identify critical failures before catastrophic events
+    \item \textbf{Resource Efficiency}: Optimized technician scheduling
+\end{itemize}
+
+\subsection{Research Contributions}
+
+The platform contributes to several research areas:
+
+\begin{itemize}
+    \item \textbf{Edge AI}: Potential for model deployment on edge devices
+    \item \textbf{Transfer Learning}: Framework for adapting models to new equipment
+    \item \textbf{Multi-modal Data}: Integration of heterogeneous sensor types
+    \item \textbf{Interpretability}: Foundation for explainable maintenance AI
+\end{itemize}
+
+\subsection{Educational Value}
+
+The open-source nature of Smart Factory provides educational resources:
+
+\begin{itemize}
+    \item Complete microservices architecture example
+    \item Custom deep learning implementations (not black-box)
+    \item Industrial protocol integration patterns
+    \item MLOps practices with MLflow
+\end{itemize}
+
+
+\section{Limitations and Future Work}
+\label{sec:future-validation}
+
+\subsection{Current Limitations}
+
+\begin{itemize}
+    \item \textbf{Limited Real-world Validation}: Current results are based on NASA C-MAPSS simulation data. Industrial deployment requires validation with actual equipment data.
+    \item \textbf{Model Generalization}: Models trained on turbofan engines may not directly transfer to other equipment types without retraining.
+    \item \textbf{Data Quality Dependency}: Prediction accuracy depends on sensor calibration and data quality.
+    \item \textbf{Interpretability}: Deep learning models provide limited explainability for maintenance decisions.
+\end{itemize}
+
+\subsection{Future Work}
+
+\begin{itemize}
+    \item \textbf{Industrial Pilot}: Deploy platform in manufacturing facility with real equipment
+    \item \textbf{Domain Adaptation}: Develop transfer learning techniques for new equipment types
+    \item \textbf{Edge Deployment}: Optimize models for edge computing with TensorRT/ONNX
+    \item \textbf{Explainable AI}: Integrate SHAP/LIME for decision interpretation
+    \item \textbf{Digital Twin Integration}: Connect with physics-based simulation models
+    \item \textbf{Federated Learning}: Enable collaborative model training across factories
+\end{itemize}
+
+
+\section{Conclusions}
+\label{sec:conclusions}
+
+This work presented Smart Factory, a comprehensive real-time predictive maintenance platform combining microservices architecture with custom deep learning models. The platform addresses the critical challenge of equipment failure prediction in smart manufacturing environments.
+
+Key achievements include:
+
+\begin{enumerate}
+    \item A scalable, fault-tolerant microservices architecture with seven specialized services communicating via Apache Kafka.
+    \item Custom LSTM, GRU, and TCN models achieving MAE of 12.1 cycles for RUL prediction on the NASA C-MAPSS benchmark.
+    \item Multi-model anomaly detection with F1-score of 0.88 and reduced false positive rate.
+    \item End-to-end processing latency under 400ms suitable for real-time applications.
+\end{enumerate}
+
+The open-source nature of Smart Factory enables both industrial adoption and academic research advancement. While current validation is limited to simulation data, the architecture provides a solid foundation for real-world deployment.
+
+Future work will focus on industrial pilot deployments, domain adaptation techniques, and integration with emerging Industry 4.0 standards. The platform represents a significant step toward realizing the vision of truly intelligent, self-maintaining manufacturing facilities.
+
+
+\section*{Acknowledgment}
+
+The authors gratefully acknowledge the support provided by EMSI Marrakesh during the development of Smart Factory.
+
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{multicols}
+
+\end{document}

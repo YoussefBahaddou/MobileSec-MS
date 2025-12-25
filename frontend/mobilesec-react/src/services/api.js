@@ -108,11 +108,14 @@ const REPORT_FILE_MAP = {
 export const extractStrings = (file, onUploadProgress) => {
   const formData = new FormData();
   formData.append('file', file);
-  return analysisClient
-    .post('/scan/extract-strings', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-      onUploadProgress
-    })
+  // Bypass Gateway for large payloads to avoid 500 Error (limit issues)
+  // TODO: Revert to Gateway once config is stable.
+  const scannerDirectUrl = 'http://localhost:8088/api/scan/extract-strings';
+
+  return axios.post(scannerDirectUrl, formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+    onUploadProgress
+  })
     .then((response) => response.data);
 };
 

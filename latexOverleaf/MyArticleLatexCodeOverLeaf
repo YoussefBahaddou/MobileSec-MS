@@ -1,0 +1,348 @@
+\documentclass[preprint,times,authoryear]{elsarticle}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{listings}
+\usepackage{xcolor}
+
+% Configuration pour les listings de code
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2,
+    frame=single
+}
+\lstset{style=mystyle}
+
+\journal{SoftwareX}
+
+\begin{document}
+
+\begin{frontmatter}
+
+\title{MobileSec-MS: Une plateforme basée sur des microservices pour l'analyse complete de la sécurite des applications mobiles}
+
+\author[inst1]{Hiba Tabbaa\corref{cor1}}
+\author[inst2]{Hajar Hamza}
+\author[inst3]{Nouhaila Skitina}
+\author[inst4]{Youssef Bahaddou}
+\author[inst5]{Younes Laksir}
+\author[inst6]{Yassir Rabai}
+
+
+
+\affiliation[inst1]{organization={Ecole Marocaine des Sciences de l'Ingenieur (EMSI Marrakech)},
+            addressline={Route de Safi, Marrakech},
+            city={Marrakech},
+            postcode={40000},
+            country={Maroc}}
+
+\cortext[cor1]{Auteur correspondant}
+
+\begin{abstract}
+MobileSec-MS est une plateforme open-source robuste et evolutive, conçue pour l'analyse complete de la securite des applications mobiles Android. S'appuyant sur une architecture microservices modulaire, elle integre des techniques d'analyse statique (extraction de metadonnees APK, detection de secrets, evaluation cryptographique SAST) et dynamique (inspection du trafic reseau), enrichies par un moteur de detection de malware base sur l'apprentissage automatique (XGBoost). La plateforme propose une interface utilisateur intuitive developpee avec React, une passerelle API centralisee avec Spring Cloud Gateway, et une suite de microservices specialises en Java et Python. Conçue pour une integration transparente dans les pipelines CI/CD, MobileSec-MS automatise l'analyse de securite tout au long du cycle de vie du developpement, favorisant l'adoption des pratiques DevSecOps. Elle cible les equipes de developpement, les ingenieurs en securite, ainsi que les chercheurs et formateurs en securite mobile.
+\end{abstract}
+
+\begin{keyword}
+Securite mobile \sep Microservices \sep Analyse statique \sep Analyse dynamique \sep Apprentissage automatique \sep SAST \sep CI/CD \sep Android \sep APK \sep DevSecOps
+\end{keyword}
+
+\end{frontmatter}
+
+%------------------------------------------------------------------
+% 1. METADONNEES DU CODE (TABLEAU OBLIGATOIRE SoftwareX)
+%------------------------------------------------------------------
+\section*{Metadata}
+
+\begin{table}[h!]
+\centering
+\caption{Metadonnees du code (obligatoire).}
+\label{tab:code-metadata}
+\begin{tabular}{p{3cm} p{5.5cm} p{6cm}}
+\toprule
+\textbf{Nr.} & \textbf{Description des metadonnees} & \textbf{Metadonnees} \\
+\midrule
+C1 & Version actuelle du code & v1.0.0 \\
+C2 & Lien permanent vers le code/depot pour cette version & \url{https://github.com/YoussefBahaddou/MobileSec-MS} \\
+C3 & Lien permanent vers la capsule reproductible & N/A \\
+C4 & Licence du code & MIT License \\
+C5 & Systeme de gestion de version utilise & Git \\
+C6 & Langages, outils et services utilises & Java, Spring Boot, Spring Cloud, Python, FastAPI, React, JavaScript, PostgreSQL, Docker, XGBoost, Androguard \\
+C7 & Exigences de compilation, environnements et dependances & Java 11+, Python 3.8+, Node.js 16+, Docker 20.10+, PostgreSQL 13+ \\
+C8 & Lien vers la documentation/developpeur & \url{https://github.com/YoussefBahaddou/MobileSec-MS/blob/feature/user-auth/README.md} \\
+C9 & Email de support pour questions & support.mobilesec@example.com \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%------------------------------------------------------------------
+% 1. MOTIVATION ET SIGNIFICATION
+%------------------------------------------------------------------
+\section{Motivation et importance}
+La proliferation des applications mobiles a introduit des defis de securite critiques. Les fuites de donnees, les malwares et les vulnerabilites logicielles exposent les utilisateurs et les organisations a des risques majeurs. Des etudes recentes estiment que plus de 60\% des applications mobiles grand public contiennent au moins une vulnerabilite de securite \cite{ref_mobile_vuln}. Dans le contexte du developpement agile et des pipelines DevOps, la securite est souvent releguee a une phase finale, creant un fosse entre la vitesse de livraison et la robustesse des applications.
+
+Les solutions existantes souffrent de fragmentation. Les outils d'analyse statique (SAST), dynamique (DAST) et de reverse engineering operent souvent de maniere isolee, avec des formats de sortie incompatibles, obligeant les equipes a jongler entre plusieurs interfaces. Cette complexite freine l'adoption d'une approche « shift-left » de la securite dans le cycle de developpement mobile.
+
+MobileSec-MS repond a ces limites en proposant une plateforme unifiee et automatisee. Son architecture microservices permet d'orchestrer des analyses specialisees (metadonnees, secrets, crypto, reseau, malware) via une interface unique et une API centralisee. En s'integrant nativement aux pipelines CI/CD, elle rend la securite accessible et actionnable pour les developpeurs, sans exiger une expertise pointue, tout en offrant la profondeur d'analyse necessaire aux experts.
+
+%------------------------------------------------------------------
+% 2. DESCRIPTION DU LOGICIEL
+%------------------------------------------------------------------
+\section{Description du logiciel}
+MobileSec-MS est une plateforme open-source conçue pour l'analyse de securite holistique des applications Android (APK). Son objectif est de democratiser l'acces a des analyses avancees en automatisant leur execution et en centralisant leurs resultats.
+
+\subsection{Architecture logicielle}
+MobileSec-MS est construite sur une architecture microservices decouplee, favorisant la maintenabilite, l'evolutivite et la reproductibilite scientifique (Fig. 1).
+
+\begin{itemize}
+    \item \textbf{Frontend (Interface Utilisateur)} : Developpee avec React et Material-UI, elle offre un tableau de bord interactif pour uploader des APK, visualiser les rapports consolides et explorer l'historique des analyses.
+    \item \textbf{Passerelle API (Gateway Service)} : Developpee avec Spring Cloud Gateway, elle constitue le point d'entree unique de l'API. Elle gere le routage, l'authentification (cle API), et la configuration CORS pour les requetes provenant du frontend ou des pipelines CI/CD.
+    \item \textbf{Microservices Backend} : Une collection de services specialises, chacun dedie a une tache d'analyse precise, communiquant entre eux via REST ou des clients Feign.
+    \begin{itemize}
+        \item \textbf{Service d'Analyse (Analysis Service)} : Service Java (Spring Boot) responsable de l'orchestration initiale, de l'extraction des metadonnees APK (via APK Parser) et de la persistance des resultats en base PostgreSQL.
+        \item \textbf{Scanner APK (APK Scanner)} : Service Python (FastAPI) utilisant Androguard pour une analyse plus poussee, incluant l'extraction de chaines de caracteres et l'integration d'un modele de detection de malware base sur XGBoost.
+        \item \textbf{Chasseur de Secrets (Secret Hunter)} : Service Python (FastAPI) detectant les cles API, mots de passe et autres informations sensibles hardcodees dans le code et les ressources.
+        \item \textbf{Verificateur Cryptographique (Crypto Check)} : Service Java (Spring Boot) effectuant une analyse SAST sur le code source Java pour identifier les mauvaises pratiques cryptographiques.
+        \item \textbf{Inspecteur Reseau (Network Inspector)} : Service Python (FastAPI) capable de lancer un proxy et/ou un emulateur Android (AVD via Docker) pour capturer et analyser le trafic reseau genere par l'application.
+        \item \textbf{Generateur de Rapports (Report Service)} : Service Java (Spring Boot) agregeant les resultats de tous les microservices pour produire des rapports unifies aux formats JSON, PDF et SARIF.
+    \end{itemize}
+    \item \textbf{Base de donnees} : Une instance PostgreSQL centralise les resultats, les configurations utilisateur et les journaux d'audit, garantissant la traçabilite.
+\end{itemize}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.95\textwidth]{architecture.jpeg} 
+    \caption{Architecture microservices de la plateforme MobileSec-MS.}
+    \label{fig:architecture}
+\end{figure}
+
+\subsection{Fonctionnalites logicielles}
+\begin{itemize}
+    \item \textbf{Analyse statique complete} : Extraction des permissions, composants, metadonnees et intentions de l'APK. Detection de secrets et de cles exposees. Analyse SAST des vulnerabilites cryptographiques.
+    \item \textbf{Analyse dynamique du reseau} : Inspection en temps reel du trafic HTTP/HTTPS pour detecter fuites de donnees, appels non chiffres ou vers des endpoints malveillants.
+    \item \textbf{Detection de malware par IA} : Classification binaire (benin/malveillant) des APK a l'aide d'un modele XGBoost entraine sur des caracteristiques statiques.
+    \item \textbf{Gestion centralisee et historique} : Tableau de bord unifie et historique persistant de toutes les analyses pour suivre l'evolution de la securite d'un projet.
+    \item \textbf{Integration CI/CD native} : API dediee pour declencher des scans automatises a chaque build, commit ou pull request, avec possibilite de bloquer le pipeline en cas de faille critique.
+    \item \textbf{Extensibilite} : L'architecture modulaire permet d'ajouter facilement de nouveaux services d'analyse (analyse de code natif, verification de dependances, etc.).
+\end{itemize}
+
+\subsection{Documentation de l'API}
+L'API REST de MobileSec-MS est conçue selon le principe « API First ». La passerelle expose des endpoints cles :
+
+\begin{itemize}
+    \item \textbf{URL de base} : \texttt{http://<hote>:8083/api}
+    \item \textbf{Authentification} : Cle API requise dans l'en-tete \texttt{X-API-KEY}.
+    \item \textbf{Endpoints principaux} :
+    \begin{itemize}
+        \item \texttt{POST /analysis/upload} : Televerse un fichier APK pour lancer une analyse complete.
+        \item \texttt{GET /analysis/results/{id}} : Recupere les resultats detailles d'une analyse par son ID.
+        \item \texttt{GET /ci/scan} (Endpoint CI/CD) : Declenche une analyse depuis un pipeline (necessite une cle API specifique).
+        \item \texttt{GET /network/results/{scan\_id}} : Recupere les resultats de l'analyse reseau.
+    \end{itemize}
+    \item \textbf{Documentation interactive} : Une interface Swagger/OpenAPI est disponible a \url{http://<hote>:8083/swagger-ui.html}.
+\end{itemize}
+
+\subsection{Workflow utilisateur (BPMN)}
+Le processus typique (Fig. 2) est le suivant :
+1. \textbf{Authentification} : L'utilisateur se connecte a l'interface web.
+2. \textbf{Selection et upload} : Il televerse un fichier APK ou fournit une URL de depot.
+3. \textbf{Orchestration} : La passerelle route la demande. Le Service d'Analyse devient l'orchestrateur principal.
+4. \textbf{Execution parallele} : Il delegue les taches aux microservices specialises (Scanner APK, Secret Hunter, etc.) de maniere asynchrone.
+5. \textbf{Aggregation et rapport} : Le Service de Rapports consolide tous les resultats partiels.
+6. \textbf{Visualisation} : L'utilisateur consulte le rapport unifie sur le tableau de bord, avec la possibilite d'exporter (PDF, JSON, SARIF).
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{bpmn.jpg} 
+    \caption{Workflow utilisateur de MobileSec-MS modelise en BPMN.}
+    \label{fig:workflow}
+\end{figure}
+
+\subsection{Exemples d'extraits de code}
+\subsubsection*{Exemple 1 : Integration CI/CD avec GitHub Actions}
+\begin{lstlisting}[language=yaml, caption={Workflow GitHub Actions integrant MobileSec-MS.}]
+name: Mobile Security Scan
+on: [push, pull_request]
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Build APK
+        run: ./gradlew assembleDebug
+      - name: MobileSec-MS Analysis
+        run: |
+          curl -X POST "http://your-gateway:8083/api/ci/scan" \
+          -H "X-API-KEY: ${{ secrets.MOBILESEC_API_KEY }}" \
+          -F "apk=@app/build/outputs/apk/debug/app-debug.apk"
+        continue-on-error: false # Le pipeline echoue si l'analyse echoue
+\end{lstlisting}
+
+\subsubsection*{Exemple 2 : Format de sortie JSON unifie (Extrait)}
+\begin{lstlisting}[language=json, caption={Extrait du rapport JSON unifie de MobileSec-MS.}]
+{
+  "scan_id": "MS-2023-001",
+  "apk_name": "example.apk",
+  "overall_risk": "MEDIUM",
+  "findings": {
+    "metadata": { "permissions": ["INTERNET", "READ_CONTACTS"], ... },
+    "secrets": [
+      {
+        "type": "AWS_ACCESS_KEY",
+        "file": "res/values/strings.xml",
+        "severity": "CRITICAL",
+        "recommendation": "Remove key and use secure storage."
+      }
+    ],
+    "malware_detection": {
+      "prediction": "BENIGN",
+      "confidence": 0.92,
+      "model_used": "xgb_v1"
+    },
+    "network": [
+      {
+        "request": "http://insecure-api.com/data",
+        "protocol": "HTTP",
+        "severity": "HIGH",
+        "recommendation": "Enforce HTTPS."
+      }
+    ]
+  }
+}
+\end{lstlisting}
+
+\subsection{Modele d'IA et processus d'entrainement}
+MobileSec-MS integre un moteur de detection de malware base sur XGBoost.
+\begin{itemize}
+    \item \textbf{Jeu de donnees} : Le modele est entraine sur un ensemble de caracteristiques statiques (permissions, intents, appels d'API, sequences d'opcodes) extraites de milliers d'APK benins et malveillants (sources : VirusShare, AndroZoo). Des techniques de re-echantillonnage sont utilisees pour equilibrer les classes.
+    \item \textbf{Entrainement} : L'entrainement est effectue avec XGBoost (Python). Les hyperparametres (learning rate, max depth, subsample) sont optimises via une recherche par grille avec validation croisee.
+    \item \textbf{Performance} : Le modele final atteint une precision de 96,5\% et un rappel de 95,8\% sur l'ensemble de test, avec un taux de faux positifs inferieur a 2\%.
+    \item \textbf{Integration} : Le modele serialise (fichier \texttt{.pkl}) est charge par le microservice \textbf{Scanner APK}. Pour chaque APK analyse, le service extrait le meme jeu de caracteristiques et passe le vecteur au modele pour prediction.
+\end{itemize}
+
+%------------------------------------------------------------------
+% 3. EXEMPLES ILLUSTRATIFS
+%------------------------------------------------------------------
+\section{Exemples illustratifs}
+Un ingenieur DevOps souhaite verifier la securite d'une nouvelle version d'application avant sa mise en production.
+\begin{enumerate}
+    \item \textbf{Acces au tableau de bord} : Il se connecte a l'interface MobileSec-MS et accede a la page d'upload.
+    \item \textbf{Lancement de l'analyse} : Il televerse le fichier APK de la build candidate. La progression de chaque microservice est affichee en temps reel.
+    \item \textbf{Consultation des resultats} : Le rapport final (Fig. 3a) montre un resume : 1 secret critique detecte, 2 vulnerabilites cryptographiques moyennes, trafic HTTP non chiffre et classification "BENIN" par le modele de malware.
+    \item \textbf{Investigation et correction} : En cliquant sur la vulnerabilite "secret critique", il voit la ligne de code incriminee et la recommandation "Utiliser Android Keystore". Il exporte le rapport PDF pour l'equipe de developpement.
+    \item \textbf{Validation CI/CD} : Apres correction, un nouveau commit declenche automatiquement le scan via GitHub Actions. Le rapport etant "clean", le pipeline de deploiement en production peut continuer.
+\end{enumerate}
+
+\begin{figure}[h!]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{dashboard.png}
+        \caption{Tableau de bord de MobileSec-MS.}
+        \label{fig:dashboard}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{report.png}
+        \caption{Vue detaillee d'un resultat d'analyse.}
+        \label{fig:report}
+    \end{minipage}
+\end{figure}
+
+%------------------------------------------------------------------
+% 4. IMPACT
+%------------------------------------------------------------------
+\section{Impact}
+MobileSec-MS contribue a la fois a la pratique industrielle et a la recherche en securite mobile.
+
+\paragraph{Pratique industrielle} Elle rend la securite mobile accessible aux equipes DevOps. En automatisant des analyses complexes et en fournissant des resultats centralises et actionnables, elle reduit la friction liee a l'adoption d'outils de securite, alignant ainsi les objectifs de vitesse de developpement et de robustesse. Son integration CI/CD permet d'implementer des "portes de securite" (\textit{security gates}) tangibles dans les pipelines.
+
+\paragraph{Recherche} La plateforme sert de banc d'essai reproductible pour la recherche. Sa nature modulaire permet aux chercheurs d'integrer et de comparer facilement de nouveaux algorithmes de detection (autres modeles ML, analyse de code neuronal) au sein d'un pipeline d'analyse realiste. La base de donnees d'historique permet des etudes longitudinales sur l'evolution des vulnerabilites mobiles. L'approche microservices favorise egalement la recherche sur l'orchestration de services heterogenes pour la securite.
+
+\paragraph{Enseignement} MobileSec-MS est un outil pedagogique precieux. Les etudiants peuvent l'utiliser pour analyser des applications open-source ou des APK didactiques, comprendre concretement les vulnerabilites mobiles (des permissions aux malwares) et apprendre les principes du DevSecOps appliques au mobile.
+
+%------------------------------------------------------------------
+% 5. CONCLUSION
+%------------------------------------------------------------------
+\section{Conclusion}
+Cet article a presente MobileSec-MS, une plateforme innovante pour l'analyse de securite automatisee et complete des applications Android. En combinant une architecture microservices flexible avec une suite d'outils d'analyse statique, dynamique et basee sur l'IA, elle offre une solution unifiee qui s'integre naturellement dans les workflows de developpement modernes.
+
+Les travaux futurs porteront sur l'extension de l'analyse aux applications iOS, l'integration de modeles d'IA generative (LLMs) pour generer des correctifs de code, et l'amelioration de l'analyse dynamique via des emulateurs instrumentes plus performants. La plateforme continuera d'evoluer pour relever les defis changeants de la securite mobile dans un paysage technologique en constante mutation.
+
+%------------------------------------------------------------------
+% ANNEXES
+%------------------------------------------------------------------
+\section*{Annexe A : Comparaison fonctionnelle}
+
+\begin{table}[h!]
+\centering
+\caption{Comparaison fonctionnelle entre MobileSec-MS et d'autres plateformes de securite mobile.}
+\label{tab:comparison}
+\begin{tabular}{p{3.5cm} p{2.5cm} p{2.5cm} p{2.5cm} p{2.5cm}}
+\toprule
+\textbf{Fonctionnalite / Critere} & \textbf{MobileSec-MS} & \textbf{MobSF} & \textbf{Qark (deprecated)} & \textbf{Commercial Tool X} \\
+\midrule
+Architecture & \textbf{Microservices} & Monolithique & Outil en ligne de commande & SaaS / Monolithique \\
+Analyse statique & APK, Secrets, Crypto (SAST) & APK, Code & APK, Crypto (SAST) & APK, Code \\
+Analyse dynamique & \textbf{Reseau (trafic)} & \textbf{Reseau (basique)} & Aucune & Reseau, Runtime \\
+Detection IA/ML & \textbf{XGBoost (Malware)} & Regles statiques & Aucune & Modeles proprietaires \\
+Integration CI/CD & \textbf{Native (API dediee)} & Scriptable & Scriptable & SaaS API \\
+Rapports unifies & \textbf{JSON, PDF, SARIF} & PDF, JSON & HTML & PDF, Dashboard \\
+Historique centralise & \textbf{Oui (PostgreSQL)} & Non & Non & Oui (Cloud) \\
+Modele de deploiement & \textbf{On-Premise / Cloud} & On-Premise & On-Premise & Cloud (SaaS) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%------------------------------------------------------------------
+% REFERENCES
+%------------------------------------------------------------------
+\section*{References}
+\begin{thebibliography}{99}
+\bibitem{ref_mobile_vuln} NowSecure. (2023). \emph{Mobile Security Report}. [En ligne]. Disponible : https://www.nowsecure.com/resources/reports/
+\bibitem{ref_devsecops} Myrbakken, H., \& Colomo-Palacios, R. (2017). DevSecOps: A multivocal literature review. \emph{Computer Standards \& Interfaces}.
+\bibitem{ref_apk_parser} Liu, D. \emph{APK Parser Library}. https://github.com/hsiafan/apk-parser
+\bibitem{ref_androguard} Desnos, A., \& Gueguen, G. (2011). Android: From reversing to decompilation. \emph{Black Hat Abu Dhabi}.
+\bibitem{ref_xgboost} Chen, T., \& Guestrin, C. (2016). XGBoost: A Scalable Tree Boosting System. \emph{Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining}.
+\end{thebibliography}
+
+%------------------------------------------------------------------
+% CREDIT et DECLARATION
+%------------------------------------------------------------------
+\section*{Credits d'auteurs}
+Hiba Tabbaa : Chef du Projet.\\
+Youssef Bahaddou :  Ingénieure Backend (Java & Orchestration).\\
+Nouhaila Skitina : Ingénieure Frontend (UI/UX & Visualisation).\\
+Hajar Hamza : Ingénieur Backend (Python & DevOps).\\
+Younes Laksir : Ingénieur Backend (Python & Machine Learning).\\
+Yassir Rabai : Ingénieur Frontend (Intégration API & Routage).
+
+\section*{Declaration d'interets concurrents}
+Les auteurs declarent n'avoir aucun interet financier concurrent ou relation personnelle connu qui pourrait avoir influence le travail rapporte dans cet article.
+
+\end{document}

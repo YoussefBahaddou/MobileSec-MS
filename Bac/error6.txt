@@ -1,0 +1,154 @@
+XHRPOST
+http://localhost:8083/api/scan/extract-strings
+[HTTP/1.1 500 Internal Server Error 12472ms]
+
+❌ API ERROR: 
+Object { url: "/scan/extract-strings", method: "post", status: 500, data: "Internal Server Error", message: "Request failed with status code 500" }
+bundle.js:165990:11
+    js api.js:12
+    (Asynchrone : promise callback)
+    _request Axios.js:163
+    request Axios.js:40
+    httpMethod Axios.js:224
+    wrap bind.js:12
+    extractStrings api.js:111
+    runAutoScan UploadPage.js:99
+Scan Failed: 
+Object { message: "Request failed with status code 500", name: "AxiosError", code: "ERR_BAD_RESPONSE", config: {…}, request: XMLHttpRequest, response: {…}, status: 500, stack: "", … }
+bundle.js:165379:15
+    runAutoScan UploadPage.js:131
+
+Scan Failed: 
+Object { message: "Request failed with status code 500", name: "AxiosError", code: "ERR_BAD_RESPONSE", config: {…}, request: XMLHttpRequest, response: {…}, status: 500, stack: "", … }
+​
+code: "ERR_BAD_RESPONSE"
+​
+config: Object { timeout: 0, xsrfCookieName: "XSRF-TOKEN", xsrfHeaderName: "X-XSRF-TOKEN", … }
+​
+message: "Request failed with status code 500"
+​
+name: "AxiosError"
+​
+request: XMLHttpRequest { readyState: 4, timeout: 0, withCredentials: false, … }
+​
+response: Object { data: "Internal Server Error", status: 500, statusText: "Internal Server Error", … }
+​​
+config: Object { timeout: 0, xsrfCookieName: "XSRF-TOKEN", xsrfHeaderName: "X-XSRF-TOKEN", … }
+​​
+data: "Internal Server Error"
+​​
+headers: Object { "content-length": "21", "content-type": "text/plain; charset=utf-8" }
+​​
+request: XMLHttpRequest { readyState: 4, timeout: 0, withCredentials: false, … }
+​​
+status: 500
+​​
+statusText: "Internal Server Error"
+​​
+<prototype>: Object { … }
+​​​
+__defineGetter__: function __defineGetter__()
+​​​​
+length: 2
+​​​​
+name: "__defineGetter__"
+​​​​
+<prototype>: function ()
+​​​​​
+apply: function apply()
+​​​​​
+arguments: 
+​​​​​
+bind: function bind()
+​​​​​​
+length: 1
+​​​​​​
+name: "bind"
+​​​​​​
+<prototype>: function ()
+​​​​​
+call: function call()
+​​​​​​
+length: 1
+​​​​​​
+name: "call"
+​​​​​​
+<prototype>: function ()
+​​​​​
+caller: 
+​​​​​
+constructor: function Function()
+​​​​​
+length: 0
+​​​​​
+name: ""
+​​​​​
+toString: function toString()
+​​​​​
+Symbol(Symbol.hasInstance): function Symbol.hasInstance()
+​​​​​
+<get arguments()>: function arguments()
+​​​​​
+<set arguments()>: function arguments()
+​​​​​
+<get caller()>: function caller()
+​​​​​
+<set caller()>: function caller()
+​​​​​
+<prototype>: Object { … }
+​​​
+__defineSetter__: function __defineSetter__()
+​​​​
+length: 2
+​​​​
+name: "__defineSetter__"
+​​​​
+<prototype>: function ()
+​​​
+__lookupGetter__: function __lookupGetter__()
+​​​
+__lookupSetter__: function __lookupSetter__()
+​​​
+__proto__: 
+​​​
+constructor: function Object()
+​​​
+hasOwnProperty: function hasOwnProperty()
+​​​
+isPrototypeOf: function isPrototypeOf()
+​​​
+propertyIsEnumerable: function propertyIsEnumerable()
+​​​
+toLocaleString: function toLocaleString()
+​​​
+toString: function toString()
+​​​
+valueOf: function valueOf()
+​​​
+<get __proto__()>: function __proto__()
+​​​
+<set __proto__()>: function __proto__()
+​
+stack: "settle@http://localhost:3001/static/js/bundle.js:69897:12\nonloadend@http://localhost:3001/static/js/bundle.js:68508:66\nEventHandlerNonNull*dispatchXhrRequest@http://localhost:3001/static/js/bundle.js:68521:7\n./node_modules/axios/lib/adapters/xhr.js/__WEBPACK_DEFAULT_EXPORT__<@http://localhost:3001/static/js/bundle.js:68469:10\ndispatchRequest@http://localhost:3001/static/js/bundle.js:69720:10\npromise callback*_request@http://localhost:3001/static/js/bundle.js:69110:27\nrequest@http://localhost:3001/static/js/bundle.js:69006:25\nhttpMethod@http://localhost:3001/static/js/bundle.js:69161:19\nwrap@http://localhost:3001/static/js/bundle.js:70305:15\nextractStrings@http://localhost:3001/static/js/bundle.js:166080:25\nrunAutoScan@http://localhost:3001/static/js/bundle.js:165344:94\n"
+​
+status: 500
+​
+<prototype>: Object { constructor: AxiosError(message, code, config, request, response), toJSON: toJSON(), stack: "", … }
+UploadPage.js:131:1
+    runAutoScan UploadPage.js:131
+
+XHRPOST
+http://localhost:8083/api/scan/extract-strings
+[HTTP/1.1 500 Internal Server Error 12472ms]
+
+❌ API ERROR: 
+Object { url: "/scan/extract-strings", method: "post", status: 500, data: "Internal Server Error", message: "Request failed with status code 500" }
+api.js:12:1
+    js api.js:12
+    (Asynchrone : promise callback)
+    _request Axios.js:163
+    request Axios.js:40
+    httpMethod Axios.js:224
+    wrap bind.js:12
+    extractStrings api.js:111
+    runAutoScan UploadPage.js:99

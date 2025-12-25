@@ -1,0 +1,270 @@
+Impact
+SafeOps+ contributes to both research and industrial practice in
+software security and DevSecOps compliance. Its modular, API-first
+architecture and centralized analysis capabilities open new perspec
+tives for experimentation, particularly in the intelligent automation
+of vulnerability remediation. By integrating tools such as Checkov
+and Semgrep, the platform facilitates systematic comparison of their
+coverage, accuracy, and complementarity on real datasets, addressing
+identified needs in the evaluation of automated security tools [22,23].
+The T5-based model for automated correction of configuration files
+bridges the gap between detection and resolution, while the traceability
+and historization of results support longitudinal studies on the evolu
+tion of software security and reproducible experimentation in software
+engineering research [24].
+SafeOps+ also improves the pursuit of existing research questions by
+simplifying experimentation and replication. Its modular design allows
+researchers to integrate new tools or prototypes, automate large-scale
+campaigns, and centralize results for statistical or comparative anal
+yses in line with recent recommendations on reproducible, extensible
+security research platforms [24,25]. Standardized APIs enable consistent
+comparison methodologies when evaluating new approaches, and the
+benchmarking capabilities demonstrated in Tables B.4 provide a basis
+for objective tool evaluation across performance, coverage, and usability
+dimensions [26–28].
+In daily practice, SafeOps+ transforms how development and
+DevOps teams manage security. Automated controls, seamless CI/CD
+integration [29], and centralized results reduce cognitive load and en
+courage the adoption of best practices [30], even for teams with limited
+security expertise. The educational interface and contextualized recom
+mendations align with prior work on the importance of user experience
+for security tool adoption [31], while ready-to-use CI/CD blocks further
+lower the barrier to enforcing security policies.
+Finally, SafeOps+ offers strong potential for valorization and tech
+nology transfer. Its interoperability makes it a suitable foundation for
+commercial offerings or domain-specific extensions (e.g., healthcare,
+finance, critical infrastructures) where compliance constraints are strin
+gent. In academic contexts, it functions as a practical teaching platform,
+allowing students to experiment with real analyses in a controlled
+environment. Overall, SafeOps+ serves as a reference platform for re
+search, teaching, and industrial practice in software security by fostering
+experimentation, reproducibility, automation, and the dissemination of
+DevSecOps best practices.
+To position SafeOps+ against platforms specialized in securing cloud
+configurations, its functionalities were compared with those of five ref
+erence tools (Checkov, Snyk IaC, Terralint with tfsec, and Kubescape);
+Table B.4 provides a detailed feature-by-feature comparison.
+Conclusions
+This work presents SafeOps+, a platform that automates secu
+rity analysis and compliance checks across the software development
+lifecycle. Through a modular and extensible architecture, SafeOps+ or
+chestrates established security tools, exposes an API-first, user-friendly
+interface, and facilitates the practical adoption of DevSecOps practices.
+By combining automated detection with AI-assisted remediation, the
+platform reduces vulnerability resolution time and centralizes results
+in a single dashboard, improving auditability and regulatory reporting
+while preserving traceability across projects and releases. Integration
+into common CI/CD systems (e.g., GitHub Actions, GitLab CI, Jenkins)
+enables security gates and immediate feedback without disrupting
+existing development workflows. In educational contexts, SafeOps+
+also serves as a pedagogical environment where students and junior
+engineers can explore typical vulnerabilities and study remediation
+strategies.
+SafeOps+ directly addresses recurring challenges related to tool
+fragmentation, integration complexity, and lack of historical visibility,
+and provides a reproducible framework for research on security automa
+tion and user interfaces. Future work will extend AI-based remediation
+beyond Dockerfiles to Terraform and Kubernetes artifacts, explore new
+deployment environments such as serverless platforms, and conduct
+large-scale user studies to quantify the impact of SafeOps+ on software
+quality, developer productivity, and security awareness.
+CRediT authorship contribution statement
+Omar Achbarou: Validation, Supervision, Project adminis
+tration, Investigation. Mohamed Lachgar: Software, Resources,
+Project administration, Methodology, Investigation, Formal analy
+sis, Conceptualization. Youssef El Badouri: Software, Resources.
+Monsef Rhouddani: Software, Resources, Formal analysis. Anas
+Tahalli: Software, Resources. Roa El Dhimni: Writing – original draft,
+Visualization, Conceptualization.
+Declaration of competing interest
+The authors declare that they have no known competing financial
+interests or personal relationships that could have appeared to influence
+the work reported in this paper.
+SoftwareX 33 (2026) 102465
+9
+O. Achbarou, M. Lachgar, Y. El Badouri et al.
+Appendix A
+The complete specifications of the SafeOps+ API endpoints are provided in Table A.3.
+Table A.3
+Comprehensive list of SafeOps+ API endpoints and their specifications.
+Endpoint Method Authen-tication Request parameters Response (Success)
+/register POST None ∙ name: string
+∙ email: string
+∙ password: string
+{``message'': ``User registered successfully''}
+/login POST None ∙ email: string
+∙ password: string
+∙ message: string
+∙ access_token: string
+∙ refresh_token: string
+∙ user: object
+/refresh-token POST Bearer token refresh_token: string New access token pair.
+/auth/google GET None None Redirects to Google OAuth authorization page.
+/auth/github GET None None Redirects to GitHub OAuth authorization page.
+/github/validate-token POST Bearer Token ∙ token: string
+∙ selected_repos: array
+GithubValidateToken- Response: validation result and repository list.
+/github/save-repos POST Bearer Token ∙ selected_repos: array {``message'': ``Repositories saved successfully''}
+/github/repo-configs GET Bearer Token None List of connected repositories with their configurations.
+/checkov POST Bearer Token ∙ content: string or
+∙ repo_url: string
+CheckovResponse: compliance results and risk score.
+/semgrep POST Bearer Token ∙ repo_url: string SemgrepResponse: code vulnerability results.
+/t5-analysis POST Bearer Token ∙ description: string T5Response: AI-generated summary and improvement suggestions.
+/full-scan POST Bearer Token ∙ repo_url: string Aggregated scan combining Checkov, Semgrep, and T5 outputs.
+/history GET Bearer Token ∙ scan_type (optional) Array of ScanHistoryResponse containing previous results.
+/api/admin-stats GET Bearer Token None AdminStatsResponse: includes user count, total scans, and most active users.
+/api/config/templates GET Bearer Token None Predefined configuration templates for CI/CD security pipelines.
+/reports GET Bearer Token filter (optional) List of saved reports in JSON format.
+/reports/:id GET Bearer Token id: integer Detailed report information for a specific scan.
+/admin/users GET Bearer Token None List of all registered users (admin privilege required).
+/admin/users/:id DELETE Bearer Token id: integer {``message'': ``User deleted successfully''}
+Appendix B
+A functional comparison between SafeOps+ and existing IaC platforms is provided in Table B.4.
+Table B.4
+Functional comparison between SafeOps+ and existing IaC platforms.
+Feature/criteria SafeOps+ Checkov1 Snyk IaC2 Terralint + tfsec3 Kubescape4
+Identification method
+Configuration fix suggestions
+CI/CD integration templates
+T5 fine-tuned + Gemini AI
+Full rewrite (T5) + Gemini
+GitHub, GitLab, Jenkins
+Static rules
+Partial
+GitHub, GitLab,
+CircleCI
+Static + explainability
+Guided suggestions
+GitHub, GitLab,
+Bitbucket
+Linters (static)
+Alerts only
+CLI-based
+Rego rules + OPA
+Fix hints only
+GitHub, GitLab, ArgoCD
+Vulnerability scanning scope IaC (Terraform, Dockerfile,
+K8s) + code (Semgrep)
+Terraform, K8s,
+CloudFormation
+Terraform, K8s, AWS
+IAM
+Terraform only K8s (YAML, Helm)
+AI-based policy generation Yes (T5-base) No No No No
+Code Security Scan (SAST) Semgrep + Gemini No Basic SAST No No
+Custom dashboard React-based UI Web UI Web UI None Rich UI
+Historic traceability Full filters (repo, date) Limited Audit trails Logs only Scan history
+Auto pipeline block on critical Yes Yes Yes Manual Yes
+1 https://www.checkov.io
+2 https://snyk.io/fr/product/infrastructure-as-code-security/
+3 https://github.com/aquasecurity/tfsec
+4 https://kubescape.io
+SoftwareX 33 (2026) 102465
+10
+O. Achbarou, M. Lachgar, Y. El Badouri et al.
+References
+[1] Opdebeeck R, Zerouali A, De Roover C. Control and data flow in security smell
+detection for infrastructure as code: is it worth the effort?. In: Proceedings of the
+20th International Conference on mining software repositories (MSR). IEEE; 2023.
+p. 259–70. https://doi.org/10.1109/MSR59073.2023.00079
+[2] War A, Habib A, Diallo A, Klein J, André TB. Vulnerabilities in infrastructure as
+code: what, how many, and who?. Empir Softw Eng 2025 empirical study finds
+IaC scripts plagued by security bugs across OWASP categories. https://doi.org/10.
+1007/s10664-025-10672-8
+[3] Rahman A, Parnin C, Williams L. The seven SINS: security smells in infrastructure
+as code scripts. In: Proceedings of the 41st International Conference on software
+Engineering (ICSE). IEEE/ACM; 2019. p. 164–75. https://doi.org/10.1109/ICSE.
+2019.00030
+[4] Fu M, Pasuksmit J, Tantithamthavorn C. AI for devsecops: a landscape and fu
+ture opportunities. ACM Trans Softw Eng Methodol 2025;34(4). https://doi.org/
+10.1145/3712190
+[5] Nagpal A, Pothineni B, Parthi AG, Maruthavanan D, Banarse AR, Veerapaneni PK,
+Sankiti SR, Jayaram V. Framework for automating compliance verification in ci/cd
+pipelines. Int J Comput Sci Inf Technol Res 2024;5(4):17–27.
+[6] Port D, Taber B, Emkani P. Investigating effectiveness and compliance to devops
+policies and practices for managing productivity and quality variability. J Syst
+Softw 2024. https://doi.org/10.1016/j.jss.2024.112030
+[7] Nimmagadda S. Integrating machine learning into the security of containerized
+workloads. J Comput Sci Technol Stud 2025;7(9):135–42. https://doi.org/10.
+32996/jcsts.2025.7.9.17
+[8] Du X, Liu M, Wang K, Wang H, Liu J, Chen Y, Feng J, Sha C, Peng X,
+Lou Y. Evaluating large language models in class-level code generation. In:
+2024 IEEE/ACM 46th International Conference on Software Engineering (ICSE).
+IEEE/ACM; 2024. p. 81:1–81:13. https://doi.org/10.1145/3639478.3639505
+[9] IBM Security. Cost of a data breach report 2023, Tech. rep., IBM Corporation; 2023.
+https://www.ibm.com/reports/data-breach/2023.
+[10] Red Hat. Guide to NIST SP 800-190 compliance in container environ
+ments. May 2024, https://www.redhat.com/en/resources/guide-nist-compliance-
+container-environments-detail [Accessed on Oct 21, 2025].
+[11] Snyk Ltd. State of cloud native application security report. 2023 [Accessed on 5
+Jan 2025] https://snyk.io/blog/cloud-security-challenges
+[12] Wang P, Liu X, Xiao C. CVE-bench: benchmarking LLM-based software engineering
+agent’s ability to repair real-world CVE vulnerabilities. In: Proceedings of the 2025
+conference of the North American chapter of the Association for Computational
+Linguistics: human language Technologies (volume 1: long papers). Association
+for Computational Linguistics; 2025. p. 4207–24.
+[13] Zhang L, Zou Q, Singhal A, Sun X, Liu P. Evaluating large language models for
+real world vulnerability repair in c/c++ code, Tech. rep., National Institute of
+Standards and Technology (NIST). Jun 2024. https://www.nist.gov/publications/
+evaluating-large-language-models-real-world-vulnerability-repair-cc-code.
+[14] Dahlmanns M, Sander C, Decker R, Wehrle K. Secrets revealed in container images:
+an internet-wide study on occurrence and impact. In: Proceedings of the 2023 ACM
+Asia Conference on Computer and Communications Security (ASIA CCS). ACM;
+2023. https://doi.org/10.1145/3579856.3590329
+[15] Kon PTJ, Liu J, Qiu Y, Fan W, He T, Lin L, Zhang H, Park OM, Elengikal GS,
+Kang Y, Chen A, Chowdhury M, Lee M, Wang X. Iac-eval: a code generation bench
+mark for cloud infrastructure-as-code programs. In: Advances in neural information
+processing systems 37 (neurips 2024) datasets and benchmarks track; 2024. p.
+134488–506.
+[16] Buckner M. AI-powered devsecops: navigating automation, risk and compli
+ance in a zero-trust world. May 2025 https://devops.com/ai-powered-devsecops-
+navigating-automation-risk-and-compliance-in-a-zero-trust-world/ [Accessed on
+Oct 21, 2025].
+[17] OWASP Foundation. LLM and gen AI data security best practices 2025 v1.0,
+Tech. rep., OWASP Foundation. Apr 2025. https://www.scribd.com/document/
+849703118/LLM-and-Gen-AI-Data-Security-Best-Practices-2025-v1-0.
+[18] Desai R, Nisha TN. Best practices for ensuring security in devops: a case study
+approach. J Phys Conf Ser 2021;1964(4):042045. https://doi.org/10.1088/1742-
+6596/1964/4/042045
+[19] Kalva R. The evolution of devsecops with AI. Nov 2024 [Accessed on Oct
+21, 2025], https://cloudsecurityalliance.org/blog/2024/11/22/the-evolution-of-
+devsecops-with-ai
+[20] Karthick R. A unified framework for devsecops-driven AI applications in multi-
+cloud environments, Preprints.orgPreprint version; submitted 15 July 2025, posted
+17 July 2025 (2025). https://doi.org/10.20944/preprints202507.1486.v1. https:
+//www.preprints.org/manuscript/202507.1486
+[21] Garcia J, et al Devsecops: a multivocal literature review. Comput Stand Interfaces
+2020;69:103403. https://doi.org/10.1016/j.csi.2019.103403
+[22] Kalouptsoglou I, Siavvas M, Ampatzoglou A, Kehagias D, Chatzigeorgiou A.
+Software vulnerability prediction: a systematic mapping study. Inf Softw Technol
+2023;147:107303. https://doi.org/10.1016/j.infsof.2023.107303
+[23] Beller M, Gousios G, Zaidman A. Oops, my tests broke the build: an empirical study
+of Travis CI with Github. PeerJ Comput Sci 2017;3:e127. https://doi.org/10.7717/
+peerj-cs.127
+[24] Lamb C, Zacchiroli S. Reproducible builds: increasing the integrity of software
+supply chains. IEEE Software 2022;39(2):62–70.
+[25] Gajbhiye B, Aggarwal A, Jain S. Automated security testing in devops environments
+using AI and ML. Int J Res Publ Seminar 2024;15(2):259–66. https://doi.org/10.
+36676/jrps.v15.i2.1472
+[26] Yildiz A, Teo SG, Lou Y, Feng Y, Wang C, Divakaran DM. Benchmarking llms
+and LLM-based agents in practical vulnerability detection for code repositories.
+In: Proceedings of the 63rd annual meeting of the Association for Computational
+Linguistics. Vienna, Austria: Association for Computational Linguistics; 2025. p.
+30848–65.
+[27] Davidson S, Sun L, Bhasker B, Callot L, Deoras A. Multi-IaC-Eval: Benchmarking
+Cloud Infrastructure as Code Across Multiple Formats. arXiv preprint
+arXiv:2509.05303, 2025. https://doi.org/10.48550/arXiv.2509.05303
+[28] Lian K, Wang B, Zhang L, Chen L, Wang J, Zhao Z, Yang Y, Lin M, Duan H,
+Zhao H, Liao S, Guo M, Quan J, Zhong Y, He C, Chen Z, Wu J, Li H, Li Z, Yu
+J, Li H, Zhang D. A.S.E: A Repository-Level Benchmark for Evaluating Security
+in AI-Generated Code, arXiv preprint arXiv:2508.18106, 2025. https://doi.org/10.
+48550/arXiv.2508.18106
+[29] GitLab Inc. Gitlab announces AI-powered devsecops platform with Gitlab 16. May
+2023 https://about.gitlab.com/press/releases/2023-05-22-gitlab-16-announces-
+ai-powered-devsecops-platform/ [Accessed on Oct 21, 2025].
+[30] Nanjundappa P. Devsecops in 2025: the AI-powered future of security and
+efficiency. Mar 2025 [Accessed on Oct 21, 2025], https://www.chef.io/blog/
+devsecops-in-2025-ai-powered-future-security-efficiency
+[31] Witschey J, et al Quantifying developers’ adoption of security tools. In: Proceedings
+of the 2015 symposium and bootcamp on the science of security; 2015.

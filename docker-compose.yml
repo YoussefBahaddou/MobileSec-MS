@@ -1,0 +1,74 @@
+version: '3.8'
+
+services:
+  # --- INFRASTRUCTURE ---
+  gateway-service:
+    build: ./backend/gateway-service
+    ports:
+      - "8083:8083"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - APK_SCANNER_URL=http://apk-scanner:8088
+    networks:
+      - mobilesec-net
+
+  # --- PYTHON MICROSERVICES ---
+  apk-scanner:
+    build: ./backend/apk-scanner
+    ports:
+      - "8088:8088"
+    volumes:
+      - ./APKFiles:/app/APKFiles # Share APK storage
+      - ./backend/MachineLearning:/app/models # Share ML models
+    networks:
+      - mobilesec-net
+
+  secret-hunter:
+    build: ./backend/secret-hunter
+    ports:
+      - "8089:8089"
+    networks:
+      - mobilesec-net
+
+  network-inspector:
+    build: ./backend/network-inspector
+    ports:
+      - "8087:8087"
+    networks:
+      - mobilesec-net
+
+  # --- JAVA MICROSERVICES ---
+  crypto-check:
+    build: ./backend/crypto-check
+    ports:
+      - "8080:8080"
+    networks:
+      - mobilesec-net
+
+  report-service:
+    build: ./backend/ReportGen
+    ports:
+      - "8081:8081"
+    networks:
+      - mobilesec-net
+
+  fix-suggest:
+    build: ./backend/fix-suggest
+    ports:
+      - "8085:8085"
+    networks:
+      - mobilesec-net
+
+  # --- FRONTEND ---
+  frontend:
+    build: ./frontend/mobilesec-react
+    ports:
+      - "3000:80"
+    depends_on:
+      - gateway-service
+    networks:
+      - mobilesec-net
+
+networks:
+  mobilesec-net:
+    driver: bridge

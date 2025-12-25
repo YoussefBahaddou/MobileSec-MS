@@ -30,20 +30,36 @@ public class ScanController {
         String fileName = "input.java";
 
         if (file != null) {
+            java.io.File tempFile = null;
             try {
-                sourceCode = new BufferedReader(new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8))
-                        .lines().collect(Collectors.joining("\n"));
-                fileName = file.getOriginalFilename();
+                // Save to temp file to handle large uploads without OOM
+                java.nio.file.Path tempPath = java.nio.file.Files.createTempFile("crypto-scan-",
+                        file.getOriginalFilename());
+                tempFile = tempPath.toFile();
+                file.transferTo(tempFile);
+
+                List<CryptoFinding> findings = scannerService.scanFile(tempFile, file.getOriginalFilename());
+
+                // Cleanup
+                java.nio.file.Files.deleteIfExists(tempPath);
+
+                return ResponseEntity.ok(Map.of(
+                        "status", "completed",
+                        "findings_count", findings.size(),
+                        "findings", findings));
+
             } catch (IOException e) {
-                return ResponseEntity.badRequest().body(Map.of("error", "Failed to read file"));
+                return ResponseEntity.badRequest().body(Map.of("error", "Failed to process file: " + e.getMessage()));
             }
         } else if (code != null) {
-            sourceCode = code;
+            List<CryptoFinding> findings = scannerService.scanCode(code, "input.java");
+            return ResponseEntity.ok(Map.of(
+                    "status", "completed",
+                    "findings_count", findings.size(),
+                    "findings", findings));
         } else {
             return ResponseEntity.badRequest().body(Map.of("error", "No code or file provided"));
         }
-
-        List<CryptoFinding> findings = scannerService.scanCode(sourceCode, fileName);
 
         return ResponseEntity.ok(Map.of(
                 "status", "completed",

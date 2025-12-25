@@ -17,6 +17,36 @@ import java.util.List;
 @Service
 public class CryptoScannerService {
 
+    public List<CryptoFinding> scanFile(File file, String fileName) {
+        List<CryptoFinding> findings = new ArrayList<>();
+        long fileSize = file.length();
+
+        // Strategy:
+        // < 1MB: Load to memory, use full AST parsing (Most accurate)
+        // > 1MB: Stream line-by-line, use Regex only (Prevents OOM)
+        if (fileSize < 1024 * 1024) {
+            try {
+                String sourceCode = java.nio.file.Files.readString(file.toPath());
+                return scanCode(sourceCode, fileName);
+            } catch (Exception e) {
+                // formatting/encoding error? fallthrough to regex
+            }
+        }
+
+        // Large File or Read Error -> Streaming Regex
+        try (java.util.Scanner scanner = new java.util.Scanner(file)) {
+            int lineNum = 0;
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                lineNum++;
+                scanLineWithRegex(line, fileName, lineNum, findings);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return findings;
+    }
+
     public List<CryptoFinding> scanCode(String sourceCode, String fileName) {
         List<CryptoFinding> findings = new ArrayList<>();
         try {
@@ -31,47 +61,41 @@ public class CryptoScannerService {
     }
 
     private void scanWithRegex(String source, String fileName, List<CryptoFinding> findings) {
+        String[] lines = source.split("\\r?\\n");
+        for (int i = 0; i < lines.length; i++) {
+            scanLineWithRegex(lines[i], fileName, i + 1, findings);
+        }
+    }
+
+    private void scanLineWithRegex(String line, String fileName, int lineNum, List<CryptoFinding> findings) {
         // Simple heuristic patterns for common weak crypto
-        if (source.contains("MD5")) {
-            findings.add(CryptoFinding.builder()
-                    .ruleId("CWE-327-REGEX")
-                    .description("Weak Hashing (MD5) detected via text scan")
-                    .severity("HIGH")
-                    .fileName(fileName)
-                    .lineNumber(0)
-                    .snippet("...MD5...")
-                    .build());
+        if (line.contains("MD5")) {
+            findings.add(createFinding("CWE-327-REGEX", "Weak Hashing (MD5)", "HIGH", fileName, lineNum, line.trim()));
         }
-        if (source.contains("SHA-1") || source.contains("SHA1")) {
-            findings.add(CryptoFinding.builder()
-                    .ruleId("CWE-327-REGEX")
-                    .description("Weak Hashing (SHA-1) detected via text scan")
-                    .severity("HIGH")
-                    .fileName(fileName)
-                    .lineNumber(0)
-                    .snippet("...SHA-1...")
-                    .build());
+        if (line.contains("SHA-1") || line.contains("SHA1")) {
+            findings.add(
+                    createFinding("CWE-327-REGEX", "Weak Hashing (SHA-1)", "HIGH", fileName, lineNum, line.trim()));
         }
-        if (source.contains("AES/ECB") || source.contains("AES") && source.contains("ECB")) {
-            findings.add(CryptoFinding.builder()
-                    .ruleId("CWE-327-REGEX")
-                    .description("Insecure Cipher Mode (ECB) detected via text scan")
-                    .severity("HIGH")
-                    .fileName(fileName)
-                    .lineNumber(0)
-                    .snippet("...ECB...")
-                    .build());
+        if (line.contains("AES") && line.contains("ECB")) {
+            findings.add(createFinding("CWE-327-REGEX", "Insecure Cipher Mode (ECB)", "HIGH", fileName, lineNum,
+                    line.trim()));
         }
-        if (source.contains("DES") || source.contains("Blowfish")) {
-            findings.add(CryptoFinding.builder()
-                    .ruleId("CWE-327-REGEX")
-                    .description("Weak Encryption Algorithm detected via text scan")
-                    .severity("HIGH")
-                    .fileName(fileName)
-                    .lineNumber(0)
-                    .snippet("...Weak Algo...")
-                    .build());
+        if (line.contains("DES") || line.contains("Blowfish")) {
+            findings.add(createFinding("CWE-327-REGEX", "Weak Encryption Algorithm", "HIGH", fileName, lineNum,
+                    line.trim()));
         }
+    }
+
+    private CryptoFinding createFinding(String ruleId, String desc, String severity, String fileName, int lineNum,
+            String snippet) {
+        return CryptoFinding.builder()
+                .ruleId(ruleId)
+                .description(desc)
+                .severity(severity)
+                .fileName(fileName)
+                .lineNumber(lineNum)
+                .snippet(snippet)
+                .build();
     }
 
     private static class CryptoVisitor extends VoidVisitorAdapter<Void> {

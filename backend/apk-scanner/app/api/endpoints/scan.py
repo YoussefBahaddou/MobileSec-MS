@@ -50,9 +50,10 @@ async def analyze_apk(
     
     try:
         # Use aiofiles for async file write
-        contents = await file.read()
+        # Stream file processing to avoid MemoryError
         async with aiofiles.open(temp_file, "wb") as buffer:
-            await buffer.write(contents)
+            while content := await file.read(1024 * 1024 * 10): # 10MB chunks
+                await buffer.write(content)
             
         # 2. Analyze
         # Pass file.filename to enable simulation checks logic
@@ -113,32 +114,43 @@ async def extract_strings(
         scan_id = str(uuid.uuid4())
         filename = f"temp_extract_{scan_id}.apk"
         
-        contents = await file.read()
+        # Stream file processing
         async with aiofiles.open(filename, 'wb') as out_file:
-            await out_file.write(contents)
+            while content := await file.read(1024 * 1024 * 10):
+                await out_file.write(content)
             
+        # Validate Zip first to fail fast
+        import zipfile
+        if not zipfile.is_zipfile(filename):
+             return {"status": "failed", "error": "Invalid APK file (Not a valid ZIP)", "content": ""}
+
         # Extract Strings using Androguard
-        from androguard.core.apk import APK
-        from androguard.core.dex import DEX
+        # Run in threadpool to prevent blocking the async loop
+        import asyncio
+        from concurrent.futures import ThreadPoolExecutor
         
-        a = APK(filename)
-        strings = set()
-        
-        # Iterate over all dex files
-        for d in a.get_all_dex():
-            # Androguard may return bytes or Dex object.
-            # We assume it returns bytes of the DEX file.
-            msg = None
+        def process_in_thread():
+            from androguard.core.apk import APK
+            from androguard.core.dex import DEX
+            local_strings = set()
             try:
-                dex_obj = DEX(d)
-                for s in dex_obj.get_strings():
-                    # s is usually bytes or str? Androguard returns str or bytes
-                    if isinstance(s, bytes):
-                        s = s.decode('utf-8', errors='ignore')
-                    if len(s) > 4: # Filter noise
-                        strings.add(s)
+                a = APK(filename)
+                for d in a.get_all_dex():
+                    try:
+                        dex_obj = DEX(d)
+                        for s in dex_obj.get_strings():
+                            if isinstance(s, bytes):
+                                s = s.decode('utf-8', errors='ignore')
+                            if len(s) > 4: 
+                                local_strings.add(s)
+                    except Exception as dex_err:
+                        logger.warning(f"Failed to parse a dex file: {dex_err}")
+                return local_strings
             except Exception as e:
-                logger.warning(f"Failed to parse a dex file: {e}")
+                raise e
+
+        loop = asyncio.get_event_loop()
+        strings = await loop.run_in_executor(None, process_in_thread)
 
         # Cleanup
         if os.path.exists(filename):
@@ -151,6 +163,15 @@ async def extract_strings(
              "count": len(strings),
              "content": "\\n".join(sorted_strings[:100000]) # Payload limit increased
         }
+    except MemoryError:
+        logger.error("MemoryError during string extraction: APK/DEX is too large for RAM.")
+        import traceback
+        logger.error(traceback.format_exc())
+        return {"status": "failed", "error": "Server Memory Limit Exceeded (APK too complex)", "content": ""}
     except Exception as e:
+        import traceback
         logger.error(f"String extraction failed: {str(e)}")
-        return {"status": "failed", "error": str(e), "content": ""}
+        logger.error(traceback.format_exc())
+        # Return 200 with error details to avoid generic 500 if possible, 
+        # but if this itself fails, FastAPI will send 500.
+        return {"status": "failed", "error": f"{type(e).__name__}: {str(e)}", "content": ""}
