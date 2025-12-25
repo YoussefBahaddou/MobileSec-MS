@@ -3,6 +3,7 @@ target/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+!**/src/main/resources/mobilesec-ms-firebase-adminsdk-fbsvc-05cadec770.json
 
 ### STS ###
 .apt_generated
