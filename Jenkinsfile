@@ -10,7 +10,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout code from the new branch
-                git branch: 'CI-CD-Pipleline', url: 'https://github.com/YoussefBahaddou/MobileSec-MS'
+                git branch: 'pipeline-2', url: 'https://github.com/YoussefBahaddou/MobileSec-MS'
                 echo 'Checked out CI-CD-Pipleline successfully!'
             }
         }

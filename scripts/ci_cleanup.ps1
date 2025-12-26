@@ -47,7 +47,7 @@ $CriticalPorts = @(
     8089,  # Secret Hunter
     8087,  # Network Inspector
     8080,  # Crypto Check
-    8081,  # Report Service
+    8081,  # Report generator
     8085   # Fix Suggest
 )
 

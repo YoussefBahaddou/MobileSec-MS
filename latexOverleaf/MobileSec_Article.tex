@@ -245,7 +245,7 @@ L'architecture de haut niveau se compose des couches suivantes :
 % FIGURE PLACEHOLDER (Double Column)
 \begin{figure*}
 \centering
-\fbox{\parbox{0.9\linewidth}{\centering \vspace{6cm} \textbf{[PLACEHOLDER: Insérer Diagramme d'Architecture Ici]} \\ \small{(Fig 1. L'Architecture Microservices Polyglotte de MobileSec-MS montrant la Gateway, le Service de Découverte et les Nœuds d'Analyse.)} \vspace{6cm}}}
+\includegraphics[width=0.9\linewidth]{diagram-export-25-12-2025-23_13_53.png}
 \caption{L'Architecture Microservices de MobileSec-MS.}
 \label{fig-arch}
 \end{figure*}
@@ -324,7 +324,7 @@ L'accès à la plateforme est sécurisé via \textbf{JWT (JSON Web Tokens)}. Au 
 
 \begin{figure*}
 \centering
-\fbox{\parbox{0.9\linewidth}{\centering \vspace{8cm} \textbf{[PLACEHOLDER: Insérer Capture d'Écran Page de Connexion]} \\ \small{(Fig 2. L'Interface de Connexion Sécurisée présentant l'authentification Email/Mot de passe et le branding 'Modern Dark'.)} \vspace{8cm}}}
+\includegraphics[width=0.9\linewidth]{sign_up_sign_in.png}
 \caption{L'Interface d'Authentification MobileSec-MS.}
 \label{fig-login}
 \end{figure*}
@@ -341,7 +341,7 @@ En coulisses, cette interface implémente une \textbf{Stratégie d'Upload par Mo
 
 \begin{figure*}
 \centering
-\fbox{\parbox{0.9\linewidth}{\centering \vspace{8cm} \textbf{[PLACEHOLDER: Insérer Capture d'Écran Upload / Ingestion de Fichier]} \\ \small{(Fig 3. L'Écran d'Initialisation du Scan montrant la zone Drag-and-Drop et la barre de progression d'upload.)} \vspace{8cm}}}
+\includegraphics[width=0.9\linewidth]{APK_Scanner.png}
 \caption{Interface d'Ingestion de Fichier et Pré-Validation.}
 \label{fig-upload}
 \end{figure*}
@@ -369,7 +369,7 @@ L'artefact final du workflow est le \textbf{Rapport de Sécurité Unifié}. Cett
 
 \begin{figure*}
 \centering
-\fbox{\parbox{0.9\linewidth}{\centering \vspace{10cm} \textbf{[PLACEHOLDER: Insérer Capture d'Écran Tableau de Bord Final/Rapport]} \\ \small{(Fig 5. Le Rapport d'Analyse Complet. Montre la jauge 'Haut Risque', la liste des vulnérabilités identifiées (OWASP Top 10), et le graphique de distribution des permissions.)} \vspace{10cm}}}
+\includegraphics[width=0.9\linewidth]{dashboard_page.png}
 \caption{Le Tableau de Bord Analytique Final présentant les résultats de sécurité agrégés.}
 \label{fig-dashboard-full}
 \end{figure*}
@@ -466,6 +466,60 @@ Un analyste de sécurité reçoit un APK suspect (`fake\_update.apk`) qui préte
 \textbf{Étape 2 : Analyse Automatisée.} Le \textbf{APK Scanner} extrait le manifeste et identifie 54 permissions, incluant \texttt{READ\_SMS} et \texttt{BIND\_ACCESSIBILITY\_SERVICE}. Le \textbf{ML Engine} calcule un score de risque. Étant donné la combinaison des Services d'Accessibilité et des permissions SMS, le modèle \textbf{XGBoost} sort une probabilité `Critical Risk` de 98.7\%. Simultanément, le \textbf{Crypto Check} signale l'utilisation de `AES/ECB/PKCS5Padding` dans le décrypteur de charge utile obfusqué.
 
 \textbf{Étape 3 : Reporting.} Le système génère un rapport soulignant le statut "Malware Detected". Le Tableau de Bord affiche une jauge rouge pour le "AI Security Score".
+
+%----------------------------------------------------------------------------------------
+%   8. DEVOPS AND CI/CD PIPELINE
+%----------------------------------------------------------------------------------------
+\section{Automatisation du Pipeline DevOps}
+\label{sec-devops}
+
+Pour assurer la fiabilité et la reproductibilité du déploiement de \textbf{MobileSec-MS}, nous avons migré d'un processus manuel vers un pipeline \textbf{CI/CD} entièrement automatisé. Cette transition s'appuie sur une stack technologique robuste : Docker pour la conteneurisation, Docker Compose pour l'orchestration, et Jenkins pour l'automatisation.
+
+\begin{strip}
+\centering
+\noindent\fbox{%
+    \parbox{0.95\linewidth}{%
+        \centering
+        \vspace{0.5em}
+        \large\textbf{Architecture du Pipeline CI/CD Unifiée}
+        \vspace{0.5em}
+        \\
+        \small
+        Le pipeline transforme le code source en un système déployé via 4 étapes majeures automatisées.
+        \vspace{1em}
+        \\
+        \ttfamily
+        \begin{tabular}{c c c c c c c}
+            \fbox{Git Checkout} & $\rightarrow$ & \fbox{Port Cleanup} & $\rightarrow$ & \fbox{Conteneurisation} & $\rightarrow$ & \fbox{Health Checks} \\
+            \scriptsize(Branch: CI-CD-Pipleline) & & \scriptsize(PowerShell Script) & & \scriptsize(Docker Compose Build) & & \scriptsize(Verification)
+        \end{tabular}
+        \vspace{0.5em}
+    }%
+}
+\vspace{1em}
+\end{strip}
+
+L'implémentation de ce pipeline résout plusieurs défis critiques du développement distribué :
+
+\subsection{Conteneurisation Uniforme}
+Chaque microservice (Gateway, APK Scanner, Report Service) possède son propre \texttt{Dockerfile} optimisé.
+\begin{itemize}
+    \item \textbf{Backend Java :} Utilise des images de base \texttt{eclipse-temurin:21-jre-alpine} pour minimiser la surface d'attaque et la taille de l'image. Les builds sont exécutés via Maven en mode \textit{Batch} (\texttt{-B}) pour réduire le bruit dans les logs.
+    \item \textbf{Backend Python :} Utilise des images légères, installant uniquement les dépendances nécessaires au Runtime ML (XGBoost, Pandas).
+\end{itemize}
+
+\subsection{Gestion des Conflits de Port}
+Un défi majeur dans l'automatisation locale sous Windows est la persistance des ports (ex: 3000, 8080). Notre pipeline intègre un script PowerShell intelligent (\texttt{ci\_cleanup.ps1}) qui s'exécute avant chaque build. Il identifie non seulement les conteneurs Docker obsolètes, mais aussi les processus Windows natifs (PID) qui verrouillent les ports critiques, garantissant un environnement propre ("Clean Slate") à chaque déploiement.
+
+\subsection{Orchestration et Déploiement}
+Le fichier \texttt{docker-compose.yml} agit comme la source de vérité pour l'infrastructure. Jenkins invoque la commande \texttt{docker-compose up -d --build}, qui :
+\begin{enumerate}
+    \item Construit toutes les images en parallèle.
+    \item Crée un réseau virtuel interne isolé pour la communication inter-services.
+    \item Monte les volumes nécessaires pour la persistance de la base de données PostgreSQL.
+\end{enumerate}
+
+Cette approche "Infrastructure as Code" garantit que l'environnement de développement local est strictement identique à l'environnement de production, éliminant le syndrome "ça marche sur ma machine".
 
 %----------------------------------------------------------------------------------------
 %   8. DISCUSSION AND PERFORMANCE ANALYSIS
