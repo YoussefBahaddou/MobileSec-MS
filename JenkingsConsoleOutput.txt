@@ -1,0 +1,207 @@
+Started by user admin
+Obtained Jenkinsfile from git https://github.com/YoussefBahaddou/MobileSec-MS.git
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+The recommended git tool is: git.exe
+No credentials specified
+Cloning the remote Git repository
+Cloning repository https://github.com/YoussefBahaddou/MobileSec-MS.git
+ > git.exe init C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD # timeout=10
+Fetching upstream changes from https://github.com/YoussefBahaddou/MobileSec-MS.git
+ > git.exe --version # timeout=10
+ > git --version # 'git version 2.42.0.windows.2'
+ > git.exe fetch --tags --force --progress -- https://github.com/YoussefBahaddou/MobileSec-MS.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git.exe config remote.origin.url https://github.com/YoussefBahaddou/MobileSec-MS.git # timeout=10
+ > git.exe config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+Avoid second fetch
+ > git.exe rev-parse "refs/remotes/origin/CI-CD-Pipleline^{commit}" # timeout=10
+Checking out Revision ead8c20f5bbc1a377b40564edade6c40a583b2e4 (refs/remotes/origin/CI-CD-Pipleline)
+ > git.exe config core.sparsecheckout # timeout=10
+ > git.exe checkout -f ead8c20f5bbc1a377b40564edade6c40a583b2e4 # timeout=10
+Commit message: "Update Jenkinsfile to use CI-CD-Pipleline branch"
+First time build. Skipping changelog.
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Checkout)
+[Pipeline] git
+The recommended git tool is: git.exe
+No credentials specified
+ > git.exe rev-parse --resolve-git-dir C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\.git # timeout=10
+Fetching changes from the remote Git repository
+ > git.exe config remote.origin.url https://github.com/YoussefBahaddou/MobileSec-MS # timeout=10
+Fetching upstream changes from https://github.com/YoussefBahaddou/MobileSec-MS
+ > git.exe --version # timeout=10
+ > git --version # 'git version 2.42.0.windows.2'
+ > git.exe fetch --tags --force --progress -- https://github.com/YoussefBahaddou/MobileSec-MS +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git.exe rev-parse "refs/remotes/origin/CI-CD-Pipleline^{commit}" # timeout=10
+Checking out Revision ead8c20f5bbc1a377b40564edade6c40a583b2e4 (refs/remotes/origin/CI-CD-Pipleline)
+ > git.exe config core.sparsecheckout # timeout=10
+ > git.exe checkout -f ead8c20f5bbc1a377b40564edade6c40a583b2e4 # timeout=10
+ > git.exe branch -a -v --no-abbrev # timeout=10
+ > git.exe checkout -b CI-CD-Pipleline ead8c20f5bbc1a377b40564edade6c40a583b2e4 # timeout=10
+Commit message: "Update Jenkinsfile to use CI-CD-Pipleline branch"
+[Pipeline] echo
+Checked out CI-CD-Pipleline successfully!
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Cleanup)
+[Pipeline] bat
+
+C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD>call docker-compose down --volumes --remove-orphans   || echo No containers to remove 
+time="2025-12-25T19:20:44+01:00" level=warning msg="C:\\Users\\Youssef\\AppData\\Local\\Jenkins\\.jenkins\\workspace\\MobileSec-CD\\docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build & Test Backend (Java))
+[Pipeline] script
+[Pipeline] {
+[Pipeline] dir
+Running in C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\gateway-service
+[Pipeline] {
+[Pipeline] echo
+Building backend/gateway-service...
+[Pipeline] bat
+
+C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\gateway-service>mvn clean package -DskipTests 
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------------< com.mobilesec:getaway-service >--------------------
+[INFO] Building com.getaway.service 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.4.1:clean (default-clean) @ getaway-service ---
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ getaway-service ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ getaway-service ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 5 source files with javac [debug parameters release 21] to target\classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ getaway-service ---
+[INFO] skip non existing resourceDirectory C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\gateway-service\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ getaway-service ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 1 source file with javac [debug parameters release 21] to target\test-classes
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ getaway-service ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ getaway-service ---
+[INFO] Building jar: C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\gateway-service\target\getaway-service-0.0.1-SNAPSHOT.jar
+[INFO] 
+[INFO] --- spring-boot:3.5.7:repackage (repackage) @ getaway-service ---
+[INFO] Replacing main artifact C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\gateway-service\target\getaway-service-0.0.1-SNAPSHOT.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\gateway-service\target\getaway-service-0.0.1-SNAPSHOT.jar.original
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  11.607 s
+[INFO] Finished at: 2025-12-25T19:21:01+01:00
+[INFO] ------------------------------------------------------------------------
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] dir
+Running in C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\crypto-check
+[Pipeline] {
+[Pipeline] echo
+Building backend/crypto-check...
+[Pipeline] bat
+
+C:\Users\Youssef\AppData\Local\Jenkins\.jenkins\workspace\MobileSec-CD\backend\crypto-check>mvn clean package -DskipTests 
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------< com.mobilesec:crypto-check >---------------------
+[INFO] Building crypto-check 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.4.1:clean (default-clean) @ crypto-check ---
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ crypto-check ---
+[INFO] Copying 2 resources from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ crypto-check ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 4 source files with javac [debug parameters release 21] to target\classes
+[INFO] -------------------------------------------------------------
+[ERROR] COMPILATION ERROR : 
+[INFO] -------------------------------------------------------------
+[ERROR] /C:/Users/Youssef/AppData/Local/Jenkins/.jenkins/workspace/MobileSec-CD/backend/crypto-check/src/main/java/com/mobilesec/cryptocheck/controller/ScanController.java:[67,29] cannot find symbol
+  symbol:   variable findings
+  location: class com.mobilesec.cryptocheck.controller.ScanController
+[ERROR] /C:/Users/Youssef/AppData/Local/Jenkins/.jenkins/workspace/MobileSec-CD/backend/crypto-check/src/main/java/com/mobilesec/cryptocheck/controller/ScanController.java:[66,35] cannot find symbol
+  symbol:   variable findings
+  location: class com.mobilesec.cryptocheck.controller.ScanController
+[INFO] 2 errors 
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  6.604 s
+[INFO] Finished at: 2025-12-25T19:21:11+01:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.14.1:compile (default-compile) on project crypto-check: Compilation failure: Compilation failure: 
+[ERROR] /C:/Users/Youssef/AppData/Local/Jenkins/.jenkins/workspace/MobileSec-CD/backend/crypto-check/src/main/java/com/mobilesec/cryptocheck/controller/ScanController.java:[67,29] cannot find symbol
+[ERROR]   symbol:   variable findings
+[ERROR]   location: class com.mobilesec.cryptocheck.controller.ScanController
+[ERROR] /C:/Users/Youssef/AppData/Local/Jenkins/.jenkins/workspace/MobileSec-CD/backend/crypto-check/src/main/java/com/mobilesec/cryptocheck/controller/ScanController.java:[66,35] cannot find symbol
+[ERROR]   symbol:   variable findings
+[ERROR]   location: class com.mobilesec.cryptocheck.controller.ScanController
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Docker Build & Deploy)
+Stage "Docker Build & Deploy" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Health Check)
+Stage "Health Check" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] echo
+Pipeline completed.
+[Pipeline] echo
+Pipeline Failed.
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+ERROR: script returned exit code 1
+Finished: FAILURE

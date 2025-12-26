@@ -1,0 +1,164 @@
+21:38:21,364 Scan Failed: 
+Object { message: "Network Error", name: "AxiosError", code: "ERR_NETWORK", config: {…}, request: XMLHttpRequest, event: error, stack: "", … }
+​
+code: "ERR_NETWORK"
+​
+config: Object { timeout: 0, xsrfCookieName: "XSRF-TOKEN", xsrfHeaderName: "X-XSRF-TOKEN", … }
+​​
+adapter: Array(3) [ "xhr", "http", "fetch" ]
+​​​
+0: "xhr"
+​​​
+1: "http"
+​​​
+2: "fetch"
+​​​
+length: 3
+​​​
+<prototype>: Array []
+​​
+allowAbsoluteUrls: true
+​​
+data: FormData { file → {} }
+​​​
+<entries>
+​​​
+<prototype>: FormDataPrototype { append: append(), delete: delete(), get: get(), … }
+​​
+env: Object { FormData: FormData(), Blob: Blob() }
+​​​
+Blob: function Blob()
+​​​
+FormData: function FormData()
+​​​
+<prototype>: Object { … }
+​​
+headers: Object { Accept: "application/json, text/plain, */*", "Content-Type": "multipart/form-data" }
+​​​
+Accept: "application/json, text/plain, */*"
+​​​
+"Content-Type": "multipart/form-data"
+​​​
+<prototype>: Object { … }
+​​
+maxBodyLength: -1
+​​
+maxContentLength: -1
+​​
+method: "post"
+​​
+onUploadProgress: function stringData(p)
+​​
+timeout: 0
+​​
+transformRequest: Array [ transformRequest(data, headers) ]
+​​​
+0: function transformRequest(data, headers)
+​​​
+length: 1
+​​​
+<prototype>: Array []
+​​
+transformResponse: Array [ transformResponse(data) ]
+​​​
+0: function transformResponse(data)
+​​​
+length: 1
+​​​
+<prototype>: Array []
+​​
+transitional: Object { silentJSONParsing: true, forcedJSONParsing: true, clarifyTimeoutError: false }
+​​​
+clarifyTimeoutError: false
+​​​
+forcedJSONParsing: true
+​​​
+silentJSONParsing: true
+​​​
+<prototype>: Object { … }
+​​​​
+__defineGetter__: function __defineGetter__()
+​​​​
+__defineSetter__: function __defineSetter__()
+​​​​
+__lookupGetter__: function __lookupGetter__()
+​​​​
+__lookupSetter__: function __lookupSetter__()
+​​​​
+__proto__: 
+​​​​
+constructor: function Object()
+​​​​
+hasOwnProperty: function hasOwnProperty()
+​​​​
+isPrototypeOf: function isPrototypeOf()
+​​​​
+propertyIsEnumerable: function propertyIsEnumerable()
+​​​​
+toLocaleString: function toLocaleString()
+​​​​
+toString: function toString()
+​​​​
+valueOf: function valueOf()
+​​​​
+<get __proto__()>: function __proto__()
+​​​​
+<set __proto__()>: function __proto__()
+​​
+url: "http://localhost:8088/api/scan/extract-strings"
+​​
+validateStatus: function validateStatus(status)
+​​​
+length: 1
+​​​
+name: "validateStatus"
+​​​
+prototype: Object { … }
+​​​​
+constructor: function validateStatus(status)
+​​​​
+<prototype>: Object { … }
+​​​
+<prototype>: function ()
+​​
+xsrfCookieName: "XSRF-TOKEN"
+​​
+xsrfHeaderName: "X-XSRF-TOKEN"
+​​
+<prototype>: Object { … }
+​
+event: error { target: XMLHttpRequest, isTrusted: true, lengthComputable: false, … }
+​
+message: "Network Error"
+​
+name: "AxiosError"
+​
+request: XMLHttpRequest { readyState: 4, timeout: 0, withCredentials: false, … }
+​
+stack: "handleError@http://localhost:3001/static/js/bundle.js:68559:19\nEventHandlerNonNull*dispatchXhrRequest@http://localhost:3001/static/js/bundle.js:68554:5\n./node_modules/axios/lib/adapters/xhr.js/__WEBPACK_DEFAULT_EXPORT__<@http://localhost:3001/static/js/bundle.js:68469:10\ndispatchRequest@http://localhost:3001/static/js/bundle.js:69720:10\n_request@http://localhost:3001/static/js/bundle.js:69127:77\nrequest@http://localhost:3001/static/js/bundle.js:69006:25\nhttpMethod@http://localhost:3001/static/js/bundle.js:69161:19\nwrap@http://localhost:3001/static/js/bundle.js:70305:15\nextractStrings@http://localhost:3001/static/js/bundle.js:166083:56\nrunAutoScan@http://localhost:3001/static/js/bundle.js:165344:94\nasync*executeDispatch@http://localhost:3001/static/js/bundle.js:114558:15\nrunWithFiberInDEV@http://localhost:3001/static/js/bundle.js:105910:125\nprocessDispatchQueue@http://localhost:3001/static/js/bundle.js:114586:31\n./node_modules/react-dom/cjs/react-dom-client.development.js/dispatchEventForPluginEventSystem/<@http://localhost:3001/static/js/bundle.js:114883:27\nbatchedUpdates$1@http://localhost:3001/static/js/bundle.js:107201:40\ndispatchEventForPluginEventSystem@http://localhost:3001/static/js/bundle.js:114662:21\ndispatchEvent@http://localhost:3001/static/js/bundle.js:116860:64\ndispatchDiscreteEvent@http://localhost:3001/static/js/bundle.js:116842:58\nEventListener.handleEvent*addTrappedEventListener@http://localhost:3001/static/js/bundle.js:114634:26\nlistenToNativeEvent@http://localhost:3001/static/js/bundle.js:114603:28\n./node_modules/react-dom/cjs/react-dom-client.development.js/listenToAllSupportedEvents/<@http://localhost:3001/static/js/bundle.js:114609:88\nlistenToAllSupportedEvents@http://localhost:3001/static/js/bundle.js:114608:23\n./node_modules/react-dom/cjs/react-dom-client.development.js/exports.createRoot@http://localhost:3001/static/js/bundle.js:120335:31\n./src/index.js@http://localhost:3001/static/js/bundle.js:159003:60\noptions.factory@http://localhost:3001/static/js/bundle.js:167066:30\n__webpack_require__@http://localhost:3001/static/js/bundle.js:166434:32\n@http://localhost:3001/static/js/bundle.js:167670:56\n@http://localhost:3001/static/js/bundle.js:167672:12\n"
+​
+<prototype>: Object { constructor: AxiosError(message, code, config, request, response), toJSON: toJSON(), stack: "", … }
+<anonymous code>:1:147461
+    overrideMethod <anonymous code>:1
+    runAutoScan UploadPage.js:131
+    React 13
+        executeDispatch
+        runWithFiberInDEV
+        processDispatchQueue
+        dispatchEventForPluginEventSystem
+        batchedUpdates$1
+        dispatchEventForPluginEventSystem
+        dispatchEvent
+        dispatchDiscreteEvent
+    (Asynchrone : EventListener.handleEvent)
+        addTrappedEventListener
+        listenToNativeEvent
+        listenToAllSupportedEvents
+        listenToAllSupportedEvents
+        createRoot
+    js index.js:11
+    factory react refresh:37
+    Webpack 3
+        __webpack_require__
+        <anonyme>
+        <anonyme>

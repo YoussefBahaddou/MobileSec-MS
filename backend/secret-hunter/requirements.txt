@@ -1,0 +1,7 @@
+fastapi>=0.100.0
+uvicorn>=0.20.0
+python-multipart
+pydantic-settings
+aiofiles
+requests
+py-eureka-client>=1.3.0

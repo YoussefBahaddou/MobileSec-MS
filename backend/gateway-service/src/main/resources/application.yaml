@@ -1,0 +1,100 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+  http:
+    codecs:
+      max-in-memory-size: 700MB
+  cloud:
+    gateway:
+      httpclient:
+        connect-timeout: 300000
+        response-timeout: 300s
+      server:
+        webflux:
+          default-filters:
+            - PreserveHostHeader
+          routes:
+            # Microservices Replacement
+            - id: apk-scanner-route
+              uri: lb://apk-scanner
+              predicates:
+                - Path=/api/scan/**
+                - Method=GET,POST,OPTIONS
+              filters:
+                - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_FIRST
+            - id: secret-hunter-route
+              uri: lb://secret-hunter
+              predicates:
+                - Path=/api/secrets/**
+                - Method=GET,POST,OPTIONS
+              filters:
+                - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_FIRST
+            - id: crypto-check-route
+              uri: lb://crypto-check-service
+              predicates:
+                - Path=/api/crypto/**
+                - Method=GET,POST,OPTIONS
+              filters:
+                - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_FIRST
+            # Dashboard (Keep pointing to 8082 for now if it aggregates, or 8088 if we moved it?)
+            # The dashboard stats were likely in analysis-service. 
+            # If we kill analysis-service, dashboard breaks. 
+            # For now, I'll keep dashboard pointing to 8082 (assuming user keeps monolith running for stats)
+            # But the 'Upload' and 'Results' are now handled by microservices.
+            - id: dashboard-route
+              uri: lb://apk-scanner
+              predicates:
+                - Path=/api/dashboard/**
+                - Method=GET,OPTIONS
+              filters:
+                - StripPrefix=0
+                - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_FIRST
+            # Consolidating Analysis Service into APK Scanner (Port 8088)
+            - id: analysis-route
+              uri: lb://apk-scanner
+              predicates:
+                - Path=/api/analysis/**
+                - Method=GET,POST,OPTIONS
+              filters:
+                - StripPrefix=0
+                - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_FIRST
+            - id: report-service-route
+              uri: lb://report-service
+              predicates:
+                - Path=/api/reports/**
+                - Method=GET,POST,OPTIONS
+            - id: report-by-id
+              uri: lb://report-service
+              predicates:
+                - Path=/reports/by-id/**
+                - Method=POST
+            - id: network-inspector-route
+              uri: lb://network-inspector
+              predicates:
+                - Path=/api/network/**
+          globalcors:
+            cors-configurations:
+              '[/**]':
+                allowed-origin-patterns:
+                  - "*"
+                allowed-methods:
+                  - GET
+                  - POST
+                  - OPTIONS
+                allowed-headers:
+                  - "*"
+                allow-credentials: false
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/

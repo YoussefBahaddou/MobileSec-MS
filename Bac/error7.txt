@@ -1,0 +1,130 @@
+XHRPOST
+http://localhost:8083/api/scan/extract-strings
+[HTTP/1.1 500 Internal Server Error 12239ms]
+
+	
+POST
+	http://localhost:8083/api/scan/extract-strings
+État
+500
+Internal Server Error
+VersionHTTP/1.1
+Transfert303 o (taille 21 o)
+Politique de référentstrict-origin-when-cross-origin
+Résolution DNSSystème
+
+    	
+    Access-Control-Allow-Origin
+    	http://localhost:3001
+    content-length
+    	21
+    content-type
+    	text/plain; charset=utf-8
+    date
+    	Mon, 22 Dec 2025 20:15:43 GMT
+    server
+    	uvicorn
+    Vary
+    	Origin
+    Vary
+    	Access-Control-Request-Method
+    Vary
+    	Access-Control-Request-Headers
+    	
+    Accept
+    	application/json, text/plain, */*
+    Accept-Encoding
+    	gzip, deflate, br, zstd
+    Accept-Language
+    	en-US,en;q=0.5
+    Authorization
+    	Bearer eyJhbGciOiJIUzI1NiIsImtpZCI6Ik1Qd002bS9CeDkwS3lvM2UiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2h3aG5rZ2dqdWF6YWtta2ZweHpqLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiIwYjhkMGMxYy0xNjMwLTQ4ZTMtOTRlNy1jZmQ4ODkzYWMyOGEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzY2NDM3MDY5LCJpYXQiOjE3NjY0MzM0NjksImVtYWlsIjoiYmFoYWRveUBnbWFpbC5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7ImVtYWlsIjoiYmFoYWRveUBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGhvbmVfdmVyaWZpZWQiOmZhbHNlLCJzdWIiOiIwYjhkMGMxYy0xNjMwLTQ4ZTMtOTRlNy1jZmQ4ODkzYWMyOGEifSwicm9sZSI6ImF1dGhlbnRpY2F0ZWQiLCJhYWwiOiJhYWwxIiwiYW1yIjpbeyJtZXRob2QiOiJwYXNzd29yZCIsInRpbWVzdGFtcCI6MTc2NjQzMzQ2OX1dLCJzZXNzaW9uX2lkIjoiZjMzOTE5MTgtMzBlNi00ZmFiLTkzZDEtMzAxODcxYTcyZWM1IiwiaXNfYW5vbnltb3VzIjpmYWxzZX0.yEaVDMWEnTNuccrDmWM2933mpRu-JsPwdAx8C2YINxc
+    Connection
+    	keep-alive
+    Content-Length
+    	13469327
+    Content-Type
+    	multipart/form-data; boundary=----geckoformboundarya2343ae1a1b18d94c286f48a90724c17
+    DNT
+    	1
+    Host
+    	localhost:8083
+    Origin
+    	http://localhost:3001
+    Referer
+    	http://localhost:3001/
+    Sec-Fetch-Dest
+    	empty
+    Sec-Fetch-Mode
+    	cors
+    Sec-Fetch-Site
+    	same-site
+    Sec-GPC
+    	1
+    User-Agent
+    	Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:146.0) Gecko/20100101 Firefox/146.0
+
+        ❌ API ERROR: 
+Object { url: "/scan/extract-strings", method: "post", status: 500, data: "Internal Server Error", message: "Request failed with status code 500" }
+api.js:12:1
+    js api.js:12
+    (Asynchrone : promise callback)
+    _request Axios.js:163
+    request Axios.js:40
+    httpMethod Axios.js:224
+    wrap bind.js:12
+    extractStrings api.js:111
+    runAutoScan UploadPage.js:99
+    React 13
+    js index.js:11
+    factory react refresh:37
+    Webpack 3
+
+
+Scan Failed: 
+Object { message: "Request failed with status code 500", name: "AxiosError", code: "ERR_BAD_RESPONSE", config: {…}, request: XMLHttpRequest, response: {…}, status: 500, stack: "", … }
+UploadPage.js:131:1
+    runAutoScan UploadPage.js:131
+    React 13
+        executeDispatch
+        runWithFiberInDEV
+        processDispatchQueue
+        dispatchEventForPluginEventSystem
+        batchedUpdates$1
+        dispatchEventForPluginEventSystem
+        dispatchEvent
+        dispatchDiscreteEvent
+    (Asynchrone : EventListener.handleEvent)
+        addTrappedEventListener
+        listenToNativeEvent
+        listenToAllSupportedEvents
+        listenToAllSupportedEvents
+        createRoot
+    js index.js:11
+    factory react refresh:37
+    Webpack 3
+Scan Failed: 
+Object { message: "Request failed with status code 500", name: "AxiosError", code: "ERR_BAD_RESPONSE", config: {…}, request: XMLHttpRequest, response: {…}, status: 500, stack: "", … }
+UploadPage.js:131:1
+    runAutoScan UploadPage.js:131
+    React 13
+        executeDispatch
+        runWithFiberInDEV
+        processDispatchQueue
+        dispatchEventForPluginEventSystem
+        batchedUpdates$1
+        dispatchEventForPluginEventSystem
+        dispatchEvent
+        dispatchDiscreteEvent
+    (Asynchrone : EventListener.handleEvent)
+        addTrappedEventListener
+        listenToNativeEvent
+        listenToAllSupportedEvents
+        listenToAllSupportedEvents
+        createRoot
+    js index.js:11
+    factory react refresh:37
+    Webpack 3
+        __webpack_require__
+        <anonyme>
+        <anonyme>

@@ -1,0 +1,133 @@
+version: '3.8'
+
+services:
+  # --- INFRASTRUCTURE ---
+  discovery-service:
+    build: ./backend/discovery-service
+    ports:
+      - "8761:8761"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - mobilesec-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8761/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  gateway-service:
+    build: ./backend/gateway-service
+    ports:
+      - "8083:8083"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery-service:8761/eureka/
+    depends_on:
+      discovery-service:
+        condition: service_healthy
+    networks:
+      - mobilesec-net
+
+  # --- PYTHON MICROSERVICES ---
+  apk-scanner:
+    build: ./backend/apk-scanner
+    ports:
+      - "8088:8088"
+    environment:
+      - EUREKA_SERVER_URL=http://discovery-service:8761/eureka
+    volumes:
+      - ./APKFiles:/app/APKFiles # Share APK storage
+      - ./backend/MachineLearning:/app/models # Share ML models
+    depends_on:
+      discovery-service:
+        condition: service_healthy
+    networks:
+      - mobilesec-net
+
+  secret-hunter:
+    build: ./backend/secret-hunter
+    ports:
+      - "8089:8089"
+    environment:
+      - EUREKA_SERVER_URL=http://discovery-service:8761/eureka
+    depends_on:
+      discovery-service:
+        condition: service_healthy
+    networks:
+      - mobilesec-net
+
+  network-inspector:
+    build: ./backend/network-inspector
+    ports:
+      - "8092:8092"
+    environment:
+      - EUREKA_SERVER_URL=http://discovery-service:8761/eureka
+    depends_on:
+      discovery-service:
+        condition: service_healthy
+    networks:
+      - mobilesec-net
+
+  # --- JAVA MICROSERVICES ---
+  analysis-service:
+     build: ./backend/analysis-service/analysis-service
+     ports:
+       - "8082:8082"
+     environment:
+       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery-service:8761/eureka/
+     depends_on:
+       discovery-service:
+         condition: service_healthy
+     networks:
+       - mobilesec-net
+
+  crypto-check:
+    build: ./backend/crypto-check
+    ports:
+      - "8090:8090"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery-service:8761/eureka/
+    depends_on:
+      discovery-service:
+        condition: service_healthy
+    networks:
+      - mobilesec-net
+
+  report-service:
+    build: ./backend/report-service/report-service
+    ports:
+      - "8084:8084"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery-service:8761/eureka/
+    depends_on:
+      discovery-service:
+        condition: service_healthy
+    networks:
+      - mobilesec-net
+
+  fix-suggest:
+    build: ./backend/fix-suggest
+    ports:
+      - "8091:8091"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery-service:8761/eureka/
+    depends_on:
+      discovery-service:
+        condition: service_healthy
+    networks:
+      - mobilesec-net
+
+  # --- FRONTEND ---
+  frontend:
+    build: ./frontend/mobilesec-react
+    ports:
+      - "3000:80"
+    depends_on:
+      - gateway-service
+    networks:
+      - mobilesec-net
+
+networks:
+  mobilesec-net:
+    driver: bridge

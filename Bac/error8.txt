@@ -1,0 +1,171 @@
+Blocage d’une requête multiorigine (Cross-Origin Request) : la politique « Same Origin » ne permet pas de consulter la ressource distante située sur http://localhost:8083/api/dashboard/stats. Raison : l’en-tête CORS « Access-Control-Allow-Origin » ne correspond pas à « http://localhost:3001, * ».
+
+Blocage d’une requête multiorigine (Cross-Origin Request) : la politique « Same Origin » ne permet pas de consulter la ressource distante située sur http://localhost:8083/api/dashboard/stats. Raison : l’en-tête CORS « Access-Control-Allow-Origin » ne correspond pas à « http://localhost:3001, * ».
+❌ API ERROR: 
+Object { url: "/dashboard/stats", method: "get", status: undefined, data: undefined, message: "Network Error" }
+<anonymous code>:1:147461
+    overrideMethod <anonymous code>:1
+    js api.js:12
+    (Asynchrone : promise callback)
+    _request Axios.js:163
+    request Axios.js:40
+    method Axios.js:211
+    wrap bind.js:12
+    getDashboardStats api.js:87
+    fetchStats DashboardPage.js:100
+    DashboardPage DashboardPage.js:115
+    React 85
+    performWorkUntilDeadline scheduler.development.js:45
+    (Asynchrone : EventHandlerNonNull)
+    js scheduler.development.js:223
+    js scheduler.development.js:364
+    factory react refresh:37
+    Webpack 24
+Failed to fetch dashboard stats 
+Object { message: "Network Error", name: "AxiosError", code: "ERR_NETWORK", config: {…}, request: XMLHttpRequest, event: error, stack: "", … }
+<anonymous code>:1:147461
+    overrideMethod <anonymous code>:1
+    fetchStats DashboardPage.js:108
+    DashboardPage DashboardPage.js:115
+    React 85
+    performWorkUntilDeadline scheduler.development.js:45
+    (Asynchrone : EventHandlerNonNull)
+    js scheduler.development.js:223
+    js scheduler.development.js:364
+    factory react refresh:37
+    Webpack 24
+Blocage d’une requête multiorigine (Cross-Origin Request) : la politique « Same Origin » ne permet pas de consulter la ressource distante située sur http://localhost:8083/api/dashboard/stats. Raison : l’en-tête CORS « Access-Control-Allow-Origin » ne correspond pas à « http://localhost:3001, * ».
+❌ API ERROR: 
+Object { url: "/dashboard/stats", method: "get", status: undefined, data: undefined, message: "Network Error" }
+<anonymous code>:1:147461
+    overrideMethod <anonymous code>:1
+    js api.js:12
+    (Asynchrone : promise callback)
+    _request Axios.js:163
+    request Axios.js:40
+    method Axios.js:211
+    wrap bind.js:12
+    getDashboardStats api.js:87
+    fetchStats DashboardPage.js:100
+    DashboardPage DashboardPage.js:115
+    React 56
+    performWorkUntilDeadline scheduler.development.js:45
+    (Asynchrone : EventHandlerNonNull)
+    js scheduler.development.js:223
+    js scheduler.development.js:364
+    factory react refresh:37
+    Webpack 24
+Failed to fetch dashboard stats 
+Object { message: "Network Error", name: "AxiosError", code: "ERR_NETWORK", config: {…}, request: XMLHttpRequest, event: error, stack: "", … }
+<anonymous code>:1:147461
+    overrideMethod <anonymous code>:1
+    fetchStats DashboardPage.js:108
+    DashboardPage DashboardPage.js:115
+    React 56
+    performWorkUntilDeadline scheduler.development.js:45
+    (Asynchrone : EventHandlerNonNull)
+    js scheduler.development.js:223
+    js scheduler.development.js:364
+    factory react refresh:37
+    Webpack 24
+Erreur dans les liens source : Error: request failed with status 404
+Stack in the worker:networkRequest@resource://devtools/client/shared/source-map-loader/utils/network-request.js:43:9
+
+URL de la ressource : http://localhost:3001/%3Canonymous%20code%3E
+URL du lien source : installHook.js.map
+Failed to fetch dashboard stats 
+Object { message: "Network Error", name: "AxiosError", code: "ERR_NETWORK", config: {…}, request: XMLHttpRequest, event: error, stack: "", … }
+<anonymous code>:1:147461
+    overrideMethod <anonymous code>:1
+    fetchStats DashboardPage.js:108
+    DashboardPage DashboardPage.js:115
+    React 56
+        react_stack_bottom_frame
+        runWithFiberInDEV
+        commitHookEffectListMount
+        commitHookPassiveMountEffects
+        reconnectPassiveEffects
+        recursivelyTraverseReconnectPassiveEffects
+        reconnectPassiveEffects
+        recursivelyTraverseReconnectPassiveEffects
+        reconnectPassiveEffects
+        recursivelyTraverseReconnectPassiveEffects
+        reconnectPassiveEffects
+        recursivelyTraverseReconnectPassiveEffects
+        reconnectPassiveEffects
+        recursivelyTraverseReconnectPassiveEffects
+        reconnectPassiveEffects
+        recursivelyTraverseReconnectPassiveEffects
+        reconnectPassiveEffects
+        recursivelyTraverseReconnectPassiveEffects
+        reconnectPassiveEffects
+        doubleInvokeEffectsOnFiber
+        runWithFiberInDEV
+        recursivelyTraverseAndDoubleInvokeEffectsInDEV
+        recursivelyTraverseAndDoubleInvokeEffectsInDEV
+        recursivelyTraverseAndDoubleInvokeEffectsInDEV
+        recursivelyTraverseAndDoubleInvokeEffectsInDEV
+        recursivelyTraverseAndDoubleInvokeEffectsInDEV
+        recursivelyTraverseAndDoubleInvokeEffectsInDEV
+        recursivelyTraverseAndDoubleInvokeEffectsInDEV
+        recursivelyTraverseAndDoubleInvokeEffectsInDEV
+        recursivelyTraverseAndDoubleInvokeEffectsInDEV
+        recursivelyTraverseAndDoubleInvokeEffectsInDEV
+        recursivelyTraverseAndDoubleInvokeEffectsInDEV
+        recursivelyTraverseAndDoubleInvokeEffectsInDEV
+        recursivelyTraverseAndDoubleInvokeEffectsInDEV
+        recursivelyTraverseAndDoubleInvokeEffectsInDEV
+        recursivelyTraverseAndDoubleInvokeEffectsInDEV
+        recursivelyTraverseAndDoubleInvokeEffectsInDEV
+        recursivelyTraverseAndDoubleInvokeEffectsInDEV
+        recursivelyTraverseAndDoubleInvokeEffectsInDEV
+        recursivelyTraverseAndDoubleInvokeEffectsInDEV
+        recursivelyTraverseAndDoubleInvokeEffectsInDEV
+        recursivelyTraverseAndDoubleInvokeEffectsInDEV
+        recursivelyTraverseAndDoubleInvokeEffectsInDEV
+        recursivelyTraverseAndDoubleInvokeEffectsInDEV
+        recursivelyTraverseAndDoubleInvokeEffectsInDEV
+        recursivelyTraverseAndDoubleInvokeEffectsInDEV
+        recursivelyTraverseAndDoubleInvokeEffectsInDEV
+        recursivelyTraverseAndDoubleInvokeEffectsInDEV
+        recursivelyTraverseAndDoubleInvokeEffectsInDEV
+        recursivelyTraverseAndDoubleInvokeEffectsInDEV
+        recursivelyTraverseAndDoubleInvokeEffectsInDEV
+        recursivelyTraverseAndDoubleInvokeEffectsInDEV
+        recursivelyTraverseAndDoubleInvokeEffectsInDEV
+        commitDoubleInvokeEffectsInDEV
+        flushPassiveEffects
+        commitRoot
+    performWorkUntilDeadline scheduler.development.js:45
+    (Asynchrone : EventHandlerNonNull)
+    js scheduler.development.js:223
+    js scheduler.development.js:364
+    factory react refresh:37
+    Webpack 24
+        __webpack_require__
+        fn
+        hotRequire
+        js
+        factory
+        __webpack_require__
+        fn
+        hotRequire
+        js
+        js
+        factory
+        __webpack_require__
+        fn
+        hotRequire
+        js
+        factory
+        __webpack_require__
+        fn
+        hotRequire
+        js
+        factory
+        __webpack_require__
+        <anonyme>
+        <anonyme>
+
+
+(node:46864) [DEP0060] DeprecationWarning: The `util._extend` API is deprecated. Please use Object.assign() instead.

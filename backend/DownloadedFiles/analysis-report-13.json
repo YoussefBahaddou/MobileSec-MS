@@ -1,0 +1,33 @@
+{
+  "id" : 13,
+  "packageName" : "com.afwsamples.testdpc",
+  "versionName" : "5.0.4",
+  "riskLevel" : "MEDIUM",
+  "riskReasons" : null,
+  "permissions" : [ "android.permission.GET_ACCOUNTS", "android.permission.MANAGE_ACCOUNTS", "android.permission.PACKAGE_USAGE_STATS", "android.permission.ACCESS_WIFI_STATE", "android.permission.CHANGE_WIFI_STATE", "android.permission.INTERNET", "android.permission.RECEIVE_BOOT_COMPLETED", "android.permission.ACCESS_NETWORK_STATE", "android.permission.FOREGROUND_SERVICE" ],
+  "manifestFlags" : {
+    "debuggable" : false,
+    "allowBackup" : true,
+    "cleartextTrafficPermitted" : false
+  },
+  "exportedComponents" : [ {
+    "name" : "com.afwsamples.testdpc.comp.ProfileOwnerService",
+    "type" : "service",
+    "exported" : false,
+    "permission" : null,
+    "intentFilters" : null
+  }, {
+    "name" : "com.afwsamples.testdpc.comp.DeviceOwnerService",
+    "type" : "service",
+    "exported" : false,
+    "permission" : null,
+    "intentFilters" : null
+  }, {
+    "name" : "com.afwsamples.testdpc.DeviceAdminService",
+    "type" : "service",
+    "exported" : false,
+    "permission" : null,
+    "intentFilters" : null
+  } ],
+  "createdAt" : "2025-11-18T12:30:27.014470Z"
+}
