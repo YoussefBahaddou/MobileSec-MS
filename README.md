@@ -1,17 +1,14 @@
-### Firestore Migration (APK Scanner & ReportGen)
-Both the Python-based APK Scanner and Java ReportGen services now persist scan metadata to the shared `apk_reports` Firestore collection. Make sure these environment variables are available before each service starts:
-
-```env
-FIREBASE_PROJECT_ID=<your_project>
-FIREBASE_CREDENTIALS_PATH=<absolute_path_to_service_account.json>
-FIRESTORE_COLLECTION=apk_reports
-```
-
-ReportGen also reads `GOOGLE_APPLICATION_CREDENTIALS` if `FIRESTORE_CREDENTIALS_PATH` is unset, so the Spring Boot service can bootstrap the Cloud Firestore client on startup. The APK Scanner payload now includes `versionName`, `versionCode`, and `createdAt` so results/dashboards show the file version and the most recent scan timestamp.
-
 # MobileSec-MS Feature User Auth
 
 MobileSec-MS is an automated mobile penetration testing funnel that blends a polished React/Supabase frontend with a Spring Cloud Gateway and several focused backend microservices (APK Scanner, Secret Hunter, Crypto Check, Network Inspector, ReportGen, FixSuggest, etc.). The platform streamlines upload-to-report workflows, keeps user data isolated through Supabase JWTs, and centralizes findings in Firestore-backed Dashboard/Report services.
+
+## Video Demonstration
+
+
+
+https://github.com/user-attachments/assets/260f5468-7f90-426a-af54-6c38cd8adda9
+
+
 
 ## Architecture & Workflow
 
@@ -26,6 +23,17 @@ See [docs/ARCHITECTURE_WORKFLOW.md](docs/ARCHITECTURE_WORKFLOW.md) for the BPMN 
 4. **Python 3.11+** with `uvicorn` and FastAPI (APK Scanner, Secret Hunter, Network Inspector)
 5. **Supabase project** for authentication; capture the `SUPABASE_URL` and `SUPABASE_ANON_KEY` for the frontend.
 6. **Optional**: Docker (for Network Inspector sandbox) and GitHub Actions/CI connectors if automating scans.
+
+### Firestore Migration (APK Scanner & ReportGen)
+Both the Python-based APK Scanner and Java ReportGen services now persist scan metadata to the shared `apk_reports` Firestore collection. Make sure these environment variables are available before each service starts:
+
+```env
+FIREBASE_PROJECT_ID=<your_project>
+FIREBASE_CREDENTIALS_PATH=<absolute_path_to_service_account.json>
+FIRESTORE_COLLECTION=apk_reports
+```
+
+ReportGen also reads `GOOGLE_APPLICATION_CREDENTIALS` if `FIRESTORE_CREDENTIALS_PATH` is unset, so the Spring Boot service can bootstrap the Cloud Firestore client on startup. The APK Scanner payload now includes `versionName`, `versionCode`, and `createdAt` so results/dashboards show the file version and the most recent scan timestamp.
 
 ### Environment Configuration
 Each backend microservice checks for a `.env` file or environment variables. At minimum:
